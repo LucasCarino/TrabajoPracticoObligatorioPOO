@@ -1,7 +1,6 @@
 package ioo.view;
 import ioo.controller.Controller;
 import ioo.dto.PacienteDTO;
-import ioo.model.Paciente;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
