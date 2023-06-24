@@ -23,10 +23,12 @@ public class Controller {
 
     private Controller() {
         initPacientes();
+        /*
         initPracticas();
         initPeticiones();
         initResultados();
         initSucursales();
+         */
     }
 
     public static synchronized Controller getControlador(){
@@ -42,6 +44,12 @@ public class Controller {
         pacientes.add(new Paciente(2, "F", 23, 95123456, "Mafe", "Calle Belgrano", "mafe@gmail.com"));
     }
 
+    public static void getPacientes() {
+        for(int i = 0; i < pacientes.size(); i++) {
+            System.out.println(pacientes.get(i).getNombre());
+        }
+    }
+
     public boolean crearPaciente(PacienteDTO dto) {
         Paciente pacienteAux = toModelPaciente(dto);
         boolean isExist = false;
@@ -53,21 +61,25 @@ public class Controller {
         if(!isExist) {
             pacientes.add(pacienteAux);
         } else {
-            System.out.println("YA EXISTEEEEEEE.");
+            System.out.println("YA EXISTE.");
             return false;
         }
         return true;
     }
 
-    public void modificarPaciente(int nroPaciente, String sexo, int edad, int dni, String nombre, String domicilio, String mail) {
-        int index = getIndexPaciente(nroPaciente);
+    public boolean modificarPaciente(PacienteDTO dto) {
+        Paciente pacienteAux = toModelPaciente(dto);
+        int index = getIndexPaciente(pacienteAux.getNumeroPaciente());
+        boolean isExist = false;
         if(index != -1){
-            pacientes.get(index).setSexo(sexo);
-            pacientes.get(index).setEdad(edad);
-            pacientes.get(index).setNombre(nombre);
-            pacientes.get(index).setDomicilio(domicilio);
-            pacientes.get(index).setMail(mail);
+            pacientes.get(index).setSexo(pacienteAux.getSexo());
+            pacientes.get(index).setEdad(pacienteAux.getEdad());
+            pacientes.get(index).setNombre(pacienteAux.getNombre());
+            pacientes.get(index).setDomicilio(pacienteAux.getDomicilio());
+            pacientes.get(index).setMail(pacienteAux.getMail());
+            isExist = true;
         }
+        return isExist;
     }
 
     public void eliminarPaciente(Paciente paciente) {

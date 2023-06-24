@@ -7,8 +7,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static javax.swing.UIManager.setLookAndFeel;
-
 public class CrearPaciente extends JFrame {
 
     private JPanel contentPane;
@@ -127,13 +125,13 @@ public class CrearPaciente extends JFrame {
                         String domicilio_paciente = DomicilioPaciente.getText();
                         String mail_paciente = MailPaciente.getText();
 
-                        PacienteDTO nuevo_paciente = new PacienteDTO(nro_paciente, nombre_paciente, dni_paciente, edad_paciente,
-                                sexo_paciente, domicilio_paciente, mail_paciente);
+                        PacienteDTO nuevo_paciente = new PacienteDTO(nro_paciente, sexo_paciente, edad_paciente, dni_paciente,
+                                nombre_paciente, domicilio_paciente, mail_paciente);
                         boolean respuesta = Controller.getControlador().crearPaciente(nuevo_paciente);
+                        Controller.getPacientes();
 
                         if (respuesta) {
                             JOptionPane.showMessageDialog(null, "El paciente se ha creado correctamente", "Paciente Creado", JOptionPane.INFORMATION_MESSAGE);
-
                         } else {
                             JOptionPane.showMessageDialog(null, "El paciente ya existe en el sistema", "Paciente Duplicado", JOptionPane.ERROR_MESSAGE);
                         }

@@ -51,8 +51,8 @@ public class MenuPrincipal extends JFrame {
         JMenuItem mntmNewMenuItem2 = new JMenuItem("Eliminar Paciente");
         mntmNewMenuItem2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                EliminarPaciente ventana = new EliminarPaciente();
-//                ventana.setVisible(true);
+                EliminarPaciente ventana = new EliminarPaciente();
+                ventana.setVisible(true);
             }
         });
         mnNewMenu.add(mntmNewMenuItem2);
@@ -61,8 +61,8 @@ public class MenuPrincipal extends JFrame {
         JMenuItem mntmNewMenuItem3 = new JMenuItem("Modificar Paciente");
         mntmNewMenuItem3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                ModificarPaciente ventana = new ModificarPaciente();
-//                ventana.setVisible(true);
+                ModificarPaciente ventana = new ModificarPaciente();
+                ventana.setVisible(true);
             }
         });
         mnNewMenu.add(mntmNewMenuItem3);
