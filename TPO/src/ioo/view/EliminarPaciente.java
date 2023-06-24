@@ -1,6 +1,7 @@
 package ioo.view;
 
 import ioo.controller.Controller;
+import ioo.dto.EliminarPacienteDTO;
 import ioo.dto.PacienteDTO;
 
 import javax.swing.*;
@@ -43,22 +44,16 @@ public class EliminarPaciente extends JFrame {
                     } else {
                         int nro_paciente = Integer.parseInt(nroPaciente.getText());
 
-                        PacienteDTO modificacion_paciente = new PacienteDTO(nro_paciente);
-                        boolean respuesta = Controller.getControlador().modificarPaciente(modificacion_paciente);
+                        EliminarPacienteDTO paciente_eliminado = new EliminarPacienteDTO(nro_paciente);
+                        boolean respuesta = Controller.getControlador().eliminarPaciente(paciente_eliminado);
                         Controller.getPacientes();
 
                         if (respuesta) {
-                            JOptionPane.showMessageDialog(null, "El paciente se ha modificado correctamente", "Paciente Modificado!", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "El paciente se ha eliminado correctamente", "Paciente Eliminado!", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "El paciente no existe en el sistema", "Paciente no existe", JOptionPane.ERROR_MESSAGE);
                         }
                         nroPaciente.setText("");
-                        NombrePaciente.setText("");
-                        DNIPaciente.setText("");
-                        EdadPaciente.setText("");
-                        SexoPaciente.setText("");
-                        DomicilioPaciente.setText("");
-                        MailPaciente.setText("");
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "no ingrese caracteres en los campos de solo numeros", "Error caracter ingresado erroneamente", JOptionPane.ERROR_MESSAGE);

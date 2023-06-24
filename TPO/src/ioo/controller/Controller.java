@@ -23,12 +23,11 @@ public class Controller {
 
     private Controller() {
         initPacientes();
-        /*
         initPracticas();
         initPeticiones();
         initResultados();
         initSucursales();
-         */
+
     }
 
     public static synchronized Controller getControlador(){
@@ -82,24 +81,27 @@ public class Controller {
         return isExist;
     }
 
-    public void eliminarPaciente(Paciente paciente) {
-        int index = getIndexPaciente(paciente.getNumeroPaciente());
-        if(index != -1){ //encontró el paciente
-            if (!pacienteTieneResultados(pacientes.get(index))){ // si no tiene resultados finalizados
+    public boolean eliminarPaciente(EliminarPacienteDTO dto) {
+        int index = getIndexPaciente(dto.getNumeroPaciente());
+        boolean isExist = false;
+        boolean isEliminable = false;
+        if(index != -1) { // encontró el paciente
+            if (!pacienteTieneResultados(pacientes.get(index))) { // si no tiene resultados finalizados
                 pacientes.remove(index); // elimina el paciente
+                isEliminable = true;
+                return isEliminable;
             } else {
-                System.out.print("No puede eliminarse paciente");
+                return isEliminable;
             }
-        } else {
-            System.out.print("Paciente no encontrado");
         }
+        return isExist;
     }
 
     private static boolean pacienteTieneResultados (Paciente paciente){
         boolean tieneResultados = false;
         for (int i=0;i<peticiones.size();i++){
             if(peticiones.get(i).getNumeroPaciente().getNumeroPaciente() == paciente.getNumeroPaciente()){ // cuando encuentra una peticion que pertenece al paciente
-                for (int j=0;j<peticiones.get(i).getPracticaAsociada().size();j++){ // recorre la lista de prácticas asociadas a esa pertición que pertenece al paciente
+                for (int j=0;j<peticiones.get(i).getPracticaAsociada().size();j++){ // recorre la lista de prácticas asociadas a esa petición que pertenece al paciente
                     if (peticiones.get(i).getPracticaAsociada().get(j).getResultado()!= null){ // si esa práctica tiene resultado, devuelve true
                         tieneResultados= true;
                         return tieneResultados;
@@ -126,6 +128,7 @@ public class Controller {
         Paciente paciente = new Paciente(nroPaciente, dto.getSexo(), edad, dni, dto.getNombre(), dto.getDomicilio(), dto.getMail());
         return paciente;
     }
+
 
     private static void initSucursales(){
         sucursales = new ArrayList<>();
