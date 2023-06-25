@@ -15,7 +15,7 @@ public class Practica {
     private boolean valoresReservados;
     private int horaParaResultado;
 
-    public Practica(int codigoPractica, String nombre, String grupo, int valoresCriticos, boolean valoresReservados, int horaParaResultado, Resultado resultado) {
+    public Practica(int codigoPractica, String nombre, String grupo, int valoresCriticos, boolean valoresReservados, int horaParaResultado) {
         this.codigoPractica = codigoPractica;
         this.nombre = nombre;
         this.grupo = grupo;
