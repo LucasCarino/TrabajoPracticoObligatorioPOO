@@ -23,11 +23,10 @@ public class Controller {
 
     private Controller() {
         initPacientes();
+        initSucursales();
+        initResultados();
         initPracticas();
         initPeticiones();
-        initResultados();
-        initSucursales();
-
     }
 
     public static synchronized Controller getControlador(){
@@ -88,21 +87,28 @@ public class Controller {
         if(index != -1) { // encontró el paciente
             if (!pacienteTieneResultados(pacientes.get(index))) { // si no tiene resultados finalizados
                 pacientes.remove(index); // elimina el paciente
+                System.out.print("Se eliminó el paciente");
                 isEliminable = true;
                 return isEliminable;
             } else {
+                System.out.print("No se pudo eliminar porque tiene resultados");
                 return isEliminable;
             }
         }
+        System.out.print("No existe el paciente");
         return isExist;
     }
 
     private static boolean pacienteTieneResultados (Paciente paciente){
+        System.out.print("nro paciente "+paciente.getNumeroPaciente());
         boolean tieneResultados = false;
         for (int i=0;i<peticiones.size();i++){
             if(peticiones.get(i).getNumeroPaciente().getNumeroPaciente() == paciente.getNumeroPaciente()){ // cuando encuentra una peticion que pertenece al paciente
+                System.out.print("peticion "+peticiones.get(i).getNumeroPeticion());
                 for (int j=0;j<peticiones.get(i).getPracticaAsociada().size();j++){ // recorre la lista de prácticas asociadas a esa petición que pertenece al paciente
+                    System.out.print("practica "+peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica());
                     if (peticiones.get(i).getPracticaAsociada().get(j).getResultado()!= null){ // si esa práctica tiene resultado, devuelve true
+                        System.out.print("resultado "+peticiones.get(i).getPracticaAsociada().get(j).getResultado());
                         tieneResultados= true;
                         return tieneResultados;
                     }
@@ -216,13 +222,13 @@ public class Controller {
 
     private static void initPracticas(){
         practicas = new ArrayList<>();
-        // practicas.add(new Practica(0001,"Glucemia","sangre",126, false,72, asignarResultadoAPractica(123))); //ok
-        // practicas.add(new Practica(0002,"Colesterol","sangre",200,false,72, asignarResultadoAPractica(432))); //critico
-        // practicas.add(new Practica(0003,"Cloruro","orina",106,false,72, asignarResultadoAPractica(345)));  // ok
-        // practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72, asignarResultadoAPractica(456))); // ok
+        practicas.add(new Practica(0001,"Glucemia","sangre",126, false,72, asignarResultadoAPractica(123))); //ok
+        practicas.add(new Practica(0002,"Colesterol","sangre",200,false,72, asignarResultadoAPractica(432))); //critico
+        practicas.add(new Practica(0003,"Cloruro","orina",106,false,72, asignarResultadoAPractica(345)));  // ok
+        practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72, asignarResultadoAPractica(456))); // ok
     }
 
-    public boolean crearPractica(PracticaDTO practica) {
+    public void crearPractica(PracticaDTO practica) {
         Practica practicaAux = toModelPractica(practica);
         boolean isExist = false;
         for(int i = 0; i < practicas.size(); i++) {
@@ -233,10 +239,8 @@ public class Controller {
         if(!isExist) {
             practicas.add(practicaAux);
         } else {
-            System.out.println("Ya existe la practica.");
-            return false;
+            System.out.println("YA EXISTEEEEEEE.");
         }
-        return true;
     }
 
     public static Practica toModelPractica(PracticaDTO dto) {
@@ -363,7 +367,7 @@ public class Controller {
     }
 
     public List<Peticion> listarPeticionesConValoresCriticos () {
-        List<Peticion> peticionesConValoresCriticos = null;
+        List<Peticion> peticionesConValoresCriticos = new ArrayList<>();
         for(int i = 0; i < peticiones.size(); i++) { // recorre todas las peticiones
             for(int j=0; j< peticiones.get(i).getPracticaAsociada().size();j++) { // recorre cada práctica de cada petición
                 if (esValorCritico(peticiones.get(i).getPracticaAsociada().get(j).getResultado().getValor(),peticiones.get(i).getPracticaAsociada().get(j).getValoresCriticos())){ // si el resultado de esa práctica es mayor que el valor crítico de la práctica, lo agrega a la lista
@@ -407,6 +411,7 @@ public class Controller {
     private static Sucursal buscarSucursal(int nroSucursal){
         Sucursal sucursalBuscada = null;
         for(int i = 0; i < sucursales.size(); i++) {
+            System.out.print(sucursales.get(i).getNroSucursal());
             if(nroSucursal == sucursales.get(i).getNroSucursal()) {
                 sucursalBuscada= sucursales.get(i);
             }
@@ -415,7 +420,7 @@ public class Controller {
     }
 
     private static List<Practica> asignarPracticaAPeticion(List<Integer> codigosPractica){ // aca recibe un conjunto de objetos, no un Integer
-        List<Practica> practicasAsociadas = null;
+        List<Practica> practicasAsociadas = new ArrayList<>();
         for(int i = 0; i < codigosPractica.size(); i++) {
             for(int k = 0; k < practicas.size(); k++) {
                 if(codigosPractica.get(i) == practicas.get(k).getCodigoPractica()) {
@@ -438,8 +443,8 @@ public class Controller {
     private static Resultado asignarResultadoAPractica(int codigoResultado){
         Resultado resultadoAsociado = null;
         for(int i = 0; i < resultados.size(); i++) {
-                if(codigoResultado == resultados.get(i).getIdResultado()) {
-                    resultadoAsociado = resultados.get(i);
+            if(codigoResultado == resultados.get(i).getIdResultado()) {
+                resultadoAsociado = resultados.get(i);
             }
         }
         return resultadoAsociado;
@@ -501,10 +506,6 @@ public class Controller {
             }
         }
         return -1;
-    }
-
-    public void getPracticas() {
-        System.out.println(practicas);
     }
 }
 
