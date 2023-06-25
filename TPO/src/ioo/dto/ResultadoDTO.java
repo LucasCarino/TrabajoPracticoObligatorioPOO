@@ -4,11 +4,14 @@ import java.util.Date;
 
 public class ResultadoDTO {
     private int idResultado;
+
+    private int codigoPractica;
     private Date fecha;
     private int valor;
 
-    public ResultadoDTO(int idResultado, Date fecha, int valor) {
+    public ResultadoDTO(int idResultado, int codigoPractica, Date fecha, int valor) {
         this.idResultado = idResultado;
+        this.codigoPractica = codigoPractica;
         this.fecha = fecha;
         this.valor = valor;
     }
@@ -17,20 +20,28 @@ public class ResultadoDTO {
         return idResultado;
     }
 
-    public void setIdResultado(int idResultado) {
-        this.idResultado = idResultado;
+    public int getCodigoPractica() {
+        return codigoPractica;
     }
 
     public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
     public int getValor() {
         return valor;
+    }
+
+    public void setIdResultado(int idResultado) {
+        this.idResultado = idResultado;
+    }
+
+    public void setCodigoPractica(int codigoPractica) {
+        this.codigoPractica = codigoPractica;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public void setValor(int valor) {

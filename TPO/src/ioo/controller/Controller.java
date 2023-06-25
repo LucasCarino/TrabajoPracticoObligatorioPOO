@@ -98,7 +98,7 @@ public class Controller {
         return isExist;
     }
 
-    private static boolean pacienteTieneResultados (Paciente paciente){
+    private static boolean pacienteTieneResultados (Paciente paciente){ // REHACER CON LA NUEVA ESTRUCTURA
         System.out.print("nro paciente "+paciente.getNumeroPaciente());
         boolean tieneResultados = false;
         for (int i=0;i<peticiones.size();i++){
@@ -203,7 +203,7 @@ public class Controller {
         return retorno; // retorna 0 si no encontró la sucursal origen
     }
 
-    private static boolean sucursalTieneResultados (Sucursal sucursal){
+    private static boolean sucursalTieneResultados (Sucursal sucursal){ // REHACER CON NUEVA ESTRUCTURA
         boolean tieneResultados = false;
         for (int i=0;i<peticiones.size();i++){
             if(peticiones.get(i).getNumeroSucursal().getNroSucursal() == sucursal.getNroSucursal()){ // cuando encuentra una peticion que pertenece a la sucursal
@@ -244,10 +244,10 @@ public class Controller {
 
     private static void initPracticas(){
         practicas = new ArrayList<>();
-        practicas.add(new Practica(0001,"Glucemia","sangre",126, false,72, asignarResultadoAPractica(123))); //ok
-        practicas.add(new Practica(0002,"Colesterol","sangre",200,false,72, asignarResultadoAPractica(432))); //critico
-        practicas.add(new Practica(0003,"Cloruro","orina",106,false,72, asignarResultadoAPractica(345)));  // ok
-        practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72, asignarResultadoAPractica(456))); // ok
+        practicas.add(new Practica(0001,"Glucemia","sangre",126, false,72)); //ok
+        practicas.add(new Practica(0002,"Colesterol","sangre",200,false,72)); //critico
+        practicas.add(new Practica(0003,"Cloruro","orina",106,false,72));  // ok
+        practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72)); // ok
     }
 
     public boolean crearPractica(PracticaDTO practica) {
@@ -269,7 +269,7 @@ public class Controller {
         int codigoPractica = Integer.valueOf(dto.getCodigoPractica());
         int valoresCriticos = Integer.valueOf(dto.getValoresCriticos());
         int horaParaResultado = Integer.valueOf(dto.getHoraParaResultado());
-        Practica practica = new Practica(codigoPractica,dto.getNombre(),dto.getGrupo(),valoresCriticos,dto.isValoresReservados(), horaParaResultado, asignarResultadoAPractica(888));
+        Practica practica = new Practica(codigoPractica,dto.getNombre(),dto.getGrupo(),valoresCriticos,dto.isValoresReservados(), horaParaResultado);
         return practica;
     }
 
@@ -307,7 +307,7 @@ public class Controller {
                 practicas.remove(index);
             }
         }
-        return retorno; // retorna 0 si no encontró el resultado
+        return retorno; // retorna 0 si no encontró la practica
     }
 
     private static boolean esPracticaUsada (Practica practica) { // busca si la práctica que quiere eliminarse pertenece al conjunto de prácticas usadas
@@ -400,7 +400,7 @@ public class Controller {
         return -1;
     }
 
-    public List<Peticion> listarPeticionesConValoresCriticos () {
+    public List<Peticion> listarPeticionesConValoresCriticos () {  // REHACER!!
         List<Peticion> peticionesConValoresCriticos = new ArrayList<>();
         for(int i = 0; i < peticiones.size(); i++) { // recorre todas las peticiones
             for(int j=0; j< peticiones.get(i).getPracticaAsociada().size();j++) { // recorre cada práctica de cada petición
@@ -419,7 +419,7 @@ public class Controller {
         return false;
     }
 
-    public void mostrarPeticion (Peticion peticion){ // ver como hacer porque tiene que retornar la peticion o el mensaje de que no se puede mostrar
+    public void mostrarPeticion (Peticion peticion){ // ver como hacer porque tiene que retornar la peticion o el mensaje de que no se puede mostrar. REHACER CON LA NUEVA ESTRUCTURA DE RESULTADO
         int index = getIndexPeticion(peticion.getNumeroPeticion());
         if(index != -1){ // encontro la peticion
             for(int i=0; i< peticiones.get(index).getPracticaAsociada().size();i++) { // recorre cada práctica de esa peticion
@@ -470,11 +470,20 @@ public class Controller {
         return practicasAsociadas;
     }
 
-    public void inhabilitarPractica (Practica practica) { //inhabilita una práctica para no poder usarla en futuras peticiones
-        practicasInhabilitadas.add(practica);
+    public boolean inhabilitarPractica (Practica practica) { //inhabilita una práctica para no poder usarla en futuras peticiones
+        boolean esInhabilitable = false;
+        for (int i = 0; i < practicas.size(); i++) {
+            if(practica.getCodigoPractica() == practicas.get(i).getCodigoPractica(){
+                esInhabilitable = true;
+                practicasInhabilitadas.add(practica);
+                return esInhabilitable;
+            }
+        }
+        return esInhabilitable;
+
     }
 
-    private static Resultado asignarResultadoAPractica(int codigoResultado){
+/*    private static Resultado asignarResultadoAPractica(int codigoResultado){
         Resultado resultadoAsociado = null;
         for(int i = 0; i < resultados.size(); i++) {
             if(codigoResultado == resultados.get(i).getIdResultado()) {
@@ -482,18 +491,18 @@ public class Controller {
             }
         }
         return resultadoAsociado;
-    }
+    }*/
 
     private static void initResultados() {
         resultados = new ArrayList<>();
-        resultados.add(new Resultado(123,new Date(),120)); //glucemia ok
-        resultados.add(new Resultado(321,new Date(),130)); //glucemia critico
-        resultados.add(new Resultado(234,new Date(),190)); // colesterol ok
-        resultados.add(new Resultado(432,new Date(),250)); // colesterol critico
-        resultados.add(new Resultado(345,new Date(),100)); // cloruro ok
-        resultados.add(new Resultado(543,new Date(),120)); // cloruro critico
-        resultados.add(new Resultado(456,new Date(),0)); // creatinina ok
-        resultados.add(new Resultado(654,new Date(),2)); // creatinina critico
+        resultados.add(new Resultado(123,001,new Date(),120)); //glucemia ok
+        resultados.add(new Resultado(321,001,new Date(),130)); //glucemia critico
+        resultados.add(new Resultado(234,002,new Date(),190)); // colesterol ok
+        resultados.add(new Resultado(432,002,new Date(),250)); // colesterol critico
+        resultados.add(new Resultado(345,003,new Date(),100)); // cloruro ok
+        resultados.add(new Resultado(543,003,new Date(),120)); // cloruro critico
+        resultados.add(new Resultado(456,004,new Date(),0)); // creatinina ok
+        resultados.add(new Resultado(654,004,new Date(),2)); // creatinina critico
     }
 
     public boolean crearResultado(ResultadoDTO resultado) { // hacer una comprobacion de que si la practica ya tiene resultado no permita cargar otro
@@ -513,14 +522,16 @@ public class Controller {
 
     public static Resultado toModelResultado(ResultadoDTO dto) {
         int idResultado = Integer.valueOf(dto.getIdResultado());
+        int codigoPractica = Integer.valueOf((dto.getCodigoPractica()));
         int valor = Integer.valueOf(dto.getValor());
-        Resultado resultado = new Resultado(idResultado,dto.getFecha(),valor);
+        Resultado resultado = new Resultado(idResultado,codigoPractica,dto.getFecha(),valor);
         return resultado;
     }
 
-    public void modificarResultado(int idResultado, Date fecha, int valor) {
+    public void modificarResultado(int idResultado, int codigoPractica, Date fecha, int valor) {
         int index = getIndexResultado(idResultado);
         if(index != -1){
+            resultados.get(index).setCodigoPractica(codigoPractica);
             resultados.get(index).setFecha(fecha);
             resultados.get(index).setValor(valor);
         }

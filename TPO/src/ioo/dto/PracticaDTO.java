@@ -11,16 +11,16 @@ public class PracticaDTO {
 
     private boolean valoresReservados;
     private int horaParaResultado;
-    private Resultado resultado;
 
-    public PracticaDTO(int codigoPractica, String nombre, String grupo, int valoresCriticos, boolean valoresReservados, int horaParaResultado, Resultado resultado) {
+
+    public PracticaDTO(int codigoPractica, String nombre, String grupo, int valoresCriticos, boolean valoresReservados, int horaParaResultado) {
         this.codigoPractica = codigoPractica;
         this.nombre = nombre;
         this.grupo = grupo;
         this.valoresCriticos = valoresCriticos;
         this.valoresReservados = valoresReservados;
         this.horaParaResultado = horaParaResultado;
-        this.resultado = resultado;
+
     }
 
     public int getCodigoPractica() {
@@ -47,9 +47,7 @@ public class PracticaDTO {
         return horaParaResultado;
     }
 
-    public Resultado getResultado() {
-        return resultado;
-    }
+
 
     public void setCodigoPractica(int codigoPractica) {
         this.codigoPractica = codigoPractica;
@@ -75,7 +73,5 @@ public class PracticaDTO {
         this.horaParaResultado = horaParaResultado;
     }
 
-    public void setResultado(Resultado resultado) {
-        this.resultado = resultado;
-    }
+
 }

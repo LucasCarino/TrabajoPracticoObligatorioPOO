@@ -5,7 +5,7 @@ public class Practica {
     public String toString() {
         return "Practica [codigoPractica=" + codigoPractica + ", nombre=" + nombre + ", grupo=" + grupo
                 + ", valoresCriticos=" + valoresCriticos + ", valoresReservados=" + valoresReservados
-                + ", horaParaResultado=" + horaParaResultado + ", resultado=" + resultado + "]";
+                + ", horaParaResultado=" + horaParaResultado +  "]";
     }
 
     private int codigoPractica;
@@ -14,7 +14,6 @@ public class Practica {
     private int valoresCriticos;
     private boolean valoresReservados;
     private int horaParaResultado;
-    private Resultado resultado;
 
     public Practica(int codigoPractica, String nombre, String grupo, int valoresCriticos, boolean valoresReservados, int horaParaResultado, Resultado resultado) {
         this.codigoPractica = codigoPractica;
@@ -23,7 +22,6 @@ public class Practica {
         this.valoresCriticos = valoresCriticos;
         this.valoresReservados = valoresReservados;
         this.horaParaResultado = horaParaResultado;
-        this.resultado = resultado;
     }
 
     public int getCodigoPractica() {
@@ -50,9 +48,7 @@ public class Practica {
         return horaParaResultado;
     }
 
-    public Resultado getResultado() {
-        return resultado;
-    }
+
 
     public void setCodigoPractica(int codigoPractica) {
         this.codigoPractica = codigoPractica;
@@ -78,7 +74,5 @@ public class Practica {
         this.horaParaResultado = horaParaResultado;
     }
 
-    public void setResultado(Resultado resultado) {
-        this.resultado = resultado;
-    }
+
 }
