@@ -72,7 +72,7 @@ public class CrearPractica extends JFrame {
         contentPane.add(valoresCriticos);
         valoresCriticos.setColumns(10);
 
-        JLabel lbvaloresReservados = new JLabel("Valores Reservados:");
+        JLabel lbvaloresReservados = new JLabel("Valores Reservados (solo true o false):");
         lbvaloresReservados.setBounds(10, 106, 150, 14);
         contentPane.add(lbvaloresReservados);
 
@@ -91,16 +91,6 @@ public class CrearPractica extends JFrame {
         contentPane.add(horaParaResultado);
         horaParaResultado.setColumns(10);
 
-
-        JLabel lbresultado = new JLabel("Resultado:");
-        lbresultado.setBounds(10, 155, 120, 14);
-        contentPane.add(lbresultado);
-
-        resultado = new JTextField();
-        resultado.setBounds(175, 154, 120, 20);
-        contentPane.add(resultado);
-        resultado.setColumns(10);
-
         JButton btnCrearPractica = new JButton("Crear Practica");
         btnCrearPractica.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -117,8 +107,6 @@ public class CrearPractica extends JFrame {
                         JOptionPane.showMessageDialog(null, "el campo de valores reservados debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     } else if (horaParaResultado.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de horaParaResultado debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
-                    }else if (resultado.getText().equalsIgnoreCase("")) {
-                        JOptionPane.showMessageDialog(null, "el campo de resultado debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     }
                     else {
                         int codigo_practica = Integer.parseInt(codigoPractica.getText());
@@ -129,25 +117,23 @@ public class CrearPractica extends JFrame {
                         int horas_para_resultado = Integer.parseInt(horaParaResultado.getText());
                         
                         PracticaDTO nueva_practica = new PracticaDTO(codigo_practica, nombre_practica, grupo_practica, valores_criticos,
-                                valores_reservados, horas_para_resultado, new Resultado(5, new Date(), 1));
+                                valores_reservados, horas_para_resultado, new Resultado(0,null,0));
                         boolean respuesta = Controller.getControlador().crearPractica(nueva_practica);
-                  //      Controller.getControlador().getPracticas();
 
                         if (respuesta) {
-                            JOptionPane.showMessageDialog(null, "La practica se ha creado correctamente", "Practica Creado", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "La práctica se ha creado correctamente", "Practica Creado", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "La practica ya existe en el sistema", "Practica Duplicado", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "La práctica ya existe en el sistema", "Practica Duplicado", JOptionPane.ERROR_MESSAGE);
                         }
-                        // nroPaciente.setText("");
-                        // NombrePaciente.setText("");
-                        // DNIPaciente.setText("");
-                        // EdadPaciente.setText("");
-                        // SexoPaciente.setText("");
-                        // DomicilioPaciente.setText("");
-                        // MailPaciente.setText("");
+                        codigoPractica.setText("");
+                        nombre.setText("");
+                        grupo.setText("");
+                        valoresCriticos.setText("");
+                        valoresReservados.setText("");
+                        horaParaResultado.setText("");
                     }
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "no ingrese caracteres en los campos de solo numeros", "Error caracter ingresado erroneamente", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "no ingrese caracteres en los campos de solo números", "Error caracter ingresado erróneamente", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
