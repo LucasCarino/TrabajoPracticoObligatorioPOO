@@ -131,7 +131,7 @@ public class CrearPractica extends JFrame {
                         PracticaDTO nueva_practica = new PracticaDTO(codigo_practica, nombre_practica, grupo_practica, valores_criticos,
                                 valores_reservados, horas_para_resultado, new Resultado(5, new Date(), 1));
                         boolean respuesta = Controller.getControlador().crearPractica(nueva_practica);
-                        Controller.getControlador().getPracticas();
+                  //      Controller.getControlador().getPracticas();
 
                         if (respuesta) {
                             JOptionPane.showMessageDialog(null, "La practica se ha creado correctamente", "Practica Creado", JOptionPane.INFORMATION_MESSAGE);

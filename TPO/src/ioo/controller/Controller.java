@@ -228,19 +228,17 @@ public class Controller {
         practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72, asignarResultadoAPractica(456))); // ok
     }
 
-    public void crearPractica(PracticaDTO practica) {
+    public boolean crearPractica(PracticaDTO practica) {
         Practica practicaAux = toModelPractica(practica);
         boolean isExist = false;
         for(int i = 0; i < practicas.size(); i++) {
             if(practicaAux.getCodigoPractica() == practicas.get(i).getCodigoPractica()) {
                 isExist = true;
+                practicas.add(practicaAux);
             }
         }
-        if(!isExist) {
-            practicas.add(practicaAux);
-        } else {
-            System.out.println("YA EXISTEEEEEEE.");
-        }
+        return isExist;
+
     }
 
     public static Practica toModelPractica(PracticaDTO dto) {
