@@ -1,8 +1,13 @@
 package ioo.model;
 
-import java.util.ArrayList;
-
 public class Practica {
+    @Override
+    public String toString() {
+        return "Practica [codigoPractica=" + codigoPractica + ", nombre=" + nombre + ", grupo=" + grupo
+                + ", valoresCriticos=" + valoresCriticos + ", valoresReservados=" + valoresReservados
+                + ", horaParaResultado=" + horaParaResultado + ", resultado=" + resultado + "]";
+    }
+
     private int codigoPractica;
     private String nombre;
     private String grupo;

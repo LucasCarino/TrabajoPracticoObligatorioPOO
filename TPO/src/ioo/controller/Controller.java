@@ -216,13 +216,13 @@ public class Controller {
 
     private static void initPracticas(){
         practicas = new ArrayList<>();
-        practicas.add(new Practica(0001,"Glucemia","sangre",126, false,72, asignarResultadoAPractica(123))); //ok
-        practicas.add(new Practica(0002,"Colesterol","sangre",200,false,72, asignarResultadoAPractica(432))); //critico
-        practicas.add(new Practica(0003,"Cloruro","orina",106,false,72, asignarResultadoAPractica(345)));  // ok
-        practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72, asignarResultadoAPractica(456))); // ok
+        // practicas.add(new Practica(0001,"Glucemia","sangre",126, false,72, asignarResultadoAPractica(123))); //ok
+        // practicas.add(new Practica(0002,"Colesterol","sangre",200,false,72, asignarResultadoAPractica(432))); //critico
+        // practicas.add(new Practica(0003,"Cloruro","orina",106,false,72, asignarResultadoAPractica(345)));  // ok
+        // practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72, asignarResultadoAPractica(456))); // ok
     }
 
-    public void crearPractica(PracticaDTO practica) {
+    public boolean crearPractica(PracticaDTO practica) {
         Practica practicaAux = toModelPractica(practica);
         boolean isExist = false;
         for(int i = 0; i < practicas.size(); i++) {
@@ -233,8 +233,10 @@ public class Controller {
         if(!isExist) {
             practicas.add(practicaAux);
         } else {
-            System.out.println("YA EXISTEEEEEEE.");
+            System.out.println("Ya existe la practica.");
+            return false;
         }
+        return true;
     }
 
     public static Practica toModelPractica(PracticaDTO dto) {
@@ -499,6 +501,10 @@ public class Controller {
             }
         }
         return -1;
+    }
+
+    public void getPracticas() {
+        System.out.println(practicas);
     }
 }
 
