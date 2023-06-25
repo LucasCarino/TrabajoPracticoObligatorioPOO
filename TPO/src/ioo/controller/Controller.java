@@ -59,7 +59,6 @@ public class Controller {
         if(!isExist) {
             pacientes.add(pacienteAux);
         } else {
-            System.out.println("YA EXISTE.");
             return false;
         }
         return true;
@@ -145,19 +144,17 @@ public class Controller {
         sucursales.add(new Sucursal(2, "Malvinas 321", "Jhoxani", listaPaciente));
     }
 
-    public void crearSucursal(SucursalDTO sucursal) {
+    public boolean crearSucursal(SucursalDTO sucursal) {
         Sucursal sucursalAux = toModelSucursal(sucursal);
-        boolean isExist = false;
+        boolean seCreo = true;
         for(int i = 0; i < sucursales.size(); i++) {
             if(sucursalAux.getNroSucursal() == sucursales.get(i).getNroSucursal()) {
-                isExist = true;
+                seCreo = false;
+                return seCreo;
             }
         }
-        if(!isExist) {
-            sucursales.add(sucursalAux);
-        } else {
-            System.out.println("YA EXISTEEEEEEE.");
-        }
+        sucursales.add(sucursalAux);
+        return seCreo;
     }
 
     public static Sucursal toModelSucursal(SucursalDTO dto) {
@@ -166,12 +163,15 @@ public class Controller {
         return sucursal;
     }
 
-    public void modificarSucursal(int nroSucursal, String direccion, String responsableTecnico) {
+    public boolean modificarSucursal(int nroSucursal, String direccion, String responsableTecnico) {
         int index = getIndexSucursal(nroSucursal);
+        boolean isExist = false;
         if(index != -1){
+            isExist = true;
             sucursales.get(index).setDireccion(direccion);
             sucursales.get(index).setResponsableTecnico(responsableTecnico);
         }
+        return isExist;
     }
 
     private static int getIndexSucursal(int nroSucursal){
@@ -183,18 +183,24 @@ public class Controller {
         return -1;
     }
 
-    public void eliminarSucursal(Sucursal sucursalAEliminar, Sucursal sucursalADerivar) {
+    public int eliminarSucursal(Sucursal sucursalAEliminar, Sucursal sucursalADerivar) {
         int index = getIndexSucursal(sucursalAEliminar.getNroSucursal());
+        int retorno = 0;
         if(index != -1){ //encontró la sucursal
             if (!sucursalTieneResultados(sucursales.get(index))){ // si no tiene resultados finalizados
-                derivarSucursal(sucursalAEliminar,sucursalADerivar);
-                sucursales.remove(index); // elimina la sucursal
+                retorno = derivarSucursal(sucursalAEliminar,sucursalADerivar); // retorna 1 si no encontró la sucursal destino, retorna 2 si derivó, retorna 3 si no había peticiones e igual se eliminó
+                if (retorno == 2 || retorno == 3) {
+                    sucursales.remove(index); // elimina la sucursal
+                }
+
             } else {
+                retorno = 4; // retorna 4 si no se puede eliminar la sucursal por tener resultados finalizados
                 System.out.print("No puede eliminarse la sucursal");
             }
         } else {
             System.out.print("Sucursal no encontrado");
         }
+        return retorno; // retorna 0 si no encontró la sucursal origen
     }
 
     private static boolean sucursalTieneResultados (Sucursal sucursal){
@@ -212,12 +218,28 @@ public class Controller {
         return tieneResultados;
     }
 
-    public void derivarSucursal(Sucursal sucursalOrigen, Sucursal sucursalDestino) {
-        for (int i=0;i<peticiones.size();i++){
-            if(peticiones.get(i).getNumeroSucursal().getNroSucursal() == sucursalOrigen.getNroSucursal()){ // cuando encuentra una peticion que pertenece a la sucursal
-                peticiones.get(i).setNumeroSucursal(sucursalDestino); // setea la sucursal como la de destino
+    public int derivarSucursal(Sucursal sucursalOrigen, Sucursal sucursalDestino) {
+        int index2= getIndexSucursal(sucursalDestino.getNroSucursal());
+        int retorno = 1;
+        int contador = 0; // cuenta las peticiones que se derivaron
+        if(index2 != -1){ //encontró sucursal de destino
+            for (int i=0;i<peticiones.size();i++){
+                if(peticiones.get(i).getNumeroSucursal().getNroSucursal() == sucursalOrigen.getNroSucursal()){ // cuando encuentra una peticion que pertenece a la sucursal
+                    peticiones.get(i).setNumeroSucursal(sucursalDestino); // setea la sucursal como la de destino
+                    contador++; // suma al contador cada peticion derivada
+                }
+                if (contador >0) {
+                    retorno = 2; // si derivo peticiones, retorna 2
+                } else {
+                    retorno = 3; // si no derivó nada porque la sucursal no tenía peticiones, retorna 3
+                }
             }
+
+        } else {
+            System.out.print("Sucursal de destino no encontrada");
         }
+        return retorno; // retorna 1 si no encontró sucursal destino
+
     }
 
     private static void initPracticas(){
@@ -230,14 +252,16 @@ public class Controller {
 
     public boolean crearPractica(PracticaDTO practica) {
         Practica practicaAux = toModelPractica(practica);
-        boolean isExist = false;
+        boolean seAgrego = true;
         for(int i = 0; i < practicas.size(); i++) {
             if(practicaAux.getCodigoPractica() == practicas.get(i).getCodigoPractica()) {
-                isExist = true;
+                seAgrego = false;
+                return seAgrego;
+            } else {
                 practicas.add(practicaAux);
             }
         }
-        return isExist;
+        return seAgrego;
 
     }
 
@@ -249,14 +273,17 @@ public class Controller {
         return practica;
     }
 
-    public void modificarPractica(int codigoPractica,String nombre, String grupo, int valoresCriticos, int horaParaResultado) {
+    public boolean modificarPractica(int codigoPractica,String nombre, String grupo, int valoresCriticos, int horaParaResultado) {
         int index = getIndexPractica(codigoPractica);
+        boolean esModificable = false;
         if(index != -1){
+            esModificable = true;
             practicas.get(index).setNombre(nombre);
             practicas.get(index).setGrupo(grupo);
             practicas.get(index).setValoresCriticos(valoresCriticos);
             practicas.get(index).setHoraParaResultado(horaParaResultado);
         }
+        return esModificable;
     }
 
     private static int getIndexPractica(int nroPractica){
@@ -268,15 +295,19 @@ public class Controller {
         return -1;
     }
 
-    public void eliminarPractica(Practica practica) {
+    public int eliminarPractica(Practica practica) {
         int index = getIndexPractica(practica.getCodigoPractica());
+        int retorno = 0;
         if(index != -1){
             if (esPracticaUsada(practica)){
+                retorno = 1; // retorna 1 si la practica ya fue usada y no puede eliminarse
                 System.out.print("La práctica ya fue usada así que no puede eliminarse");
             }else {
+                retorno = 2; // retorna 2 si la practica fue eliminada
                 practicas.remove(index);
             }
         }
+        return retorno; // retorna 0 si no encontró el resultado
     }
 
     private static boolean esPracticaUsada (Practica practica) { // busca si la práctica que quiere eliminarse pertenece al conjunto de prácticas usadas
@@ -315,19 +346,18 @@ public class Controller {
         return calendar.getTime();
     }
 
-    public void crearPeticion(PeticionDTO peticion) {
+    public boolean crearPeticion(PeticionDTO peticion) {
         Peticion peticionAux = toModelPeticion(peticion);
-        boolean isExist = false;
+        boolean sePuedeCrear = true;
         for(int i = 0; i < peticiones.size(); i++) {
             if(peticionAux.getNumeroPeticion() == peticiones.get(i).getNumeroPeticion()) {
-                isExist = true;
+                sePuedeCrear = false;
             }
         }
-        if(!isExist) {
+        if(sePuedeCrear) {
             peticiones.add(peticionAux);
-        } else {
-            System.out.println("YA EXISTEEEEEEE.");
         }
+        return sePuedeCrear;
     }
 
     public static Peticion toModelPeticion(PeticionDTO dto) {
@@ -336,9 +366,11 @@ public class Controller {
         return peticion;
     }
 
-    public void modificarPeticion(int nroPeticion, Paciente paciente, String obraSocial, Date fechaCarga, List<Practica> practicaAsociada, Date fechaEntrega,Sucursal sucursal) {
+    public boolean modificarPeticion(int nroPeticion, Paciente paciente, String obraSocial, Date fechaCarga, List<Practica> practicaAsociada, Date fechaEntrega,Sucursal sucursal) {
         int index = getIndexPeticion(nroPeticion);
+        boolean esModificable = false;
         if(index != -1){
+            esModificable = true;
             peticiones.get(index).setNumeroPaciente(paciente);
             peticiones.get(index).setObraSocial(obraSocial);
             peticiones.get(index).setFechaCarga(fechaCarga);
@@ -346,13 +378,17 @@ public class Controller {
             peticiones.get(index).setFechaEntrega(fechaEntrega);
             peticiones.get(index).setNumeroSucursal(sucursal);
         }
+        return esModificable;
     }
 
-    public void eliminarPeticion(Peticion peticion) {
+    public boolean eliminarPeticion(Peticion peticion) {
         int index = getIndexPeticion(peticion.getNumeroPeticion());
+        boolean eseEliminable = false;
         if(index != -1){
+            eseEliminable = true;
             peticiones.remove(index);
         }
+        return eseEliminable;
     }
 
     private static int getIndexPeticion(int nroPeticion){
@@ -383,7 +419,7 @@ public class Controller {
         return false;
     }
 
-    public void mostrarPeticion (Peticion peticion){
+    public void mostrarPeticion (Peticion peticion){ // ver como hacer porque tiene que retornar la peticion o el mensaje de que no se puede mostrar
         int index = getIndexPeticion(peticion.getNumeroPeticion());
         if(index != -1){ // encontro la peticion
             for(int i=0; i< peticiones.get(index).getPracticaAsociada().size();i++) { // recorre cada práctica de esa peticion
@@ -460,19 +496,19 @@ public class Controller {
         resultados.add(new Resultado(654,new Date(),2)); // creatinina critico
     }
 
-    public void crearResultado(ResultadoDTO resultado) {
+    public boolean crearResultado(ResultadoDTO resultado) { // hacer una comprobacion de que si la practica ya tiene resultado no permita cargar otro
         Resultado resultadoAux = toModelResultado(resultado);
+        boolean sePuedeCrear = true;
         boolean isExist = false;
         for(int i = 0; i < resultados.size(); i++) {
             if(resultadoAux.getIdResultado() == resultados.get(i).getIdResultado()) {
-                isExist = true;
+                sePuedeCrear = false;
             }
         }
-        if(!isExist) {
+        if(sePuedeCrear) {
             resultados.add(resultadoAux);
-        } else {
-            System.out.println("YA EXISTEEEEEEE.");
         }
+        return sePuedeCrear;
     }
 
     public static Resultado toModelResultado(ResultadoDTO dto) {
