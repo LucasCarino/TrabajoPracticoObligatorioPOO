@@ -2,13 +2,13 @@ package ioo.view;
 
 import ioo.controller.Controller;
 import ioo.dto.PracticaDTO;
-import ioo.dto.ResultadoDTO;
 import ioo.model.Resultado;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 public class CrearPractica extends JFrame {
 
@@ -39,7 +39,7 @@ public class CrearPractica extends JFrame {
         contentPane.add(lbPracticaId);
 
         codigoPractica = new JTextField();
-        codigoPractica.setBounds(124, 5, 50, 20);
+        codigoPractica.setBounds(175, 5, 120, 20);
         contentPane.add(codigoPractica);
         codigoPractica.setColumns(10);
 
@@ -48,56 +48,56 @@ public class CrearPractica extends JFrame {
         contentPane.add(lbnombrePractica);
 
         nombre = new JTextField();
-        nombre.setBounds(124, 28, 275, 20);
+        nombre.setBounds(175, 28, 120, 20);
         contentPane.add(nombre);
         nombre.setColumns(10);
 
         JLabel lbgrupo = new JLabel("Grupo:");
-        lbgrupo.setBounds(10, 55, 46, 14);
+        lbgrupo.setBounds(10, 55, 120, 14);
         contentPane.add(lbgrupo);
 
         grupo = new JTextField();
-        grupo.setBounds(124, 53, 156, 20);
+        grupo.setBounds(175, 53, 120, 20);
         contentPane.add(grupo);
         grupo.setColumns(10);
 
-        JLabel lbvaloresCriticos = new JLabel("Valores Críticos");
-        lbvaloresCriticos.setBounds(10, 78, 120, 28);
+        JLabel lbvaloresCriticos = new JLabel("Valores Críticos:");
+        lbvaloresCriticos.setBounds(10, 78, 150, 28);
 
         contentPane.add(lbvaloresCriticos);
 
         valoresCriticos = new JTextField();
-        valoresCriticos.setBounds(124, 80, 30, 20);
+        valoresCriticos.setBounds(175, 80, 120, 20);
 
         contentPane.add(valoresCriticos);
         valoresCriticos.setColumns(10);
 
         JLabel lbvaloresReservados = new JLabel("Valores Reservados:");
-        lbvaloresReservados.setBounds(10, 106, 90, 14);
+        lbvaloresReservados.setBounds(10, 106, 150, 14);
         contentPane.add(lbvaloresReservados);
 
         valoresReservados = new JTextField();
-        valoresReservados.setBounds(124, 104, 30, 20);
+        valoresReservados.setBounds(175, 104, 120, 20);
         contentPane.add(valoresReservados);
         valoresReservados.setColumns(10);
 
 
-        JLabel lbhoraParaResultado = new JLabel("hora Para Resultado:");
-        lbhoraParaResultado.setBounds(10, 130, 100, 14);
+        JLabel lbhoraParaResultado = new JLabel("Horas para resultado:");
+        lbhoraParaResultado.setBounds(10, 130, 150, 14);
         contentPane.add(lbhoraParaResultado);
 
         horaParaResultado = new JTextField();
-        horaParaResultado.setBounds(124, 128, 132, 20);
+        horaParaResultado.setBounds(175, 128, 120, 20);
         contentPane.add(horaParaResultado);
         horaParaResultado.setColumns(10);
 
 
         JLabel lbresultado = new JLabel("Resultado:");
-        lbresultado.setBounds(10, 155, 90, 14);
+        lbresultado.setBounds(10, 155, 120, 14);
         contentPane.add(lbresultado);
 
         resultado = new JTextField();
-        resultado.setBounds(124, 154, 132, 20);
+        resultado.setBounds(175, 154, 120, 20);
         contentPane.add(resultado);
         resultado.setColumns(10);
 
@@ -126,36 +126,33 @@ public class CrearPractica extends JFrame {
                         String grupo_practica = grupo.getText();
                         int valores_criticos = Integer.parseInt(valoresCriticos.getText());
                         boolean valores_reservados = Boolean.parseBoolean(valoresReservados.getText());
-                        int hora_Para_Resultado = Integer.parseInt(horaParaResultado.getText());
-                        String resultado_text = resultado.getText();
-
-                        Resultado resultado_practica = new Resultado(resultado_text, hora_Para_Resultado,  )
-
+                        int horas_para_resultado = Integer.parseInt(horaParaResultado.getText());
+                        
                         PracticaDTO nueva_practica = new PracticaDTO(codigo_practica, nombre_practica, grupo_practica, valores_criticos,
-                                valores_reservados, hora_Para_Resultado, resultado_practica);
-                        boolean respuesta = Controller.getControlador().crearPaciente(nuevo_paciente);
-                        Controller.getPacientes();
+                                valores_reservados, horas_para_resultado, new Resultado(5, new Date(), 1));
+                        boolean respuesta = Controller.getControlador().crearPractica(nueva_practica);
+                        Controller.getControlador().getPracticas();
 
                         if (respuesta) {
-                            JOptionPane.showMessageDialog(null, "El paciente se ha creado correctamente", "Paciente Creado", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "La practica se ha creado correctamente", "Practica Creado", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "El paciente ya existe en el sistema", "Paciente Duplicado", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "La practica ya existe en el sistema", "Practica Duplicado", JOptionPane.ERROR_MESSAGE);
                         }
-                        nroPaciente.setText("");
-                        NombrePaciente.setText("");
-                        DNIPaciente.setText("");
-                        EdadPaciente.setText("");
-                        SexoPaciente.setText("");
-                        DomicilioPaciente.setText("");
-                        MailPaciente.setText("");
+                        // nroPaciente.setText("");
+                        // NombrePaciente.setText("");
+                        // DNIPaciente.setText("");
+                        // EdadPaciente.setText("");
+                        // SexoPaciente.setText("");
+                        // DomicilioPaciente.setText("");
+                        // MailPaciente.setText("");
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "no ingrese caracteres en los campos de solo numeros", "Error caracter ingresado erroneamente", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-        btnCrearPaciente.setBounds(170, 266, 140, 20);
-        contentPane.add(btnCrearPaciente);
+        btnCrearPractica.setBounds(170, 266, 140, 20);
+        contentPane.add(btnCrearPractica);
 
         JButton btnNewButton = new JButton("Volver atr\u00E1s");
         btnNewButton.addActionListener(new ActionListener() {

@@ -112,8 +112,8 @@ public class MenuPrincipal extends JFrame {
         JMenuItem mntmNewMenuItem7 = new JMenuItem("Crear Práctica");
         mntmNewMenuItem7.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                CrearPractica ventana = new CrearPractica();
-//                ventana.setVisible(true);
+               CrearPractica ventana = new CrearPractica();
+               ventana.setVisible(true);
 
             }
         });
