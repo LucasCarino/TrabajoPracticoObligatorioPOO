@@ -43,9 +43,9 @@ public class Controller {
     }
 
     public static void getPacientes() {
-        for(int i = 0; i < pacientes.size(); i++) {
-            System.out.println(pacientes.get(i).getNombre());
-        }
+//        for(int i = 0; i < pacientes.size(); i++) {
+//            System.out.println(pacientes.get(i).getNombre());
+//        }
     }
 
     public boolean crearPaciente(PacienteDTO dto) {
@@ -79,23 +79,22 @@ public class Controller {
         return isExist;
     }
 
-    public boolean eliminarPaciente(EliminarPacienteDTO dto) {
+    public int eliminarPaciente(EliminarPacienteDTO dto) {
         int index = getIndexPaciente(dto.getNumeroPaciente());
-        boolean isExist = false;
-        boolean isEliminable = false;
+        int retorno = 0;
         if(index != -1) { // encontró el paciente
             if (!pacienteTieneResultados(pacientes.get(index))) { // si no tiene resultados finalizados
                 pacientes.remove(index); // elimina el paciente
                 System.out.print("Se eliminó el paciente");
-                isEliminable = true;
-                return isEliminable;
+                retorno = 1; // devuelve 1 si lo eliminó
             } else {
                 System.out.print("No se pudo eliminar porque tiene resultados");
-                return isEliminable;
+                retorno = 2;// devuelve 2 si lo encontró pero no se encuentra porque tiene resultados
             }
+        } else {
+            System.out.print("No existe el paciente");
         }
-        System.out.print("No existe el paciente");
-        return isExist;
+        return retorno; // devuelve 0 si no lo encontró
     }
 
     private static boolean pacienteTieneResultados (Paciente paciente) {
@@ -134,7 +133,6 @@ public class Controller {
         Paciente paciente = new Paciente(nroPaciente, dto.getSexo(), edad, dni, dto.getNombre(), dto.getDomicilio(), dto.getMail());
         return paciente;
     }
-
 
     private static void initSucursales(){
         sucursales = new ArrayList<>();
@@ -281,6 +279,17 @@ public class Controller {
         return practica;
     }
 
+    public static Practica toModelEliminarPracticaDTO(EliminarPracticaDTO dto) {
+        int codigoPractica = Integer.valueOf(dto.getCodigoPractica());
+        Practica practica = null;
+        for (int i=0; i < practicas.size(); i++){
+            if(practicas.get(i).getCodigoPractica() == codigoPractica){
+                practica = new Practica(practicas.get(i).getCodigoPractica(), practicas.get(i).getNombre(), practicas.get(i).getGrupo(), practicas.get(i).getValoresCriticos(), practicas.get(i).isValoresReservados(), practicas.get(i).getHoraParaResultado());
+            }
+        }
+        return practica;
+    }
+
     public boolean modificarPractica(int codigoPractica,String nombre, String grupo, int valoresCriticos, int horaParaResultado) {
         int index = getIndexPractica(codigoPractica);
         boolean esModificable = false;
@@ -303,11 +312,12 @@ public class Controller {
         return -1;
     }
 
-    public int eliminarPractica(EliminarPracticaDTO codigoPractica) {
-        int index = getIndexPractica(codigoPractica.getCodigoPractica());
+    public int eliminarPractica(EliminarPracticaDTO dto) {
+        int index = getIndexPractica(dto.getCodigoPractica());
+        Practica practica = toModelEliminarPracticaDTO(dto);
         int retorno = 0;
-        if(index != -1){
-            if (esPracticaUsada(codigoPractica)){
+        if(index != -1) {
+            if (esPracticaUsada(practica)){
                 retorno = 1; // retorna 1 si la practica ya fue usada y no puede eliminarse
                 System.out.print("La práctica ya fue usada así que no puede eliminarse");
             }else {
@@ -370,7 +380,7 @@ public class Controller {
 
     public static Peticion toModelPeticion(PeticionDTO dto) {
         int nroPeticion = Integer.valueOf(dto.getNumeroPeticion());
-        Peticion peticion = new Peticion(nroPeticion,dto.getNumeroPaciente(),dto.getObraSocial(),dto.getFechaCarga(),dto.getPracticaAsociada(),dto.getFechaEntrega(),dto.getNumeroSucursal());
+        Peticion peticion = new Peticion(nroPeticion,dto.getNumeroPaciente(),dto.getObraSocial(),dto.getPracticaAsociada(),dto.getNumeroSucursal());
         return peticion;
     }
 
@@ -388,9 +398,19 @@ public class Controller {
         }
         return esModificable;
     }
-
-    public boolean eliminarPeticion(EliminarPeticionDTO peticion) {
-        int index = getIndexPeticion(peticion.getnumeroPeticion());
+    public static Peticion toModelEliminarPeticion(EliminarPeticionDTO dto) {
+        int codigoPeticion = Integer.valueOf(dto.getnumeroPeticion());
+        Peticion peticion = null;
+        for (int i=0; i < peticiones.size(); i++){
+            if(peticiones.get(i).getNumeroPeticion() == codigoPeticion){
+                peticion = new Peticion(peticiones.get(i).getNumeroPeticion(), peticiones.get(i).getNumeroPaciente(), peticiones.get(i).getObraSocial(), peticiones.get(i).getFechaCarga(), peticiones.get(i).getPracticaAsociada(), peticiones.get(i).getFechaEntrega(), peticiones.get(i).getNumeroSucursal());
+            }
+        }
+        return peticion;
+    }
+    public boolean eliminarPeticion(EliminarPeticionDTO dto) {
+        Peticion peticion = toModelEliminarPeticion(dto);
+        int index = getIndexPeticion(peticion.getNumeroPeticion());
         boolean eseEliminable = false;
         if(index != -1){
             eseEliminable = true;
@@ -412,20 +432,18 @@ public class Controller {
         List<Peticion> peticionesConValoresCriticos = new ArrayList<>();
         for (int i=0; i<peticiones.size();i++) { // recorre todas las peticiones
             boolean bandera = true;
-                for (int j=0; j<peticiones.get(i).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
-                    for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
-                        if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
-                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(i).getPracticaAsociada().get(j).getValoresCriticos())) {
-                                peticionesConValoresCriticos.add(peticiones.get(i));
-                                bandera = false; // detiene los for que recorren los resultados y las practicas de esa peticion
-                            }
+            for (int j=0; j<peticiones.get(i).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
+                for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
+                    if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                        if (esValorCritico(resultados.get(k).getValor(),peticiones.get(i).getPracticaAsociada().get(j).getValoresCriticos())) {
+                            peticionesConValoresCriticos.add(peticiones.get(i));
+                            bandera = false; // detiene los for que recorren los resultados y las practicas de esa peticion
                         }
                     }
                 }
-
             }
 
-
+        }
         return peticionesConValoresCriticos;
     }
 
@@ -444,19 +462,17 @@ public class Controller {
         if(index != -1){ // encontro la peticion
             retorno = 1; // retorna 1 si la peticion se puede mostrar
             boolean bandera = true;
-               for (int j=0; j<peticiones.get(index).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
-                   for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
-                       if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
-                           if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticaAsociada().get(j).getValoresCriticos())) {
-                               bandera = false; // detiene los for que recorren los resultados y las practicas de la peticion
-                               retorno = 2; //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
-                            }
+            for (int j=0; j<peticiones.get(index).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
+                for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
+                    if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                        if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticaAsociada().get(j).getValoresCriticos())) {
+                            bandera = false; // detiene los for que recorren los resultados y las practicas de la peticion
+                            retorno = 2; //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
                         }
                     }
                 }
-
             }
-
+        }
         return retorno;
     }
 
@@ -581,5 +597,3 @@ public class Controller {
         return -1;
     }
 }
-
-

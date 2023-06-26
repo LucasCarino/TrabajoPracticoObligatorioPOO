@@ -25,7 +25,7 @@ public class EliminarPaciente extends JFrame {
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
 
-        JLabel lbPacienteId = new JLabel("ID:");
+        JLabel lbPacienteId = new JLabel("Nro de Paciente:");
         lbPacienteId.setBounds(10, 7, 120, 14);
         contentPane.add(lbPacienteId);
 
@@ -45,10 +45,9 @@ public class EliminarPaciente extends JFrame {
                         int nro_paciente = Integer.parseInt(nroPaciente.getText());
 
                         EliminarPacienteDTO paciente_eliminado = new EliminarPacienteDTO(nro_paciente);
-                        boolean respuesta = Controller.getControlador().eliminarPaciente(paciente_eliminado);
-                        Controller.getPacientes();
+                        int respuesta = Controller.getControlador().eliminarPaciente(paciente_eliminado);
 
-                        if (respuesta) {
+                        if (respuesta == 1) {
                             JOptionPane.showMessageDialog(null, "El paciente se ha eliminado correctamente", "Paciente Eliminado!", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "El paciente no existe en el sistema", "Paciente no existe", JOptionPane.ERROR_MESSAGE);

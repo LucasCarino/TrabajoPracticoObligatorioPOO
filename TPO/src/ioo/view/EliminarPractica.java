@@ -35,7 +35,7 @@ public class EliminarPractica extends JFrame{
             codigopractica.setColumns(10);
 
 
-            JButton btnEliminarPractica = new JButton("Eliminar Paciente");
+            JButton btnEliminarPractica = new JButton("Eliminar Práctica");
             btnEliminarPractica.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
@@ -45,15 +45,13 @@ public class EliminarPractica extends JFrame{
                             int codigo_practica = Integer.parseInt(codigopractica.getText());
 
                             EliminarPracticaDTO practica_eliminada = new EliminarPracticaDTO(codigo_practica);
-                            boolean respuesta = Controller.getControlador().eliminarPaciente(paciente_eliminado);
-                            Controller.getPacientes();
-
-                            if (respuesta) {
-                                JOptionPane.showMessageDialog(null, "El paciente se ha eliminado correctamente", "Paciente Eliminado!", JOptionPane.INFORMATION_MESSAGE);
+                            int respuesta = Controller.getControlador().eliminarPractica(practica_eliminada);
+                            if (respuesta == 1) {
+                                JOptionPane.showMessageDialog(null, "La práctica se ha eliminado correctamente", "Práctica Eliminada!", JOptionPane.INFORMATION_MESSAGE);
                             } else {
-                                JOptionPane.showMessageDialog(null, "El paciente no existe en el sistema", "Paciente no existe", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "La práctica no existe en el sistema", "Práctica no existe", JOptionPane.ERROR_MESSAGE);
                             }
-                            nroPaciente.setText("");
+                            codigopractica.setText("");
                         }
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(null, "no ingrese caracteres en los campos de solo numeros", "Error caracter ingresado erroneamente", JOptionPane.ERROR_MESSAGE);
@@ -74,4 +72,3 @@ public class EliminarPractica extends JFrame{
         }
     }
 
-}

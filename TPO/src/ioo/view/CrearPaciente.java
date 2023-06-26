@@ -128,7 +128,6 @@ public class CrearPaciente extends JFrame {
                         PacienteDTO nuevo_paciente = new PacienteDTO(nro_paciente, sexo_paciente, edad_paciente, dni_paciente,
                                 nombre_paciente, domicilio_paciente, mail_paciente);
                         boolean respuesta = Controller.getControlador().crearPaciente(nuevo_paciente);
-                        Controller.getPacientes();
 
                         if (respuesta) {
                             JOptionPane.showMessageDialog(null, "El paciente se ha creado correctamente", "Paciente Creado", JOptionPane.INFORMATION_MESSAGE);

@@ -33,22 +33,22 @@ import java.awt.event.ActionListener;
             nroPeticion.setColumns(10);
 
 
-            JButton btnEliminarPeticion = new JButton("Eliminar Peticion");
+            JButton btnEliminarPeticion = new JButton("Eliminar Petición");
             btnEliminarPeticion.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         if (nroPeticion.getText().equalsIgnoreCase("")) {
-                            JOptionPane.showMessageDialog(null, "el campo de nro del Peticion debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "el campo de nro del Petición debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                         } else {
                             int nro_peticion = Integer.parseInt(nroPeticion.getText());
 
-                            EliminarPeticionDTO peticion_eliminado = new EliminarPeticionDTO(nro_peticion);
-                            boolean respuesta = Controller.getControlador().eliminarPeticion(peticion_eliminado);
+                            EliminarPeticionDTO peticion_eliminada = new EliminarPeticionDTO(nro_peticion);
+                            boolean respuesta = Controller.getControlador().eliminarPeticion(peticion_eliminada);
 
                             if (respuesta) {
-                                JOptionPane.showMessageDialog(null, "El Peticion se ha eliminado correctamente", "Peticion Eliminado!", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "La Petición se ha eliminado correctamente", "Peticion Eliminada!", JOptionPane.INFORMATION_MESSAGE);
                             } else {
-                                JOptionPane.showMessageDialog(null, "El Peticion no existe en el sistema", "Peticion no existe", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "La Petición no existe en el sistema", "Peticion no existe", JOptionPane.ERROR_MESSAGE);
                             }
                             nroPeticion.setText("");
                         }
