@@ -77,8 +77,8 @@ public class MenuPrincipal extends JFrame {
         JMenuItem mntmNewMenuItem4 = new JMenuItem("Crear Petición");
         mntmNewMenuItem4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                CrearPetición ventana = new CrearPetición();
-//                ventana.setVisible(true);
+                //CrearPeticion ventana = new CrearPeticion();
+                //ventana.setVisible(true);
 
             }
         });
@@ -87,8 +87,8 @@ public class MenuPrincipal extends JFrame {
         JMenuItem mntmNewMenuItem6 = new JMenuItem("Eliminar Petición");
         mntmNewMenuItem6.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                EliminarPeticion ventana = new EliminarPeticion();
-//                ventana.setVisible(true);
+                EliminarPeticion ventana = new EliminarPeticion();
+                ventana.setVisible(true);
             }
         });
         mnNewMenu_1.add(mntmNewMenuItem6);
@@ -122,8 +122,8 @@ public class MenuPrincipal extends JFrame {
         JMenuItem mntmNewMenuItem9 = new JMenuItem("Eliminar Práctica");
         mntmNewMenuItem9.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // EliminarPractica ventana = new EliminarPractica();
-//                ventana.setVisible(true);
+                EliminarPractica ventana = new EliminarPractica();
+                ventana.setVisible(true);
             }
         });
         mnNewMenu_2.add(mntmNewMenuItem9);

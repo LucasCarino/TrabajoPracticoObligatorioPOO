@@ -72,7 +72,7 @@ public class CrearPractica extends JFrame {
         contentPane.add(valoresCriticos);
         valoresCriticos.setColumns(10);
 
-        JLabel lbvaloresReservados = new JLabel("Valores Reservados (solo true o false):");
+        JLabel lbvaloresReservados = new JLabel("Valores Reservados:");
         lbvaloresReservados.setBounds(10, 106, 150, 14);
         contentPane.add(lbvaloresReservados);
 
@@ -80,7 +80,6 @@ public class CrearPractica extends JFrame {
         valoresReservados.setBounds(175, 104, 120, 20);
         contentPane.add(valoresReservados);
         valoresReservados.setColumns(10);
-
 
         JLabel lbhoraParaResultado = new JLabel("Horas para resultado:");
         lbhoraParaResultado.setBounds(10, 130, 150, 14);
@@ -121,9 +120,9 @@ public class CrearPractica extends JFrame {
                         boolean respuesta = Controller.getControlador().crearPractica(nueva_practica);
 
                         if (respuesta) {
-                            JOptionPane.showMessageDialog(null, "La práctica se ha creado correctamente", "Practica Creado", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "La práctica se ha creado correctamente", "Práctica Creada", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "La práctica ya existe en el sistema", "Practica Duplicado", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "La práctica ya existe en el sistema", "Práctica Duplicada", JOptionPane.ERROR_MESSAGE);
                         }
                         codigoPractica.setText("");
                         nombre.setText("");
