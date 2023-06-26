@@ -45,11 +45,13 @@ public class EliminarPaciente extends JFrame {
                         int nro_paciente = Integer.parseInt(nroPaciente.getText());
 
                         EliminarPacienteDTO paciente_eliminado = new EliminarPacienteDTO(nro_paciente);
-                        boolean respuesta = Controller.getControlador().eliminarPaciente(paciente_eliminado);
+                        int respuesta = Controller.getControlador().eliminarPaciente(paciente_eliminado);
                         Controller.getPacientes();
 
-                        if (respuesta) {
+                        if (respuesta == 1) {
                             JOptionPane.showMessageDialog(null, "El paciente se ha eliminado correctamente", "Paciente Eliminado!", JOptionPane.INFORMATION_MESSAGE);
+                        } else if (respuesta == 2) {
+                            JOptionPane.showMessageDialog(null, "El paciente no se pudo eliminar porque tiene resultados", "Paciente no existe", JOptionPane.WARNING_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "El paciente no existe en el sistema", "Paciente no existe", JOptionPane.ERROR_MESSAGE);
                         }

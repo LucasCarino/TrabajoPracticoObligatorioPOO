@@ -43,9 +43,9 @@ public class Controller {
     }
 
     public static void getPacientes() {
-        for(int i = 0; i < pacientes.size(); i++) {
-            System.out.println(pacientes.get(i).getNombre());
-        }
+//        for(int i = 0; i < pacientes.size(); i++) {
+//            System.out.println(pacientes.get(i).getNombre());
+//        }
     }
 
     public boolean crearPaciente(PacienteDTO dto) {
@@ -79,23 +79,22 @@ public class Controller {
         return isExist;
     }
 
-    public boolean eliminarPaciente(EliminarPacienteDTO dto) {
+    public int eliminarPaciente(EliminarPacienteDTO dto) {
         int index = getIndexPaciente(dto.getNumeroPaciente());
-        boolean isExist = false;
-        boolean isEliminable = false;
+        int retorno = 0;
         if(index != -1) { // encontró el paciente
             if (!pacienteTieneResultados(pacientes.get(index))) { // si no tiene resultados finalizados
                 pacientes.remove(index); // elimina el paciente
                 System.out.print("Se eliminó el paciente");
-                isEliminable = true;
-                return isEliminable;
+                retorno = 1; // devuelve 1 si lo eliminó
             } else {
                 System.out.print("No se pudo eliminar porque tiene resultados");
-                return isEliminable;
+                retorno = 2;// devuelve 2 si lo encontró pero no se encuentra porque tiene resultados
             }
+        } else {
+            System.out.print("No existe el paciente");
         }
-        System.out.print("No existe el paciente");
-        return isExist;
+        return retorno; // devuelve 0 si no lo encontró
     }
 
     private static boolean pacienteTieneResultados (Paciente paciente) {
@@ -134,7 +133,6 @@ public class Controller {
         Paciente paciente = new Paciente(nroPaciente, dto.getSexo(), edad, dni, dto.getNombre(), dto.getDomicilio(), dto.getMail());
         return paciente;
     }
-
 
     private static void initSucursales(){
         sucursales = new ArrayList<>();
@@ -454,9 +452,7 @@ public class Controller {
                         }
                     }
                 }
-
             }
-
         return retorno;
     }
 
