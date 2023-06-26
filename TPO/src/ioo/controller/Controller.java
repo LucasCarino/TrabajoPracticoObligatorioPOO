@@ -195,9 +195,7 @@ public class Controller {
                         }
                     }
                 }
-
             }
-
         }
         return tieneResultados;
     }
