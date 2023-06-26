@@ -81,7 +81,6 @@ public class CrearPractica extends JFrame {
         contentPane.add(valoresReservados);
         valoresReservados.setColumns(10);
 
-
         JLabel lbhoraParaResultado = new JLabel("Horas para resultado:");
         lbhoraParaResultado.setBounds(10, 130, 150, 14);
         contentPane.add(lbhoraParaResultado);

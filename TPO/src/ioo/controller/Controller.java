@@ -303,11 +303,11 @@ public class Controller {
         return -1;
     }
 
-    public int eliminarPractica(Practica practica) {
-        int index = getIndexPractica(practica.getCodigoPractica());
+    public int eliminarPractica(EliminarPracticaDTO codigoPractica) {
+        int index = getIndexPractica(codigoPractica.getCodigoPractica());
         int retorno = 0;
         if(index != -1){
-            if (esPracticaUsada(practica)){
+            if (esPracticaUsada(codigoPractica)){
                 retorno = 1; // retorna 1 si la practica ya fue usada y no puede eliminarse
                 System.out.print("La práctica ya fue usada así que no puede eliminarse");
             }else {
@@ -389,8 +389,8 @@ public class Controller {
         return esModificable;
     }
 
-    public boolean eliminarPeticion(Peticion peticion) {
-        int index = getIndexPeticion(peticion.getNumeroPeticion());
+    public boolean eliminarPeticion(EliminarPeticionDTO peticion) {
+        int index = getIndexPeticion(peticion.getnumeroPeticion());
         boolean eseEliminable = false;
         if(index != -1){
             eseEliminable = true;
