@@ -20,7 +20,6 @@ public class CrearPractica extends JFrame {
 
     private JTextField valoresReservados;
     private JTextField horaParaResultado;
-    private JTextField resultado;
 
     public CrearPractica() {
         setResizable(false);
