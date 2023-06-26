@@ -2,6 +2,7 @@ package ioo.controller;
 
 import ioo.dto.*;
 import ioo.model.*;
+import ioo.view.EliminarPractica;
 
 import java.util.*;
 
@@ -279,6 +280,17 @@ public class Controller {
         return practica;
     }
 
+    public static Practica toModelEliminarPracticaDTO(EliminarPracticaDTO dto) {
+        int codigoPractica = Integer.valueOf(dto.getCodigoPractica());
+        Practica practica = null;
+        for (int i=0; i < practicas.size(); i++){
+            if(practicas.get(i).getCodigoPractica() == codigoPractica){
+                practica = new Practica(practicas.get(i).getCodigoPractica(), practicas.get(i).getNombre(), practicas.get(i).getGrupo(), practicas.get(i).getValoresCriticos(), practicas.get(i).isValoresReservados(), practicas.get(i).getHoraParaResultado());
+            }
+        }
+        return practica;
+    }
+
     public boolean modificarPractica(int codigoPractica,String nombre, String grupo, int valoresCriticos, int horaParaResultado) {
         int index = getIndexPractica(codigoPractica);
         boolean esModificable = false;
@@ -301,10 +313,11 @@ public class Controller {
         return -1;
     }
 
-    public int eliminarPractica(Practica practica) {
-        int index = getIndexPractica(practica.getCodigoPractica());
+    public int eliminarPractica(EliminarPracticaDTO dto) {
+        int index = getIndexPractica(dto.getCodigoPractica());
+        Practica practica = toModelEliminarPracticaDTO(dto);
         int retorno = 0;
-        if(index != -1){
+        if(index != -1) {
             if (esPracticaUsada(practica)){
                 retorno = 1; // retorna 1 si la practica ya fue usada y no puede eliminarse
                 System.out.print("La práctica ya fue usada así que no puede eliminarse");
