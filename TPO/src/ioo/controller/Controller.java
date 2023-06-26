@@ -381,7 +381,7 @@ public class Controller {
 
     public static Peticion toModelPeticion(PeticionDTO dto) {
         int nroPeticion = Integer.valueOf(dto.getNumeroPeticion());
-        Peticion peticion = new Peticion(nroPeticion,dto.getNumeroPaciente(),dto.getObraSocial(),dto.getFechaCarga(),dto.getPracticaAsociada(),dto.getFechaEntrega(),dto.getNumeroSucursal());
+        Peticion peticion = new Peticion(nroPeticion,dto.getNumeroPaciente(),dto.getObraSocial(),dto.getPracticaAsociada(),dto.getNumeroSucursal());
         return peticion;
     }
 

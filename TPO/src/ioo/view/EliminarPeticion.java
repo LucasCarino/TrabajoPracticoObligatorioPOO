@@ -43,8 +43,8 @@ import java.awt.event.ActionListener;
                             int nro_peticion = Integer.parseInt(nroPeticion.getText());
 
                             EliminarPeticionDTO peticion_eliminada = new EliminarPeticionDTO(nro_peticion);
-                            boolean respuesta = Controller.getControlador().eliminarPeticion(peticion_eliminada);
-
+                            // boolean respuesta = Controller.getControlador().eliminarPeticion(peticion_eliminada);
+                            boolean respuesta = false; // BORRAR DESPUES!!
                             if (respuesta) {
                                 JOptionPane.showMessageDialog(null, "La Petición se ha eliminado correctamente", "Peticion Eliminada!", JOptionPane.INFORMATION_MESSAGE);
                             } else {
