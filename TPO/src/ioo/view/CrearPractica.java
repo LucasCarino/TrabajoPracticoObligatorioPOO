@@ -117,7 +117,7 @@ public class CrearPractica extends JFrame {
                         int horas_para_resultado = Integer.parseInt(horaParaResultado.getText());
                         
                         PracticaDTO nueva_practica = new PracticaDTO(codigo_practica, nombre_practica, grupo_practica, valores_criticos,
-                                valores_reservados, horas_para_resultado, new Resultado(0,null,0));
+                                valores_reservados, horas_para_resultado);
                         boolean respuesta = Controller.getControlador().crearPractica(nueva_practica);
 
                         if (respuesta) {
