@@ -45,15 +45,16 @@ public class EliminarPractica extends JFrame{
                         int codigo_practica = Integer.parseInt(codigopractica.getText());
 
                         EliminarPracticaDTO practica_eliminada = new EliminarPracticaDTO(codigo_practica);
-                        boolean respuesta = Controller.getControlador().eliminarPaciente(paciente_eliminado);
+
+                        int respuesta = Controller.getControlador().eliminarPractica(practica_eliminada);
                         Controller.getPacientes();
 
-                        if (respuesta) {
+                        if (respuesta == 1) {
                             JOptionPane.showMessageDialog(null, "El paciente se ha eliminado correctamente", "Paciente Eliminado!", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "El paciente no existe en el sistema", "Paciente no existe", JOptionPane.ERROR_MESSAGE);
                         }
-                        nroPaciente.setText("");
+                        codigopractica.setText("");
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "no ingrese caracteres en los campos de solo numeros", "Error caracter ingresado erroneamente", JOptionPane.ERROR_MESSAGE);
@@ -72,5 +73,4 @@ public class EliminarPractica extends JFrame{
         btnNewButton.setBounds(0, 266, 130, 20);
         contentPane.add(btnNewButton);
     }
-}
 }

@@ -157,8 +157,8 @@ public class MenuPrincipal extends JFrame {
         JMenuItem mntmNewMenuItem12 = new JMenuItem("Eliminar Sucursal");
         mntmNewMenuItem12.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                EliminarSucursal ventana = new EliminarSucursal();
-//                ventana.setVisible(true);
+                EliminarSucursal ventana = new EliminarSucursal();
+                ventana.setVisible(true);
             }
         });
         mnNewMenu_3.add(mntmNewMenuItem12);

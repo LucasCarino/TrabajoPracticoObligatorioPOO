@@ -183,30 +183,10 @@ public class Controller {
         return -1;
     }
 
-    public int eliminarSucursal(Sucursal sucursalAEliminar, Sucursal sucursalADerivar) {
-        int index = getIndexSucursal(sucursalAEliminar.getNroSucursal());
-        int retorno = 0;
-        if(index != -1){ //encontró la sucursal
-            if (!sucursalTieneResultados(sucursales.get(index))){ // si no tiene resultados finalizados
-                retorno = derivarSucursal(sucursalAEliminar,sucursalADerivar); // retorna 1 si no encontró la sucursal destino, retorna 2 si derivó, retorna 3 si no había peticiones e igual se eliminó
-                if (retorno == 2 || retorno == 3) {
-                    sucursales.remove(index); // elimina la sucursal
-                }
-
-            } else {
-                retorno = 4; // retorna 4 si no se puede eliminar la sucursal por tener resultados finalizados
-                System.out.print("No puede eliminarse la sucursal");
-            }
-        } else {
-            System.out.print("Sucursal no encontrado");
-        }
-        return retorno; // retorna 0 si no encontró la sucursal origen
-    }
-
     private static boolean sucursalTieneResultados (Sucursal sucursal) {
         boolean tieneResultados = false;
         for (int i=0; i<peticiones.size();i++) {
-            if (peticiones.get(i).getNumeroSucursal().getNroSucursal()== sucursal.getNroSucursal()) { // cuando encuentra una peticion que pertenece a esa sucursal
+            if (peticiones.get(i).getNumeroSucursal().getNroSucursal() == sucursal.getNroSucursal()) { // cuando encuentra una peticion que pertenece a esa sucursal
                 for (int j=0; j<peticiones.get(i).getPracticaAsociada().size();j++) {// recorre la lista de prácticas de esa petición
                     for (int k=0; k<resultados.size(); k++){
                         if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
@@ -222,12 +202,10 @@ public class Controller {
         return tieneResultados;
     }
 
-
     public int derivarSucursal(Sucursal sucursalOrigen, Sucursal sucursalDestino) {
-        int index2= getIndexSucursal(sucursalDestino.getNroSucursal());
         int retorno = 1;
-        int contador = 0; // cuenta las peticiones que se derivaron
-        if(index2 != -1){ //encontró sucursal de destino
+        if(sucursalDestino != null) { //encontró sucursal de destino
+            int contador = 0; // cuenta las peticiones que se derivaron
             for (int i=0;i<peticiones.size();i++){
                 if(peticiones.get(i).getNumeroSucursal().getNroSucursal() == sucursalOrigen.getNroSucursal()){ // cuando encuentra una peticion que pertenece a la sucursal
                     peticiones.get(i).setNumeroSucursal(sucursalDestino); // setea la sucursal como la de destino
@@ -239,12 +217,8 @@ public class Controller {
                     retorno = 3; // si no derivó nada porque la sucursal no tenía peticiones, retorna 3
                 }
             }
-
-        } else {
-            System.out.print("Sucursal de destino no encontrada");
         }
         return retorno; // retorna 1 si no encontró sucursal destino
-
     }
 
     private static void initPracticas(){
@@ -291,6 +265,17 @@ public class Controller {
         return practica;
     }
 
+    public static Sucursal toModelEliminarSucursalDTO(EliminarSucursalDTO dto) {
+        int numeroSucursal = Integer.valueOf(dto.getNumeroSucursal());
+        Sucursal sucursal = null;
+        for (int i=0; i < sucursales.size(); i++){
+            if(sucursales.get(i).getNroSucursal() == numeroSucursal){
+                sucursal = new Sucursal(sucursales.get(i).getNroSucursal(), sucursales.get(i).getDireccion(), sucursales.get(i).getResponsableTecnico(), sucursales.get(i).getListaPacientes());
+            }
+        }
+        return sucursal;
+    }
+
     public boolean modificarPractica(int codigoPractica,String nombre, String grupo, int valoresCriticos, int horaParaResultado) {
         int index = getIndexPractica(codigoPractica);
         boolean esModificable = false;
@@ -328,6 +313,25 @@ public class Controller {
         }
         return retorno; // retorna 0 si no encontró la practica
     }
+
+    public int eliminarSucursal(EliminarSucursalDTO origenDto, EliminarSucursalDTO destinoDto) {
+        Sucursal origen = toModelEliminarSucursalDTO(origenDto);
+        Sucursal destino = toModelEliminarSucursalDTO(destinoDto);
+        int retorno = 0;
+        if(origen != null) {
+            int index_origen = getIndexSucursal(origen.getNroSucursal());
+            if (!sucursalTieneResultados(sucursales.get(index_origen))){ // si no tiene resultados finalizados
+                retorno = derivarSucursal(origen, destino); // retorna 1 si no encontró la sucursal destino, retorna 2 si derivó, retorna 3 si no había peticiones e igual se eliminó
+                if (retorno == 2 || retorno == 3) {
+                    sucursales.remove(index_origen); // elimina la sucursal
+                }
+            } else {
+                retorno = 4; // retorna 4 si no se puede eliminar la sucursal por tener resultados finalizados
+            }
+        }
+        return retorno; // retorna 0 si no encontró la sucursal origen
+    }
+
 
     private static boolean esPracticaUsada (Practica practica) { // busca si la práctica que quiere eliminarse pertenece al conjunto de prácticas usadas
         if (practicasUsadas.contains(practica)) {
