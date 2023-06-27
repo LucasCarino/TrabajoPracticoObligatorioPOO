@@ -13,8 +13,6 @@ public class EliminarPractica extends JFrame{
     private JPanel contentPane;
     private JTextField codigopractica;
 
-    private JPanel contentPane;
-    private JTextField codigopractica;
 
     public EliminarPractica() {
         setResizable(false);
