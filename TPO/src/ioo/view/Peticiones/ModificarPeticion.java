@@ -1,4 +1,6 @@
 package ioo.view.Peticiones;
 
-public class ModificarPeticion {
+public class ModificarPeticion  {
+
+
 }

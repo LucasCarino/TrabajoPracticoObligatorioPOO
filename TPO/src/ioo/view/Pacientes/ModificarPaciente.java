@@ -144,7 +144,7 @@ public class ModificarPaciente extends JFrame {
                         MailPaciente.setText("");
                     }
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "no ingrese caracteres en los campos de solo numeros", "Error caracter ingresado erroneamente", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No ingrese caracteres en los campos de sólo numeros", "Error caracter ingresado erroneamente", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
