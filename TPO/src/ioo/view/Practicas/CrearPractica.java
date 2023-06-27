@@ -17,7 +17,6 @@ public class CrearPractica extends JFrame {
     private JTextField nombre;
     private JTextField grupo;
     private JTextField valoresCriticos;
-
     private JTextField valoresReservados;
     private JTextField horaParaResultado;
 

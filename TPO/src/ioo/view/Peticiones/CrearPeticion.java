@@ -1,6 +1,7 @@
 package ioo.view.Peticiones;
 
 import ioo.controller.Controller;
+import ioo.dto.PacienteDTO;
 import ioo.dto.PeticionDTO;
 
 import javax.swing.JComboBox;
@@ -100,19 +101,18 @@ public class CrearPeticion extends JFrame {
                     }
                     else {
                         int nro_peticion = Integer.parseInt(numeroPeticion.getText());
-                        int nombre_paciente = Integer.parseInt(NumeroPaciente.getText());
+                        int nro_paciente = Integer.parseInt(NumeroPaciente.getText());
                         String obra_social = (obraSocial.getText());
                         int practicas_asociadas = Integer.parseInt(practicasAsociadas.getText());
                         int nro_sucursal = Integer.parseInt(numeroSucursal.getText());
 
-                        //PeticionDTO nueva_peticion = new PeticionDTO(nro_peticion, nombre_paciente, obra_social, practicas_asociadas, nro_sucursal);
+                        //PeticionDTO nueva_peticion = new PeticionDTO(nro_peticion, nro_paciente, obra_social, practicas_asociadas, nro_sucursal);
                         //boolean respuesta = Controller.getControlador().crearPeticion(nro_peticion);
-
                         boolean respuesta = true;
                         if (respuesta) {
-                            JOptionPane.showMessageDialog(null, "El paciente se ha creado correctamente", "Paciente Creado", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "El paciente se ha creado correctamente", "Petición Creada", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "El paciente ya existe en el sistema", "Paciente Duplicado", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "El paciente ya existe en el sistema", "Petición Duplicada", JOptionPane.ERROR_MESSAGE);
                         }
                         numeroPeticion.setText("");
                         NumeroPaciente.setText("");

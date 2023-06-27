@@ -274,15 +274,16 @@ public class Controller {
         return sucursal;
     }
 
-    public boolean modificarPractica(int codigoPractica,String nombre, String grupo, int valoresCriticos, int horaParaResultado) {
-        int index = getIndexPractica(codigoPractica);
+    public boolean modificarPractica(PracticaDTO dto) {
+        Practica practicaAux = toModelPractica(dto);
+        int index = getIndexPractica(practicaAux.getCodigoPractica());
         boolean esModificable = false;
         if(index != -1){
             esModificable = true;
-            practicas.get(index).setNombre(nombre);
-            practicas.get(index).setGrupo(grupo);
-            practicas.get(index).setValoresCriticos(valoresCriticos);
-            practicas.get(index).setHoraParaResultado(horaParaResultado);
+            practicas.get(index).setNombre(practicaAux.getNombre());
+            practicas.get(index).setGrupo(practicaAux.getGrupo());
+            practicas.get(index).setValoresCriticos(practicaAux.getValoresCriticos());
+            practicas.get(index).setHoraParaResultado(practicaAux.getHoraParaResultado());
         }
         return esModificable;
     }
@@ -402,8 +403,8 @@ public class Controller {
         return esModificable;
     }
 
-    public boolean eliminarPeticion(Peticion peticion) {
-        int index = getIndexPeticion(peticion.getNumeroPeticion());
+    public boolean eliminarPeticion(EliminarPeticionDTO dto) {
+        int index = getIndexPeticion(dto.getnumeroPeticion());
         boolean eseEliminable = false;
         if(index != -1){
             eseEliminable = true;
