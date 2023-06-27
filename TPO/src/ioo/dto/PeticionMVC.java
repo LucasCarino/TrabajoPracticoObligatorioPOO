@@ -7,38 +7,49 @@ import java.util.List;
 
 public class PeticionMVC {
 
-    private int numeroPeticion;
-    private int numeroPaciente;
+    private String numeroPeticion;
+    private String numeroPaciente;
+
+    private String nombrePaciente;
     private String obraSocial;
     private List<String> practicaAsociada;
     private List<String> GrupodePracticas;
-    private Sucursal numeroSucursal;
-    private List<Integer> resultado;
+    private String numeroSucursal;
+    private List<String> resultado;
 
-    public PeticionMVC(int numeroPeticion, int numeroPaciente, String obraSocial, List<String> practicaAsociada, List<String> grupodePracticas, Sucursal numeroSucursal, List<Integer> resultado) {
+    public PeticionMVC(String numeroPeticion, String numeroPaciente, String nombrePaciente, String obraSocial, List<String> practicaAsociada, List<String> grupodePracticas, String numeroSucursal, List<String> resultado) {
         this.numeroPeticion = numeroPeticion;
         this.numeroPaciente = numeroPaciente;
+        this.nombrePaciente = nombrePaciente;
         this.obraSocial = obraSocial;
         this.practicaAsociada = practicaAsociada;
-        this.GrupodePracticas = grupodePracticas;
+        GrupodePracticas = grupodePracticas;
         this.numeroSucursal = numeroSucursal;
         this.resultado = resultado;
     }
 
-    public int getNumeroPeticion() {
+    public String getNumeroPeticion() {
         return numeroPeticion;
     }
 
-    public void setNumeroPeticion(int numeroPeticion) {
+    public void setNumeroPeticion(String numeroPeticion) {
         this.numeroPeticion = numeroPeticion;
     }
 
-    public int getNumeroPaciente() {
+    public String getNumeroPaciente() {
         return numeroPaciente;
     }
 
-    public void setNumeroPaciente(int numeroPaciente) {
+    public void setNumeroPaciente(String numeroPaciente) {
         this.numeroPaciente = numeroPaciente;
+    }
+
+    public String getNombrePaciente() {
+        return nombrePaciente;
+    }
+
+    public void setNombrePaciente(String nombrePaciente) {
+        this.nombrePaciente = nombrePaciente;
     }
 
     public String getObraSocial() {
@@ -65,21 +76,19 @@ public class PeticionMVC {
         GrupodePracticas = grupodePracticas;
     }
 
-    public Sucursal getNumeroSucursal() {
+    public String getNumeroSucursal() {
         return numeroSucursal;
     }
 
-    public void setNumeroSucursal(Sucursal numeroSucursal) {
+    public void setNumeroSucursal(String numeroSucursal) {
         this.numeroSucursal = numeroSucursal;
     }
 
-    public List<Integer> getResultado() {
+    public List<String> getResultado() {
         return resultado;
     }
 
-    public void setResultado(List<Integer> resultado) {
+    public void setResultado(List<String> resultado) {
         this.resultado = resultado;
     }
-
-
 }

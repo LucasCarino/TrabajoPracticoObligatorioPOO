@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ModificarSucursal extends JFrame {
-        private JPanel contentPane;
+/*        private JPanel contentPane;
         private JTextField nroSucursal;
         private JTextField direccion;
         private JTextField nombreResponsableTecnico;
@@ -107,5 +107,5 @@ public class ModificarSucursal extends JFrame {
             contentPane.add(btnNewButton);
         }
     }
-
+*/
 }

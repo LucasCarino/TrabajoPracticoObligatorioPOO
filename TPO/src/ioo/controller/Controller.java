@@ -117,7 +117,7 @@ public class Controller {
     }
 
 
-    private int getIndexPaciente(int nroPaciente){
+    private static int getIndexPaciente(int nroPaciente){
         for (int i=0;i<pacientes.size();i++){
             if(pacientes.get(i).getNumeroPaciente() == nroPaciente){
                 return i;
@@ -352,6 +352,8 @@ public class Controller {
         List<Practica> listaPracticas2 = asignarPracticaAPeticion(codigosPractica2);
         peticiones.add(new Peticion(111,buscarPaciente(1),"OSDE",new Date(),listaPracticas1,calcularFechaEntrega(listaPracticas1),buscarSucursal(1)));
         peticiones.add(new Peticion(222,buscarPaciente(2),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
+        peticiones.add(new Peticion(333,buscarPaciente(2),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
+
     }
 
     private static Date calcularFechaEntrega (List<Practica> listaPracticas){
@@ -385,9 +387,20 @@ public class Controller {
 
     public static Peticion toModelPeticion(PeticionDTO dto) {
         int nroPeticion = Integer.valueOf(dto.getNumeroPeticion());
-        Peticion peticion = new Peticion(nroPeticion,dto.getNumeroPaciente(),dto.getObraSocial(),dto.getPracticaAsociada(),dto.getNumeroSucursal());
+        int indexPaciente = getIndexPaciente(dto.getNumeroPaciente());
+        Paciente paciente = pacientes.get(indexPaciente);
+        List<Practica> practicas = new ArrayList<>();
+        for (int i=0;i<dto.getPracticaAsociada().size();i++){
+            int indexPractica = getIndexPractica(dto.getPracticaAsociada().get(i));
+            practicas.add(practicas.get(indexPractica));
+        }
+        int indexSucursal = getIndexSucursal(dto.getNumeroSucursal());
+        Sucursal sucursal = sucursales.get(indexSucursal);
+        Peticion peticion = new Peticion(nroPeticion,paciente,dto.getObraSocial(),practicas,sucursal);
         return peticion;
     }
+
+
 
     public boolean modificarPeticion(int nroPeticion, Paciente paciente, String obraSocial, Date fechaCarga, List<Practica> practicaAsociada, Date fechaEntrega,Sucursal sucursal) {
         int index = getIndexPeticion(nroPeticion);
@@ -445,21 +458,28 @@ public class Controller {
 
     public PeticionMVC peticionToVista(Peticion peticion) {
         int paciente = peticion.getNumeroPaciente().getNumeroPaciente();
+        String nombrePaciente = null;
+        for (int i=0; i<pacientes.size();i++){
+            if (pacientes.get(i).getNumeroPaciente() == peticion.getNumeroPaciente().getNumeroPaciente() ){
+                nombrePaciente = pacientes.get(i).getNombre();
+                break;
+            }
+        }
         List<String> practicas = new ArrayList<>();
         List<String> grupos = new ArrayList<>();
-        List<Integer> resultado = new ArrayList<>();
+        List<String> resultado = new ArrayList<>();
 
         for (int i=0; i<peticion.getPracticaAsociada().size();i++) {
             practicas.add(peticion.getPracticaAsociada().get(i).getNombre());
             grupos.add(peticion.getPracticaAsociada().get(i).getGrupo());
             for (int j=0; j<resultados.size();j++){
                 if (resultados.get(j).getCodigoPractica() == peticion.getPracticaAsociada().get(i).getCodigoPractica()) {
-                    resultado.add(resultados.get(j).getValor());
+                    resultado.add(String.valueOf(resultados.get(j).getValor()));
                 }
             }
         }
 
-        PeticionMVC mvc = new PeticionMVC(peticion.getNumeroPeticion(), paciente, peticion.getObraSocial(), practicas, grupos, peticion.getNumeroSucursal(), resultado);
+        PeticionMVC mvc = new PeticionMVC(String.valueOf(peticion.getNumeroPeticion()), String.valueOf(paciente), nombrePaciente,peticion.getObraSocial(), practicas, grupos, String.valueOf(peticion.getNumeroSucursal()), resultado);
 
         return mvc;
 
@@ -474,25 +494,31 @@ public class Controller {
         return esvalorCritico;
     }
 
-    public int sePuedeMostrarPeticion (int nroPeticion){ // ver como hacer porque tiene que retornar la peticion o el mensaje de que no se puede mostrar
+    public int sePuedeMostrarPeticion (int nroPeticion){
         int index = getIndexPeticion(nroPeticion);
         int retorno = 0;
         if(index != -1){ // encontro la peticion
+            System.out.print("encontro la peticion");
             retorno = 1; // retorna 1 si la peticion se puede mostrar
             boolean bandera = true;
+            boolean tieneResultados = false;
                for (int j=0; j<peticiones.get(index).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
                    for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
                        if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                           System.out.print("encontro resultados para esa peticion");
+                           tieneResultados = true;
                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticaAsociada().get(j).getValoresCriticos(), peticiones.get(index).getPracticaAsociada().get(j).isValoresReservados())) {
                                bandera = false; // detiene los for que recorren los resultados y las practicas de la peticion
                                retorno = 2; //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
-                            } else {
-                               peticionAMostrar = peticiones.get(index);
-                           }
+                            }
                         }
                     }
                 }
             }
+        if (retorno ==1){
+            peticionAMostrar = peticiones.get(index);
+            System.out.print("agrego a peticionAMostrar");
+        }
         return retorno;
     }
 

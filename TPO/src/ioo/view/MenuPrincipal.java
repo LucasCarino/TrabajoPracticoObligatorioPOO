@@ -1,5 +1,6 @@
 package ioo.view;
 
+import ioo.view.Listas.MostrarPeticion;
 import ioo.view.Pacientes.CrearPaciente;
 import ioo.view.Pacientes.EliminarPaciente;
 import ioo.view.Pacientes.ModificarPaciente;
@@ -214,10 +215,12 @@ public class MenuPrincipal extends JFrame {
         botonConsultarResultadoPeticionesResultadoCritico.setBounds(90, 110, 300, 45);
         contentPane.add(botonConsultarResultadoPeticionesResultadoCritico);
 
-        JButton MostrarPeticion = new JButton("Mostrar Peticiones");
+        JButton MostrarPeticion = new JButton("Mostrar Peticion");
         MostrarPeticion.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                new MostrarPeticion();
+                MostrarPeticion ventana = new MostrarPeticion();
+                ventana.setVisible(true);
+
             }
         });
         MostrarPeticion.setFont(new Font("Tahoma", Font.PLAIN, 16));

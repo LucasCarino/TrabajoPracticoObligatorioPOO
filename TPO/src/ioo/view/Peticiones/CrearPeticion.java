@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -40,7 +42,7 @@ public class CrearPeticion extends JFrame {
         contentPane.add(lbPeticionId);
 
         numeroPeticion = new JTextField();
-        numeroPeticion.setBounds(124, 5, 50, 20);
+        numeroPeticion.setBounds(150, 5, 50, 20);
         contentPane.add(numeroPeticion);
         numeroPeticion.setColumns(10);
 
@@ -49,40 +51,50 @@ public class CrearPeticion extends JFrame {
         contentPane.add(lbNumeroPaciente);
 
         NumeroPaciente = new JTextField();
-        NumeroPaciente.setBounds(124, 28, 275, 20);
+        NumeroPaciente.setBounds(150, 28, 50, 20);
         contentPane.add(NumeroPaciente);
         NumeroPaciente.setColumns(10);
 
         JLabel lbObraSocial = new JLabel("Obra Social:");
-        lbObraSocial.setBounds(10, 55, 46, 14);
+        lbObraSocial.setBounds(10, 55, 120, 14);
         contentPane.add(lbObraSocial);
 
         obraSocial = new JTextField();
-        obraSocial.setBounds(124, 53, 156, 20);
+        obraSocial.setBounds(150, 53, 156, 20);
         contentPane.add(obraSocial);
         obraSocial.setColumns(10);
 
-        String[] opciones = {"Glucemia", "Colesterol", "Cloruro", "Creatinina", "HIV"};
-        JLabel lbpracticaAsociada = new JLabel("Código de prácticas:");
-        lbpracticaAsociada.setBounds(10, 106, 90, 14);
-        JComboBox<String> listaDesplegable = new JComboBox<>(opciones);
-        listaDesplegable.setBounds(20, 126, 90, 14);
-        contentPane.add(lbpracticaAsociada);
-        contentPane.add(listaDesplegable);
-
-        practicasAsociadas = new JTextField();
-        practicasAsociadas.setBounds(124, 104, 30, 20);
-        contentPane.add(practicasAsociadas);
-        practicasAsociadas.setColumns(10);
-
         JLabel lbnumerosucursal = new JLabel("Número de Sucursal:");
-        lbnumerosucursal.setBounds(10, 155, 90, 14);
+        lbnumerosucursal.setBounds(10, 80, 150, 14);
         contentPane.add(lbnumerosucursal);
 
         numeroSucursal = new JTextField();
-        numeroSucursal.setBounds(124, 154, 132, 20);
+        numeroSucursal.setBounds(150, 80, 132, 20);
         contentPane.add(numeroSucursal);
         numeroSucursal.setColumns(10);
+
+
+        JLabel lbpracticaAsociada = new JLabel("Código de prácticas:");
+        lbpracticaAsociada.setBounds(10, 106, 120, 14);
+        contentPane.add(lbpracticaAsociada);
+        JCheckBox checkbox1 = new JCheckBox("Glucemia");
+        JCheckBox checkbox2 = new JCheckBox("Colesterol");
+        JCheckBox checkbox3 = new JCheckBox("Cloruro");
+        JCheckBox checkbox4 = new JCheckBox("Creatinina");
+        JCheckBox checkbox5 = new JCheckBox("HIV");
+        checkbox1.setBounds(150, 106, 120, 20);
+        checkbox2.setBounds(150, 126, 120, 20);
+        checkbox3.setBounds(150, 146, 120, 20);
+        checkbox4.setBounds(150, 166, 120, 20);
+        checkbox5.setBounds(150, 186, 120, 20);
+        contentPane.add(checkbox1);
+        contentPane.add(checkbox2);
+        contentPane.add(checkbox3);
+        contentPane.add(checkbox4);
+        contentPane.add(checkbox5);
+
+
+
 
         JButton btnCrearPeticion = new JButton("Crear Petición");
         btnCrearPeticion.addActionListener(new ActionListener() {
@@ -94,25 +106,47 @@ public class CrearPeticion extends JFrame {
                         JOptionPane.showMessageDialog(null, "el campo de nro paciente debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     } else if (obraSocial.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de Obra Social debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
-                    } else if (practicasAsociadas.getText().equalsIgnoreCase("")) {
-                        JOptionPane.showMessageDialog(null, "el campo de Prácticas Asociadas debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
+                    } else if (!checkbox1.isSelected() && !checkbox2.isSelected() && !checkbox3.isSelected() && !checkbox4.isSelected() && !checkbox4.isSelected() || !checkbox5.isSelected()) {
+                        JOptionPane.showMessageDialog(null, "Debe escoger al menos una práctica", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     }else if (numeroSucursal.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de nro de Sucursal debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     }
                     else {
+                        List<Integer> practicasSeleccionadas = new ArrayList<>();
+
                         int nro_peticion = Integer.parseInt(numeroPeticion.getText());
                         int nro_paciente = Integer.parseInt(NumeroPaciente.getText());
                         String obra_social = (obraSocial.getText());
-                        int practicas_asociadas = Integer.parseInt(practicasAsociadas.getText());
                         int nro_sucursal = Integer.parseInt(numeroSucursal.getText());
+                        checkbox1.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                if (checkbox1.isSelected()) {
+                                    practicasSeleccionadas.add(0001);
+                                }
+                                if (checkbox2.isSelected()) {
+                                    practicasSeleccionadas.add(0002);
 
-                        //PeticionDTO nueva_peticion = new PeticionDTO(nro_peticion, nro_paciente, obra_social, practicas_asociadas, nro_sucursal);
-                        //boolean respuesta = Controller.getControlador().crearPeticion(nro_peticion);
-                        boolean respuesta = true;
+                                }
+                                if (checkbox3.isSelected()) {
+                                    practicasSeleccionadas.add(0003);
+                                }
+                                if (checkbox4.isSelected()) {
+                                    practicasSeleccionadas.add(0004);
+                                }
+                                if (checkbox5.isSelected()) {
+                                    practicasSeleccionadas.add(0005);
+                                }
+
+                            }
+                        });
+
+
+                        PeticionDTO nueva_peticion = new PeticionDTO(nro_peticion, nro_paciente, obra_social, practicasSeleccionadas, nro_sucursal);
+                        boolean respuesta = Controller.getControlador().crearPeticion(nueva_peticion);
                         if (respuesta) {
-                            JOptionPane.showMessageDialog(null, "El paciente se ha creado correctamente", "Petición Creada", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "La petición se ha creado correctamente", "Petición Creada", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "El paciente ya existe en el sistema", "Petición Duplicada", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "La petición ya existe en el sistema", "Petición Duplicada", JOptionPane.ERROR_MESSAGE);
                         }
                         numeroPeticion.setText("");
                         NumeroPaciente.setText("");

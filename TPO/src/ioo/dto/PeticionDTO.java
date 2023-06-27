@@ -10,12 +10,12 @@ import java.util.List;
 
 public class PeticionDTO {
     private int numeroPeticion;
-    private Paciente numeroPaciente;
+    private int numeroPaciente;
     private String obraSocial;
-    private List<Practica> practicaAsociada;
-    private Sucursal numeroSucursal;
+    private List<Integer> practicaAsociada;
+    private int numeroSucursal;
 
-    public PeticionDTO(int numeroPeticion, Paciente numeroPaciente, String obraSocial, List<Practica> practicaAsociada, Sucursal numeroSucursal) {
+    public PeticionDTO(int numeroPeticion, int numeroPaciente, String obraSocial, List<Integer> practicaAsociada, int numeroSucursal) {
         this.numeroPeticion = numeroPeticion;
         this.numeroPaciente = numeroPaciente;
         this.obraSocial = obraSocial;
@@ -27,7 +27,7 @@ public class PeticionDTO {
         return numeroPeticion;
     }
 
-    public Paciente getNumeroPaciente() {
+    public int getNumeroPaciente() {
         return numeroPaciente;
     }
 
@@ -35,11 +35,11 @@ public class PeticionDTO {
         return obraSocial;
     }
 
-    public List<Practica> getPracticaAsociada() {
+    public List<Integer> getPracticaAsociada() {
         return practicaAsociada;
     }
 
-    public Sucursal getNumeroSucursal() {
+    public int getNumeroSucursal() {
         return numeroSucursal;
     }
 
@@ -47,7 +47,7 @@ public class PeticionDTO {
         this.numeroPeticion = numeroPeticion;
     }
 
-    public void setNumeroPaciente(Paciente numeroPaciente) {
+    public void setNumeroPaciente(int numeroPaciente) {
         this.numeroPaciente = numeroPaciente;
     }
 
@@ -55,11 +55,11 @@ public class PeticionDTO {
         this.obraSocial = obraSocial;
     }
 
-    public void setPracticaAsociada(List<Practica> practicaAsociada) {
+    public void setPracticaAsociada(List<Integer> practicaAsociada) {
         this.practicaAsociada = practicaAsociada;
     }
 
-    public void setNumeroSucursal(Sucursal numeroSucursal) {
+    public void setNumeroSucursal(int numeroSucursal) {
         this.numeroSucursal = numeroSucursal;
     }
 }
