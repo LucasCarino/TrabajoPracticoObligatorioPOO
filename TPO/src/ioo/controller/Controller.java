@@ -576,7 +576,6 @@ public class Controller {
     public boolean crearResultado(ResultadoDTO resultado) { // hacer una comprobacion de que si la practica ya tiene resultado no permita cargar otro
         Resultado resultadoAux = toModelResultado(resultado);
         boolean sePuedeCrear = true;
-        boolean isExist = false;
         for(int i = 0; i < resultados.size(); i++) {
             if(resultadoAux.getIdResultado() == resultados.get(i).getIdResultado()) {
                 sePuedeCrear = false;
@@ -621,17 +620,27 @@ public class Controller {
         return -1;
     }
 
-   /*  public PacienteMVC mostrarPaciente (int nroPaciente) {
-
+    public PacienteMVC mostrarPaciente (int nroPaciente) { // para vista: si el retorno es null, no encontro el paciente
+        PacienteMVC mvc = null;
+        int index = getIndexPaciente(nroPaciente);
+        if (index!= -1) {
+            mvc = pacienteToVista(pacientes.get(index));
+        }
+        return mvc;
     }
 
    private static PacienteMVC pacienteToVista (Paciente paciente) {
-        List<Integer> peticiones = new ArrayList<>();
+        List<Integer> peticionesDelPaciente = new ArrayList<>();
         for (int i=0;i<peticiones.size();i++){
-            if (peticiones.get(i))
+            if(peticiones.get(i).getNumeroPaciente().getNumeroPaciente()== paciente.getNumeroPaciente()){
+                peticionesDelPaciente.add(peticiones.get(i).getNumeroPeticion());
+            }
         }
-        PacienteMVC mvc = new PacienteMVC(paciente.getNumeroPaciente(),paciente.getSexo(),paciente.getEdad(),paciente.getDni(),paciente.getNombre(),paciente.getDomicilio(),paciente.getMail(),)
-    }*/
+        PacienteMVC mvc = new PacienteMVC(paciente.getNumeroPaciente(),paciente.getSexo(),paciente.getEdad(),paciente.getDni(),paciente.getNombre(),paciente.getDomicilio(),paciente.getMail(),peticionesDelPaciente);
+        return mvc;
+    }
+
+
 }
 
 
