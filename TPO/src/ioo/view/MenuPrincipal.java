@@ -1,5 +1,12 @@
 package ioo.view;
 
+import ioo.view.Pacientes.CrearPaciente;
+import ioo.view.Pacientes.EliminarPaciente;
+import ioo.view.Pacientes.ModificarPaciente;
+import ioo.view.Peticiones.EliminarPeticion;
+import ioo.view.Practicas.CrearPractica;
+import ioo.view.Practicas.EliminarPractica;
+import ioo.view.Sucursal.EliminarSucursal;
 import lombok.SneakyThrows;
 
 import javax.swing.*;

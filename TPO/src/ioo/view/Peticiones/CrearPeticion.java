@@ -1,4 +1,4 @@
-package ioo.view;
+package ioo.view.Peticiones;
 
 import ioo.controller.Controller;
 import ioo.dto.PeticionDTO;

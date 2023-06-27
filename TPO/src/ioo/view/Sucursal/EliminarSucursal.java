@@ -1,4 +1,4 @@
-package ioo.view;
+package ioo.view.Sucursal;
 import ioo.controller.Controller;
 import ioo.dto.EliminarSucursalDTO;
 

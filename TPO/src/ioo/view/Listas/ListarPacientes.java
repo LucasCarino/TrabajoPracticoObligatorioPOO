@@ -1,4 +1,4 @@
-package ioo.view;
+package ioo.view.Listas;
 
 public class ListarPacientes {
 }

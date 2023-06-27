@@ -1,4 +1,4 @@
-package ioo.view;
+package ioo.view.Pacientes;
 
 import ioo.controller.Controller;
 import ioo.dto.PacienteDTO;
