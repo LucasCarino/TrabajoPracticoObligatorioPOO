@@ -1,14 +1,11 @@
 package ioo.dto;
 
-import ioo.model.Resultado;
-
 public class PracticaDTO {
 
     private int codigoPractica;
     private String nombre;
     private String grupo;
     private int valoresCriticos;
-
     private boolean valoresReservados;
     private int horaParaResultado;
 

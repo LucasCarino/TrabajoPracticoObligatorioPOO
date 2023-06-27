@@ -8,7 +8,7 @@ import java.util.List;
 public class Peticion {
 
     private int numeroPeticion;
-    private Paciente numeroPaciente; // int? antes era clase Paciente
+    private Paciente numeroPaciente;
     private String obraSocial;
     private Date fechaCarga;
     private List<Practica> practicaAsociada;

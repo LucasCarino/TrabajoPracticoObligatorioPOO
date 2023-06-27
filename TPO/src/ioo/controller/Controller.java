@@ -219,10 +219,11 @@ public class Controller {
 
     private static void initPracticas(){
         practicas = new ArrayList<>();
-        practicas.add(new Practica(0001,"Glucemia","sangre",126, false,72)); //ok
-        practicas.add(new Practica(0002,"Colesterol","sangre",200,false,72)); //critico
-        practicas.add(new Practica(0003,"Cloruro","orina",106,false,72));  // ok
-        practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72)); // ok
+        practicas.add(new Practica(0001,"Glucemia","sangre",126, false,72));
+        practicas.add(new Practica(0002,"Colesterol","sangre",200,false,72));
+        practicas.add(new Practica(0003,"Cloruro","orina",106,false,72));
+        practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72));
+        practicas.add(new Practica(0005,"HIV","sangre",1,true, 72)); // reservado
     }
 
 
@@ -426,7 +427,7 @@ public class Controller {
                 for (int j=0; j<peticiones.get(i).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
                     for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
                         if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
-                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(i).getPracticaAsociada().get(j).getValoresCriticos())) {
+                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(i).getPracticaAsociada().get(j).getValoresCriticos(), peticiones.get(i).getPracticaAsociada().get(j).isValoresReservados())) {
                                 peticionesConValoresCriticos.add(peticiones.get(i));
                                 bandera = false; // detiene los for que recorren los resultados y las practicas de esa peticion
                             }
@@ -436,14 +437,35 @@ public class Controller {
 
             }
 
-
         return peticionesConValoresCriticos;
     }
 
+    public PeticionMVC PeticiontoVista(Peticion peticion) {
+        int paciente = peticion.getNumeroPaciente().getNumeroPaciente();
+        List<String> practicas = new ArrayList<>();
+        List<String> grupos = new ArrayList<>();
+        List<Integer> resultado = new ArrayList<>();
 
-    private static boolean esValorCritico (int valor, int valorCriticoParametro){
+        for (int i=0; i<peticion.getPracticaAsociada().size();i++) {
+            practicas.add(peticion.getPracticaAsociada().get(i).getNombre());
+            grupos.add(peticion.getPracticaAsociada().get(i).getGrupo());
+            for (int j=0; j<resultados.size();j++){
+                if (resultados.get(j).getCodigoPractica() == peticion.getPracticaAsociada().get(i).getCodigoPractica()) {
+                    resultado.add(resultados.get(j).getValor());
+                }
+            }
+        }
+
+        PeticionMVC mvc = new PeticionMVC(peticion.getNumeroPeticion(), paciente, peticion.getObraSocial(), practicas, grupos, peticion.getNumeroSucursal(), resultado);
+
+        return mvc;
+
+    }
+
+
+    private static boolean esValorCritico (int valor, int valorCriticoParametro, boolean reservado){
         boolean esvalorCritico = false;
-        if (valor>valorCriticoParametro){
+        if (valor>valorCriticoParametro || reservado ){
             esvalorCritico = true;
         }
         return esvalorCritico;
@@ -458,7 +480,7 @@ public class Controller {
                for (int j=0; j<peticiones.get(index).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
                    for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
                        if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
-                           if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticaAsociada().get(j).getValoresCriticos())) {
+                           if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticaAsociada().get(j).getValoresCriticos(), peticiones.get(index).getPracticaAsociada().get(j).isValoresReservados())) {
                                bandera = false; // detiene los for que recorren los resultados y las practicas de la peticion
                                retorno = 2; //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
                             }
