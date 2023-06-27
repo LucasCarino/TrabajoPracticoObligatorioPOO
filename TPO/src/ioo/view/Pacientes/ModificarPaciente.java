@@ -128,7 +128,6 @@ public class ModificarPaciente extends JFrame {
                         PacienteDTO modificacion_paciente = new PacienteDTO(nro_paciente, sexo_paciente, edad_paciente, dni_paciente,
                                 nombre_paciente, domicilio_paciente, mail_paciente);
                         boolean respuesta = Controller.getControlador().modificarPaciente(modificacion_paciente);
-                        Controller.getPacientes();
 
                         if (respuesta) {
                             JOptionPane.showMessageDialog(null, "El paciente se ha modificado correctamente", "Paciente Modificado!", JOptionPane.INFORMATION_MESSAGE);

@@ -7,6 +7,7 @@ import ioo.view.Peticiones.CrearPeticion;
 import ioo.view.Peticiones.EliminarPeticion;
 import ioo.view.Practicas.CrearPractica;
 import ioo.view.Practicas.EliminarPractica;
+import ioo.view.Sucursal.CrearSucursal;
 import ioo.view.Sucursal.EliminarSucursal;
 import lombok.SneakyThrows;
 
@@ -155,8 +156,8 @@ public class MenuPrincipal extends JFrame {
         JMenuItem mntmNewMenuItem10 = new JMenuItem("Crear Sucursal");
         mntmNewMenuItem10.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                CrearSucursal ventana = new CrearSucursal();
-//                ventana.setVisible(true);
+                CrearSucursal ventana = new CrearSucursal();
+                ventana.setVisible(true);
 
             }
         });

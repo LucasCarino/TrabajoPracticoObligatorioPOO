@@ -162,13 +162,14 @@ public class Controller {
         return sucursal;
     }
 
-    public boolean modificarSucursal(int nroSucursal, String direccion, String responsableTecnico) {
-        int index = getIndexSucursal(nroSucursal);
+    public boolean modificarSucursal(SucursalDTO dto) {
+        Sucursal SucursalAux = toModelSucursal(dto);
+        int index = getIndexSucursal(SucursalAux.getNroSucursal());
         boolean isExist = false;
         if(index != -1){
             isExist = true;
-            sucursales.get(index).setDireccion(direccion);
-            sucursales.get(index).setResponsableTecnico(responsableTecnico);
+            sucursales.get(index).setDireccion(SucursalAux.getDireccion());
+            sucursales.get(index).setResponsableTecnico(SucursalAux.getResponsableTecnico());
         }
         return isExist;
     }
