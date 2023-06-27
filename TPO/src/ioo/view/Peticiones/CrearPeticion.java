@@ -3,10 +3,14 @@ package ioo.view.Peticiones;
 import ioo.controller.Controller;
 import ioo.dto.PeticionDTO;
 
+import javax.swing.JComboBox;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 public class CrearPeticion extends JFrame {
 
@@ -20,6 +24,7 @@ public class CrearPeticion extends JFrame {
     public CrearPeticion() {
         setResizable(false);
         setTitle("Crear Petición");
+        JComboBox<String> comboBox;
 
         setBounds(100, 100, 442, 327);
         contentPane = new JPanel();
@@ -56,9 +61,13 @@ public class CrearPeticion extends JFrame {
         contentPane.add(obraSocial);
         obraSocial.setColumns(10);
 
+        String[] opciones = {"Glucemia", "Colesterol", "Cloruro", "Creatinina", "HIV"};
         JLabel lbpracticaAsociada = new JLabel("Código de prácticas:");
         lbpracticaAsociada.setBounds(10, 106, 90, 14);
+        JComboBox<String> listaDesplegable = new JComboBox<>(opciones);
+        listaDesplegable.setBounds(20, 126, 90, 14);
         contentPane.add(lbpracticaAsociada);
+        contentPane.add(listaDesplegable);
 
         practicasAsociadas = new JTextField();
         practicasAsociadas.setBounds(124, 104, 30, 20);

@@ -3,6 +3,7 @@ package ioo.view;
 import ioo.view.Pacientes.CrearPaciente;
 import ioo.view.Pacientes.EliminarPaciente;
 import ioo.view.Pacientes.ModificarPaciente;
+import ioo.view.Peticiones.CrearPeticion;
 import ioo.view.Peticiones.EliminarPeticion;
 import ioo.view.Practicas.CrearPractica;
 import ioo.view.Practicas.EliminarPractica;
@@ -84,8 +85,8 @@ public class MenuPrincipal extends JFrame {
         JMenuItem mntmNewMenuItem4 = new JMenuItem("Crear Petición");
         mntmNewMenuItem4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //CrearPeticion ventana = new CrearPeticion();
-                //ventana.setVisible(true);
+                CrearPeticion ventana = new CrearPeticion();
+                ventana.setVisible(true);
 
             }
         });
