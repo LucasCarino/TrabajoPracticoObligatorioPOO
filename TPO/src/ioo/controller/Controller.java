@@ -2,7 +2,6 @@ package ioo.controller;
 
 import ioo.dto.*;
 import ioo.model.*;
-import ioo.view.EliminarPractica;
 
 import java.util.*;
 
@@ -16,6 +15,8 @@ public class Controller {
     private static List<Peticion> peticiones;
 
     private static List<Resultado> resultados;
+
+    private static Peticion peticionAMostrar; // se va a usar en el metodo que muestra una peticion si es que no tiene resultados criticos
 
     private static HashSet<Practica> practicasUsadas = new HashSet<>(); //conjunto de practicas usadas
 
@@ -420,15 +421,15 @@ public class Controller {
         return -1;
     }
 
-    public List<Peticion> listarPeticionesConValoresCriticos () {
-        List<Peticion> peticionesConValoresCriticos = new ArrayList<>();
+    public List<PeticionMVC> listarPeticionesConValoresCriticos () {
+        List<PeticionMVC> peticionesConValoresCriticos = new ArrayList<>();
         for (int i=0; i<peticiones.size();i++) { // recorre todas las peticiones
             boolean bandera = true;
                 for (int j=0; j<peticiones.get(i).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
                     for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
                         if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
                             if (esValorCritico(resultados.get(k).getValor(),peticiones.get(i).getPracticaAsociada().get(j).getValoresCriticos(), peticiones.get(i).getPracticaAsociada().get(j).isValoresReservados())) {
-                                peticionesConValoresCriticos.add(peticiones.get(i));
+                                peticionesConValoresCriticos.add(peticionToVista(peticiones.get(i)));
                                 bandera = false; // detiene los for que recorren los resultados y las practicas de esa peticion
                             }
                         }
@@ -440,7 +441,7 @@ public class Controller {
         return peticionesConValoresCriticos;
     }
 
-    public PeticionMVC PeticiontoVista(Peticion peticion) {
+    public PeticionMVC peticionToVista(Peticion peticion) {
         int paciente = peticion.getNumeroPaciente().getNumeroPaciente();
         List<String> practicas = new ArrayList<>();
         List<String> grupos = new ArrayList<>();
@@ -471,8 +472,8 @@ public class Controller {
         return esvalorCritico;
     }
 
-    public int mostrarPeticion (Peticion peticion){ // ver como hacer porque tiene que retornar la peticion o el mensaje de que no se puede mostrar. REHACER CON LA NUEVA ESTRUCTURA DE RESULTADO
-        int index = getIndexPeticion(peticion.getNumeroPeticion());
+    public int sePuedeMostrarPeticion (int nroPeticion){ // ver como hacer porque tiene que retornar la peticion o el mensaje de que no se puede mostrar
+        int index = getIndexPeticion(nroPeticion);
         int retorno = 0;
         if(index != -1){ // encontro la peticion
             retorno = 1; // retorna 1 si la peticion se puede mostrar
@@ -483,12 +484,20 @@ public class Controller {
                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticaAsociada().get(j).getValoresCriticos(), peticiones.get(index).getPracticaAsociada().get(j).isValoresReservados())) {
                                bandera = false; // detiene los for que recorren los resultados y las practicas de la peticion
                                retorno = 2; //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
-                            }
+                            } else {
+                               peticionAMostrar = peticiones.get(index);
+                           }
                         }
                     }
                 }
             }
         return retorno;
+    }
+
+    public PeticionMVC mostrarPeticion () { // devuelve a la vista los datos de la peticion una vez que se confirma que se puede mostrar (no tiene resultados con valores reservados o criticos)
+        PeticionMVC mvc = peticionToVista(peticionAMostrar);
+        peticionAMostrar = null;
+        return mvc;
     }
 
     private static Paciente buscarPaciente(int nroPaciente){
