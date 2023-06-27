@@ -106,7 +106,7 @@ public class CrearPeticion extends JFrame {
                         JOptionPane.showMessageDialog(null, "el campo de nro paciente debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     } else if (obraSocial.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de Obra Social debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
-                    } else if (!checkbox1.isSelected() && !checkbox2.isSelected() && !checkbox3.isSelected() && !checkbox4.isSelected() && !checkbox4.isSelected() || !checkbox5.isSelected()) {
+                    } else if (!checkbox1.isSelected() && !checkbox2.isSelected() && !checkbox3.isSelected() && !checkbox4.isSelected() && !checkbox4.isSelected() && !checkbox5.isSelected()) {
                         JOptionPane.showMessageDialog(null, "Debe escoger al menos una práctica", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     }else if (numeroSucursal.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de nro de Sucursal debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
@@ -146,12 +146,11 @@ public class CrearPeticion extends JFrame {
                         if (respuesta) {
                             JOptionPane.showMessageDialog(null, "La petición se ha creado correctamente", "Petición Creada", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "La petición ya existe en el sistema", "Petición Duplicada", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Ya existe una petición con ese número en el sistema", "Petición Duplicada", JOptionPane.ERROR_MESSAGE);
                         }
                         numeroPeticion.setText("");
                         NumeroPaciente.setText("");
                         obraSocial.setText("");
-                        practicasAsociadas.setText("");
                         numeroSucursal.setText("");
                     }
                 } catch (NumberFormatException ex) {

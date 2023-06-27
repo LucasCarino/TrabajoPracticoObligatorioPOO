@@ -385,7 +385,7 @@ public class Controller {
         return sePuedeCrear;
     }
 
-    public static Peticion toModelPeticion(PeticionDTO dto) {
+    private static Peticion toModelPeticion(PeticionDTO dto) {
         int nroPeticion = Integer.valueOf(dto.getNumeroPeticion());
         int indexPaciente = getIndexPaciente(dto.getNumeroPaciente());
         Paciente paciente = pacientes.get(indexPaciente);
@@ -396,8 +396,8 @@ public class Controller {
         }
         int indexSucursal = getIndexSucursal(dto.getNumeroSucursal());
         Sucursal sucursal = sucursales.get(indexSucursal);
-        Peticion peticion = new Peticion(nroPeticion,paciente,dto.getObraSocial(),practicas,sucursal);
-        return peticion;
+        Peticion peticionNueva = new Peticion(nroPeticion,paciente,dto.getObraSocial(),practicas,sucursal);
+        return peticionNueva;
     }
 
 
@@ -468,18 +468,20 @@ public class Controller {
         List<String> practicas = new ArrayList<>();
         List<String> grupos = new ArrayList<>();
         List<String> resultado = new ArrayList<>();
-
+        System.out.println("largo "+ peticion.getPracticaAsociada().size());
         for (int i=0; i<peticion.getPracticaAsociada().size();i++) {
+            System.out.println("nombre practica "+ peticion.getPracticaAsociada().get(i).getNombre());
             practicas.add(peticion.getPracticaAsociada().get(i).getNombre());
+            System.out.println("nombre grupo "+ peticion.getPracticaAsociada().get(i).getGrupo());
             grupos.add(peticion.getPracticaAsociada().get(i).getGrupo());
             for (int j=0; j<resultados.size();j++){
                 if (resultados.get(j).getCodigoPractica() == peticion.getPracticaAsociada().get(i).getCodigoPractica()) {
+                    System.out.println("resultado "+ resultados.get(j).getValor());
                     resultado.add(String.valueOf(resultados.get(j).getValor()));
                 }
             }
         }
-
-        PeticionMVC mvc = new PeticionMVC(String.valueOf(peticion.getNumeroPeticion()), String.valueOf(paciente), nombrePaciente,peticion.getObraSocial(), practicas, grupos, String.valueOf(peticion.getNumeroSucursal()), resultado);
+        PeticionMVC mvc = new PeticionMVC(String.valueOf(peticion.getNumeroPeticion()), String.valueOf(paciente), nombrePaciente,peticion.getObraSocial(), practicas, grupos, String.valueOf(peticion.getNumeroSucursal().getNroSucursal()), resultado);
 
         return mvc;
 
@@ -496,6 +498,10 @@ public class Controller {
 
     public int sePuedeMostrarPeticion (int nroPeticion){
         int index = getIndexPeticion(nroPeticion);
+        System.out.print("index "+ index);
+        for (int i = 0; i<peticiones.size();i++){
+            System.out.println(peticiones.get(i).getNumeroPeticion());
+        }
         int retorno = 0;
         if(index != -1){ // encontro la peticion
             System.out.print("encontro la peticion");
@@ -524,6 +530,7 @@ public class Controller {
 
     public PeticionMVC mostrarPeticion () { // devuelve a la vista los datos de la peticion una vez que se confirma que se puede mostrar (no tiene resultados con valores reservados o criticos)
         PeticionMVC mvc = peticionToVista(peticionAMostrar);
+        System.out.print((mvc.getNumeroSucursal()));
         peticionAMostrar = null;
         return mvc;
     }

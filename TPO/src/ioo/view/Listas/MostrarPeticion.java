@@ -4,6 +4,7 @@ import ioo.controller.Controller;
 import ioo.dto.PeticionMVC;
 import ioo.dto.PracticaDTO;
 import ioo.model.Resultado;
+import ioo.view.Sucursal.EliminarSucursal;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +21,16 @@ public class MostrarPeticion extends JFrame{
 
     private JPanel contentPane;
 
+     private JLabel lblObraSocial;
+     private JLabel lblNroPeticion;
+
+     private JLabel lblNroPaciente;
+
+     private JLabel lblNombrePaciente;
+
+     private JLabel lblPracticas;
+
+     private JLabel lblNroSucursal;
     private JTextField codigoPeticion;
 
     public MostrarPeticion() {
@@ -63,7 +74,62 @@ public class MostrarPeticion extends JFrame{
                                 break;
                             case 1:
                                 PeticionMVC peticion = Controller.getControlador().mostrarPeticion();
-                                JOptionPane.showMessageDialog(null, "Obra social "+peticion.getObraSocial(), "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
+                                String numeroPeticion = "Número de petición: "+ peticion.getNumeroPeticion();
+                                if ( lblNroPeticion == null) {
+                                    lblNroPeticion = new JLabel();
+                                    lblNroPeticion.setBounds(10, 30, 200, 20);
+                                    getContentPane().add( lblNroPeticion);
+                                }
+                                lblNroPeticion.setText(numeroPeticion);
+
+                                String numeroSucursal = "Número de sucursal: "+ peticion.getNumeroSucursal();
+                                if ( lblNroSucursal == null) {
+                                    lblNroSucursal = new JLabel();
+                                    lblNroSucursal.setBounds(10, 50, 400, 20);
+                                    getContentPane().add( lblNroSucursal);
+                                }
+                                lblNroSucursal.setText(numeroSucursal);
+
+                                String numeroPaciente = "Número de paciente: "+ peticion.getNumeroPaciente();
+                                if ( lblNroPaciente == null) {
+                                    lblNroPaciente = new JLabel();
+                                    lblNroPaciente.setBounds(10, 70, 200, 20);
+                                    getContentPane().add(lblNroPaciente);
+                                }
+                                lblNroPaciente.setText(numeroPaciente);
+
+                                String nombrePaciente = "Nombre de paciente: "+ peticion.getNombrePaciente();
+                                if ( lblNombrePaciente == null) {
+                                    lblNombrePaciente = new JLabel();
+                                    lblNombrePaciente.setBounds(10, 90, 200, 20);
+                                    getContentPane().add( lblNombrePaciente);
+                                }
+                                lblNombrePaciente.setText(nombrePaciente);
+
+                                String obraSocial = "Obra social: " + peticion.getObraSocial();
+
+                                if ( lblObraSocial == null) {
+                                    lblObraSocial = new JLabel();
+                                    lblObraSocial.setBounds(10, 110, 200, 20);
+                                    getContentPane().add(lblObraSocial);
+                                }
+                               lblObraSocial.setText(obraSocial);
+
+                                String practicas = "";
+                                for (int i=0;i<peticion.getGrupodePracticas().size();i++){
+                                    System.out.print("prueba "+peticion.getGrupodePracticas().get(i));
+                                    practicas="Práctica: "+practicas+peticion.getGrupodePracticas().get(i)+" - Resultado: "+peticion.getResultado().get(i)+"\n";
+                                }
+                                if ( lblPracticas == null) {
+                                    lblPracticas = new JLabel();
+                                    lblPracticas.setBounds(10, 130, 200, 20);
+                                    getContentPane().add(lblPracticas);
+                                }
+                                lblPracticas.setText(practicas);
+
+
+                                revalidate();
+                                repaint();
 
                                 break;
                             case 2:
