@@ -97,7 +97,8 @@ public class CrearPeticion extends JFrame {
                         int nro_sucursal = Integer.parseInt(numeroSucursal.getText());
 
                         //PeticionDTO nueva_peticion = new PeticionDTO(nro_peticion, nombre_paciente, obra_social, practicas_asociadas, nro_sucursal);
-                       // boolean respuesta = Controller.getControlador().crearPeticion(nro_peticion);
+                        //boolean respuesta = Controller.getControlador().crearPeticion(nro_peticion);
+
                         boolean respuesta = true;
                         if (respuesta) {
                             JOptionPane.showMessageDialog(null, "El paciente se ha creado correctamente", "Paciente Creado", JOptionPane.INFORMATION_MESSAGE);

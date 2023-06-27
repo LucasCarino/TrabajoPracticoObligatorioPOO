@@ -1,6 +1,7 @@
 //package ioo.view.Listas;
 //
 //import ioo.controller.Controller;
+//import ioo.model.Paciente;
 //
 //import javax.swing.*;
 //import java.awt.*;
@@ -8,6 +9,7 @@
 //import java.awt.event.ActionListener;
 //import java.text.ParseException;
 //import java.text.SimpleDateFormat;
+//import java.util.ArrayList;
 //import java.util.Locale;
 //import java.util.Vector;
 //
@@ -42,7 +44,7 @@
 //            PeticionID.add(PeticionID);
 //            PeticionID.setColumns(10);
 //
-//            JButton btnListarPeticionesValoresC = new JButton("Buscar Peticiones Críticas");
+//            JButton btnListarPeticionesValoresC = new JButton("Listar Peticiones Críticas");
 //            btnListarPeticionesValoresC.addActionListener(new ActionListener() {
 //                public void actionPerformed(ActionEvent e) {
 //                    Vector<Vector<String>> data;
@@ -50,6 +52,8 @@
 //                        if (PeticionID.getText().equalsIgnoreCase("")) {
 //                            JOptionPane.showMessageDialog(null, "el campo de nro de petición debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);}
 //                        else {
+//
+//
 //                            int nro_peticion = Integer.parseInt(PeticionID.getText());
 //                            data = Controller
 //
@@ -88,4 +92,5 @@
 //            }
 //        }
 //
+//        }
 //    }

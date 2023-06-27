@@ -28,7 +28,7 @@ public class MenuPrincipal extends JFrame {
         setResizable(false);
         setBounds(100, 100, 476, 310);
         contentPane = new JPanel();
-        contentPane.setBackground(UIManager.getColor("Table.selectionBackground"));
+        contentPane.setBackground(UIManager.getColor("null"));
         contentPane.setToolTipText("");
         contentPane.setBorder(new LineBorder(new Color(0, 0, 0, 185)));
         setContentPane(contentPane);
@@ -43,7 +43,7 @@ public class MenuPrincipal extends JFrame {
         JMenu mnNewMenu = new JMenu("Pacientes");
         mnNewMenu.setHorizontalAlignment(SwingConstants.CENTER);
         mnNewMenu.setFont(new Font("Calibri", Font.PLAIN, 16));
-        mnNewMenu.setBackground(Color.gray);
+        mnNewMenu.setBackground(Color.darkGray);
         menuBar.add(mnNewMenu);
 
         JMenuItem mntmNewMenuItem = new JMenuItem("Crear Paciente");
@@ -194,7 +194,8 @@ public class MenuPrincipal extends JFrame {
         botonConsultarPacientes.setFont(new Font("Tahoma", Font.PLAIN, 16));
         botonConsultarPacientes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                new ConsultarListaPacientes();
+               // MostrarPacientes ventana = new MostrarPacientes();
+               // ventana.setVisible(true);
             }
         });
         botonConsultarPacientes.setBounds(90, 50, 300, 45);
@@ -220,16 +221,6 @@ public class MenuPrincipal extends JFrame {
         MostrarPeticion.setFont(new Font("Tahoma", Font.PLAIN, 16));
         MostrarPeticion.setBounds(90, 170, 300, 45);
         contentPane.add(MostrarPeticion);
-
-        JButton Info = new JButton("\uD83D\uDCAD");
-        Info.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-//                DatosEmpresa vent = new DatosEmpresa();
-//                vent.setVisible(true);
-            }
-        });
-        Info.setBounds(0, 247, 54, 22);
-        contentPane.add(Info);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
