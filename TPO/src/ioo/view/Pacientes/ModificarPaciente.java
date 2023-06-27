@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 
 public class ModificarPaciente extends JFrame {
     private JPanel contentPane;
-    private JTextField nroPaciente;
     private JTextField NombrePaciente;
     private JTextField EdadPaciente;
     private JTextField SexoPaciente;
@@ -30,14 +29,14 @@ public class ModificarPaciente extends JFrame {
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
 
-        JLabel lbPacienteId = new JLabel("ID:");
-        lbPacienteId.setBounds(10, 7, 120, 14);
-        contentPane.add(lbPacienteId);
+        JLabel lbDNIPaciente = new JLabel("DNI:");
+        lbDNIPaciente.setBounds(10, 7, 120, 14);
+        contentPane.add(lbDNIPaciente);
 
-        nroPaciente = new JTextField();
-        nroPaciente.setBounds(124, 5, 50, 20);
-        contentPane.add(nroPaciente);
-        nroPaciente.setColumns(10);
+        DNIPaciente  = new JTextField();
+        DNIPaciente .setBounds(124, 5, 50, 20);
+        contentPane.add(DNIPaciente );
+        DNIPaciente .setColumns(10);
 
         JLabel lbNombrePaciente = new JLabel("Nombre:");
         lbNombrePaciente.setBounds(10, 25, 120, 27);
@@ -48,14 +47,6 @@ public class ModificarPaciente extends JFrame {
         contentPane.add(NombrePaciente);
         NombrePaciente.setColumns(10);
 
-        JLabel lbDNIPaciente = new JLabel("DNI:");
-        lbDNIPaciente.setBounds(10, 55, 46, 14);
-        contentPane.add(lbDNIPaciente);
-
-        DNIPaciente = new JTextField();
-        DNIPaciente.setBounds(124, 53, 156, 20);
-        contentPane.add(DNIPaciente);
-        DNIPaciente.setColumns(10);
 
         JLabel lbEdadPaciente = new JLabel("Edad");
         lbEdadPaciente.setBounds(10, 78, 120, 28);
@@ -101,9 +92,7 @@ public class ModificarPaciente extends JFrame {
         btnModificarPaciente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (nroPaciente.getText().equalsIgnoreCase("")) {
-                        JOptionPane.showMessageDialog(null, "el campo de nro del paciente debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
-                    } else if (NombrePaciente.getText().equalsIgnoreCase("")) {
+                    if (NombrePaciente.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de nombre debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     } else if (DNIPaciente.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de DNI debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
@@ -117,7 +106,6 @@ public class ModificarPaciente extends JFrame {
                         JOptionPane.showMessageDialog(null, "el campo de Mail debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     }
                     else {
-                        int nro_paciente = Integer.parseInt(nroPaciente.getText());
                         String nombre_paciente = NombrePaciente.getText();
                         int dni_paciente = Integer.parseInt(DNIPaciente.getText());
                         int edad_paciente = Integer.parseInt(EdadPaciente.getText());
@@ -125,7 +113,7 @@ public class ModificarPaciente extends JFrame {
                         String domicilio_paciente = DomicilioPaciente.getText();
                         String mail_paciente = MailPaciente.getText();
 
-                        PacienteDTO modificacion_paciente = new PacienteDTO(nro_paciente, sexo_paciente, edad_paciente, dni_paciente,
+                        PacienteDTO modificacion_paciente = new PacienteDTO(sexo_paciente, edad_paciente, dni_paciente,
                                 nombre_paciente, domicilio_paciente, mail_paciente);
                         boolean respuesta = Controller.getControlador().modificarPaciente(modificacion_paciente);
 
@@ -134,7 +122,6 @@ public class ModificarPaciente extends JFrame {
                         } else {
                             JOptionPane.showMessageDialog(null, "El paciente no existe en el sistema", "Paciente no existe", JOptionPane.ERROR_MESSAGE);
                         }
-                        nroPaciente.setText("");
                         NombrePaciente.setText("");
                         DNIPaciente.setText("");
                         EdadPaciente.setText("");

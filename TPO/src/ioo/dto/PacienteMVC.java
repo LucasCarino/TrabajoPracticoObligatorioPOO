@@ -4,7 +4,6 @@ import java.util.List;
 
 public class PacienteMVC {
 
-    private int numeroPaciente;
     private String sexo;
     private int edad;
     private int dni;
@@ -13,8 +12,7 @@ public class PacienteMVC {
     private String mail;
     private List<Integer> peticiones;
 
-    public PacienteMVC(int numeroPaciente, String sexo, int edad, int dni, String nombre, String domicilio, String mail, List<Integer> peticiones) {
-        this.numeroPaciente = numeroPaciente;
+    public PacienteMVC(String sexo, int edad, int dni, String nombre, String domicilio, String mail, List<Integer> peticiones) {
         this.sexo = sexo;
         this.edad = edad;
         this.dni = dni;
@@ -24,13 +22,6 @@ public class PacienteMVC {
         this.peticiones = peticiones;
     }
 
-    public int getNumeroPaciente() {
-        return numeroPaciente;
-    }
-
-    public void setNumeroPaciente(int numeroPaciente) {
-        this.numeroPaciente = numeroPaciente;
-    }
 
     public String getSexo() {
         return sexo;

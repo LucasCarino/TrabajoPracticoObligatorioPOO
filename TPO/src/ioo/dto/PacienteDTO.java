@@ -1,7 +1,6 @@
 package ioo.dto;
 
 public class PacienteDTO {
-    private int numeroPaciente;
     private String sexo;
     private int edad;
     private int dni;
@@ -9,8 +8,7 @@ public class PacienteDTO {
     private String domicilio;
     private String mail;
 
-    public PacienteDTO(int numeroPaciente, String sexo, int edad, int dni, String nombre, String domicilio, String mail) {
-        this.numeroPaciente = numeroPaciente;
+    public PacienteDTO(String sexo, int edad, int dni, String nombre, String domicilio, String mail) {
         this.sexo = sexo;
         this.edad = edad;
         this.dni = dni;
@@ -19,13 +17,6 @@ public class PacienteDTO {
         this.mail = mail;
     }
 
-    public int getNumeroPaciente() {
-        return numeroPaciente;
-    }
-
-    public void setNumeroPaciente(int numeroPaciente) {
-        this.numeroPaciente = numeroPaciente;
-    }
 
     public String getSexo() {
         return sexo;

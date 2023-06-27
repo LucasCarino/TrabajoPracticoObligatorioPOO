@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 public class CrearPaciente extends JFrame {
 
     private JPanel contentPane;
-    private JTextField nroPaciente;
     private JTextField NombrePaciente;
     private JTextField EdadPaciente;
     private JTextField SexoPaciente;
@@ -30,14 +29,7 @@ public class CrearPaciente extends JFrame {
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
 
-        JLabel lbPacienteId = new JLabel("Nro Paciente:");
-        lbPacienteId.setBounds(10, 7, 120, 14);
-        contentPane.add(lbPacienteId);
 
-        nroPaciente = new JTextField();
-        nroPaciente.setBounds(124, 5, 50, 20);
-        contentPane.add(nroPaciente);
-        nroPaciente.setColumns(10);
 
         JLabel lbNombrePaciente = new JLabel("Nombre:");
         lbNombrePaciente.setBounds(10, 25, 120, 27);
@@ -101,9 +93,7 @@ public class CrearPaciente extends JFrame {
         btnCrearPaciente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (nroPaciente.getText().equalsIgnoreCase("")) {
-                        JOptionPane.showMessageDialog(null, "el campo de nro del paciente debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
-                    } else if (NombrePaciente.getText().equalsIgnoreCase("")) {
+                    if (NombrePaciente.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de nombre debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     } else if (DNIPaciente.getText().equalsIgnoreCase("")) {
                         JOptionPane.showMessageDialog(null, "el campo de DNI debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
@@ -117,7 +107,6 @@ public class CrearPaciente extends JFrame {
                         JOptionPane.showMessageDialog(null, "el campo de Mail debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     }
                     else {
-                        int nro_paciente = Integer.parseInt(nroPaciente.getText());
                         String nombre_paciente = NombrePaciente.getText();
                         int dni_paciente = Integer.parseInt(DNIPaciente.getText());
                         int edad_paciente = Integer.parseInt(EdadPaciente.getText());
@@ -125,7 +114,7 @@ public class CrearPaciente extends JFrame {
                         String domicilio_paciente = DomicilioPaciente.getText();
                         String mail_paciente = MailPaciente.getText();
 
-                        PacienteDTO nuevo_paciente = new PacienteDTO(nro_paciente, sexo_paciente, edad_paciente, dni_paciente,
+                        PacienteDTO nuevo_paciente = new PacienteDTO(sexo_paciente, edad_paciente, dni_paciente,
                                 nombre_paciente, domicilio_paciente, mail_paciente);
                         boolean respuesta = Controller.getControlador().crearPaciente(nuevo_paciente);
 
@@ -134,7 +123,6 @@ public class CrearPaciente extends JFrame {
                         } else {
                             JOptionPane.showMessageDialog(null, "El paciente ya existe en el sistema", "Paciente Duplicado", JOptionPane.ERROR_MESSAGE);
                         }
-                        nroPaciente.setText("");
                         NombrePaciente.setText("");
                         DNIPaciente.setText("");
                         EdadPaciente.setText("");

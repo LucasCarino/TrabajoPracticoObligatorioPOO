@@ -40,8 +40,8 @@ public class Controller {
 
     private static void initPacientes(){
         pacientes = new ArrayList<>();
-        pacientes.add(new Paciente(1, "M", 26, 40455964, "Lucas", "Calle falsa", "lucas@gmail.com"));
-        pacientes.add(new Paciente(2, "F", 23, 95123456, "Mafe", "Calle Belgrano", "mafe@gmail.com"));
+        pacientes.add(new Paciente("M", 26, 40455964, "Lucas", "Calle falsa", "lucas@gmail.com"));
+        pacientes.add(new Paciente( "F", 23, 95123456, "Mafe", "Calle Belgrano", "mafe@gmail.com"));
     }
 
     public static void getPacientes() {
@@ -54,7 +54,7 @@ public class Controller {
         Paciente pacienteAux = toModelPaciente(dto);
         boolean isExist = false;
         for(int i = 0; i < pacientes.size(); i++) {
-            if(pacienteAux.getNumeroPaciente() == pacientes.get(i).getNumeroPaciente()) {
+            if(pacienteAux.getDni() == pacientes.get(i).getDni()) {
                 isExist = true;
             }
         }
@@ -68,7 +68,7 @@ public class Controller {
 
     public boolean modificarPaciente(PacienteDTO dto) {
         Paciente pacienteAux = toModelPaciente(dto);
-        int index = getIndexPaciente(pacienteAux.getNumeroPaciente());
+        int index = getIndexPaciente(pacienteAux.getDni());
         boolean isExist = false;
         if(index != -1){
             pacientes.get(index).setSexo(pacienteAux.getSexo());
@@ -102,7 +102,7 @@ public class Controller {
     private static boolean pacienteTieneResultados (Paciente paciente) {
         boolean tieneResultados = false;
         for (int i=0; i<peticiones.size();i++) {
-            if (peticiones.get(i).getNumeroPaciente().getNumeroPaciente()== paciente.getNumeroPaciente()) { // cuando encuentra una peticion que pertenece al paciente
+            if (peticiones.get(i).getNumeroPaciente().getDni()== paciente.getDni()) { // cuando encuentra una peticion que pertenece al paciente
                 for (int j=0; j<peticiones.get(i).getPracticaAsociada().size();j++) {// recorre la lista de prácticas de esa petición
                     for (int k=0; k<resultados.size(); k++){
                         if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
@@ -119,7 +119,7 @@ public class Controller {
 
     private static int getIndexPaciente(int nroPaciente){
         for (int i=0;i<pacientes.size();i++){
-            if(pacientes.get(i).getNumeroPaciente() == nroPaciente){
+            if(pacientes.get(i).getDni() == nroPaciente){
                 return i;
             }
         }
@@ -127,10 +127,10 @@ public class Controller {
     }
 
     public static Paciente toModelPaciente(PacienteDTO dto) {
-        int nroPaciente = Integer.valueOf(dto.getNumeroPaciente());
+        int nroPaciente = Integer.valueOf(dto.getDni());
         int dni = Integer.valueOf(dto.getDni());
         int edad = Integer.valueOf(dto.getEdad());
-        Paciente paciente = new Paciente(nroPaciente, dto.getSexo(), edad, dni, dto.getNombre(), dto.getDomicilio(), dto.getMail());
+        Paciente paciente = new Paciente(dto.getSexo(), edad, dni, dto.getNombre(), dto.getDomicilio(), dto.getMail());
         return paciente;
     }
 
@@ -138,7 +138,7 @@ public class Controller {
         sucursales = new ArrayList<>();
         ArrayList<Paciente> listaPaciente = new ArrayList<>();
         //Creo que la lista de pacientes no va
-        listaPaciente.add(new Paciente(1, "M", 26, 40455964, "Lucas", "Calle falsa", "lucas@gmail.com"));
+        listaPaciente.add(new Paciente( "M", 26, 40455964, "Lucas", "Calle falsa", "lucas@gmail.com"));
         sucursales.add(new Sucursal(1, "Buenos Aires 123", "Lorena", listaPaciente));
         sucursales.add(new Sucursal(2, "Malvinas 321", "Jhoxani", listaPaciente));
     }
@@ -221,27 +221,39 @@ public class Controller {
 
     private static void initPracticas(){
         practicas = new ArrayList<>();
-        practicas.add(new Practica(0001,"Glucemia","sangre",126, false,72));
-        practicas.add(new Practica(0002,"Colesterol","sangre",200,false,72));
-        practicas.add(new Practica(0003,"Cloruro","orina",106,false,72));
-        practicas.add(new Practica(0004,"Creatinina","orina",1,false, 72));
-        practicas.add(new Practica(0005,"HIV","sangre",1,true, 72)); // reservado
+        practicas.add(new Practica(0001,CUPractica(),"Glucemia","sangre",126, false,72));
+        practicas.add(new Practica(0002,CUPractica(),"Colesterol","sangre",200,false,72));
+        practicas.add(new Practica(0003,CUPractica(),"Cloruro","orina",106,false,72));
+        practicas.add(new Practica(0004,CUPractica(),"Creatinina","orina",1,false, 72));
+        practicas.add(new Practica(0005,CUPractica(),"HIV","sangre",1,true, 72)); // reservado
+    }
+
+    private static int CUPractica(){
+        int CUPractica = practicas.size();
+        return CUPractica;
     }
 
 
 
-    public boolean crearPractica(PracticaDTO practica) {
-        Practica practicaAux = toModelPractica(practica);
-        boolean seAgrego = true;
-        for(int i = 0; i < practicas.size(); i++) {
-            if(practicaAux.getCodigoPractica() == practicas.get(i).getCodigoPractica()) {
-                seAgrego = false;
-                return seAgrego;
-            } else {
-                practicas.add(practicaAux);
-            }
+    public Practica crearPractica(int CU) {
+        Practica nuevaPractica = null;
+        switch (CU) {
+            case 0001:
+                nuevaPractica = new Practica(0001,CUPractica(),"Glucemia","sangre",126, false,72);
+                break;
+            case 0002:
+                nuevaPractica = new Practica( 0002,CUPractica(),"Colesterol","sangre",200,false,72);
+                break;
+            case 0003:
+                nuevaPractica = new Practica(0003,CUPractica(),"Cloruro","orina",106,false,72);
+            case 0004:
+                nuevaPractica = new Practica(0004,CUPractica(),"Creatinina","orina",1,false, 72);
+                break;
+            case 0005:
+                nuevaPractica = new Practica(0005,CUPractica(),"HIV","sangre",1,true, 72);
+                break;
         }
-        return seAgrego;
+        return nuevaPractica;
 
     }
 
@@ -346,13 +358,14 @@ public class Controller {
         codigosPractica1.add(0001);
         codigosPractica1.add(0002);
         List<Integer> codigosPractica2 = new ArrayList<>();
-        codigosPractica1.add(0003);
-        codigosPractica1.add(0004);
+        codigosPractica2.add(0003);
+        codigosPractica2.add(0004);
         List<Practica> listaPracticas1 = asignarPracticaAPeticion(codigosPractica1);
         List<Practica> listaPracticas2 = asignarPracticaAPeticion(codigosPractica2);
-        peticiones.add(new Peticion(111,buscarPaciente(1),"OSDE",new Date(),listaPracticas1,calcularFechaEntrega(listaPracticas1),buscarSucursal(1)));
-        peticiones.add(new Peticion(222,buscarPaciente(2),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
-        peticiones.add(new Peticion(333,buscarPaciente(2),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
+        peticiones.add(new Peticion(111,buscarPaciente(40455964),"OSDE",new Date(),listaPracticas1,calcularFechaEntrega(listaPracticas1),buscarSucursal(1)));
+        peticiones.add(new Peticion(222,buscarPaciente(95123456),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
+        peticiones.add(new Peticion(333,buscarPaciente(95123456),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
+        System.out.println("practicas asociadsakdakda "+peticiones.get(2).getPracticaAsociada().size());
 
     }
 
@@ -457,10 +470,10 @@ public class Controller {
     }
 
     public PeticionMVC peticionToVista(Peticion peticion) {
-        int paciente = peticion.getNumeroPaciente().getNumeroPaciente();
+        int paciente = peticion.getNumeroPaciente().getDni();
         String nombrePaciente = null;
         for (int i=0; i<pacientes.size();i++){
-            if (pacientes.get(i).getNumeroPaciente() == peticion.getNumeroPaciente().getNumeroPaciente() ){
+            if (pacientes.get(i).getDni() == peticion.getNumeroPaciente().getDni() ){
                 nombrePaciente = pacientes.get(i).getNombre();
                 break;
             }
@@ -538,7 +551,7 @@ public class Controller {
     private static Paciente buscarPaciente(int nroPaciente){
         Paciente pacienteBuscado = null;
         for(int i = 0; i < pacientes.size(); i++) {
-            if(nroPaciente == pacientes.get(i).getNumeroPaciente()) {
+            if(nroPaciente == pacientes.get(i).getDni()) {
                 pacienteBuscado = pacientes.get(i);
             }
         }
@@ -667,11 +680,11 @@ public class Controller {
    private static PacienteMVC pacienteToVista (Paciente paciente) {
         List<Integer> peticionesDelPaciente = new ArrayList<>();
         for (int i=0;i<peticiones.size();i++){
-            if(peticiones.get(i).getNumeroPaciente().getNumeroPaciente()== paciente.getNumeroPaciente()){
+            if(peticiones.get(i).getNumeroPaciente().getDni()== paciente.getDni()){
                 peticionesDelPaciente.add(peticiones.get(i).getNumeroPeticion());
             }
         }
-        PacienteMVC mvc = new PacienteMVC(paciente.getNumeroPaciente(),paciente.getSexo(),paciente.getEdad(),paciente.getDni(),paciente.getNombre(),paciente.getDomicilio(),paciente.getMail(),peticionesDelPaciente);
+        PacienteMVC mvc = new PacienteMVC(paciente.getSexo(),paciente.getEdad(),paciente.getDni(),paciente.getNombre(),paciente.getDomicilio(),paciente.getMail(),peticionesDelPaciente);
         return mvc;
     }
 

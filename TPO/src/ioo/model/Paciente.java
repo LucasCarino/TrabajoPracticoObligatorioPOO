@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class Paciente {
 
-    private int numeroPaciente;
     private String sexo;
     private int edad;
     private int dni;
@@ -12,8 +11,7 @@ public class Paciente {
     private String domicilio;
     private String mail;
 
-    public Paciente(int numeroPaciente, String sexo, int edad, int dni, String nombre, String domicilio, String mail) {
-        this.numeroPaciente = numeroPaciente;
+    public Paciente(String sexo, int edad, int dni, String nombre, String domicilio, String mail) {
         this.sexo = sexo;
         this.edad = edad;
         this.dni = dni;
@@ -22,13 +20,6 @@ public class Paciente {
         this.mail = mail;
     }
 
-    public int getNumeroPaciente() {
-        return numeroPaciente;
-    }
-
-    public void setNumeroPaciente(int numeroPaciente) {
-        this.numeroPaciente = numeroPaciente;
-    }
 
     public String getSexo() {
         return sexo;
