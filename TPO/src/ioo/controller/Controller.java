@@ -1,4 +1,5 @@
 package ioo.controller;
+import ioo.dto.PeticionMVC;
 
 import ioo.dto.*;
 import ioo.model.*;
