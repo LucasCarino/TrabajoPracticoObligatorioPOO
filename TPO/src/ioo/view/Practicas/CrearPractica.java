@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 
 public class CrearPractica extends JFrame {
-
+/*
     private JPanel contentPane;
     private JTextField codigoPractica;
     private JTextField nombre;
@@ -145,7 +145,7 @@ public class CrearPractica extends JFrame {
         });
         btnNewButton.setBounds(0, 266, 130, 20);
         contentPane.add(btnNewButton);
-    }
+    }*/
 }
 
 

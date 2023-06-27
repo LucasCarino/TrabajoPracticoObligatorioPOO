@@ -233,11 +233,9 @@ public class Controller {
         return CUPractica;
     }
 
-
-
-    public Practica crearPractica(int CU) {
+    public Practica crearPractica(int codigo) {
         Practica nuevaPractica = null;
-        switch (CU) {
+        switch (codigo) {
             case 0001:
                 nuevaPractica = new Practica(0001,CUPractica(),"Glucemia","sangre",126, false,72);
                 break;
@@ -261,7 +259,8 @@ public class Controller {
         int codigoPractica = Integer.valueOf(dto.getCodigoPractica());
         int valoresCriticos = Integer.valueOf(dto.getValoresCriticos());
         int horaParaResultado = Integer.valueOf(dto.getHoraParaResultado());
-        Practica practica = new Practica(codigoPractica,dto.getNombre(),dto.getGrupo(),valoresCriticos,dto.isValoresReservados(), horaParaResultado);
+        int CU = CUPractica();
+        Practica practica = new Practica(codigoPractica,CU,dto.getNombre(),dto.getGrupo(),valoresCriticos,dto.isValoresReservados(), horaParaResultado);
         return practica;
     }
 
@@ -270,7 +269,7 @@ public class Controller {
         Practica practica = null;
         for (int i=0; i < practicas.size(); i++){
             if(practicas.get(i).getCodigoPractica() == codigoPractica){
-                practica = new Practica(practicas.get(i).getCodigoPractica(), practicas.get(i).getNombre(), practicas.get(i).getGrupo(), practicas.get(i).getValoresCriticos(), practicas.get(i).isValoresReservados(), practicas.get(i).getHoraParaResultado());
+                practica = new Practica(practicas.get(i).getCodigoPractica(), practicas.get(i).getCU(),practicas.get(i).getNombre(), practicas.get(i).getGrupo(), practicas.get(i).getValoresCriticos(), practicas.get(i).isValoresReservados(), practicas.get(i).getHoraParaResultado());
             }
         }
         return practica;
@@ -303,7 +302,7 @@ public class Controller {
 
     private static int getIndexPractica(int nroPractica){
         for (int i=0;i < practicas.size();i++){
-            if(practicas.get(i).getCodigoPractica() == nroPractica){
+            if(practicas.get(i).getCU() == nroPractica){
                 return i;
             }
         }
@@ -355,11 +354,11 @@ public class Controller {
     private static void initPeticiones(){
         peticiones = new ArrayList<>();
         List<Integer> codigosPractica1 = new ArrayList<>();
-        codigosPractica1.add(0001);
-        codigosPractica1.add(0002);
+        codigosPractica1.add(0);
+        codigosPractica1.add(1);
         List<Integer> codigosPractica2 = new ArrayList<>();
-        codigosPractica2.add(0003);
-        codigosPractica2.add(0004);
+        codigosPractica2.add(2);
+        codigosPractica2.add(3);
         List<Practica> listaPracticas1 = asignarPracticaAPeticion(codigosPractica1);
         List<Practica> listaPracticas2 = asignarPracticaAPeticion(codigosPractica2);
         peticiones.add(new Peticion(111,buscarPaciente(40455964),"OSDE",new Date(),listaPracticas1,calcularFechaEntrega(listaPracticas1),buscarSucursal(1)));
@@ -523,7 +522,7 @@ public class Controller {
             boolean tieneResultados = false;
                for (int j=0; j<peticiones.get(index).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
                    for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
-                       if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                       if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticaAsociada().get(j).getCU()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
                            System.out.print("encontro resultados para esa peticion");
                            tieneResultados = true;
                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticaAsociada().get(j).getValoresCriticos(), peticiones.get(index).getPracticaAsociada().get(j).isValoresReservados())) {
@@ -611,14 +610,12 @@ public class Controller {
 
     private static void initResultados() {
         resultados = new ArrayList<>();
-        resultados.add(new Resultado(123,001,new Date(),120)); //glucemia ok
-        resultados.add(new Resultado(321,001,new Date(),130)); //glucemia critico
-        resultados.add(new Resultado(234,002,new Date(),190)); // colesterol ok
-        resultados.add(new Resultado(432,002,new Date(),250)); // colesterol critico
-        resultados.add(new Resultado(345,003,new Date(),100)); // cloruro ok
-        resultados.add(new Resultado(543,003,new Date(),120)); // cloruro critico
-        resultados.add(new Resultado(456,004,new Date(),0)); // creatinina ok
-        resultados.add(new Resultado(654,004,new Date(),2)); // creatinina critico
+        resultados.add(new Resultado(123,0,new Date(),120)); //glucemia ok
+        resultados.add(new Resultado(321,1,new Date(),130)); //glucemia critico
+        resultados.add(new Resultado(234,2,new Date(),190)); // colesterol ok
+        resultados.add(new Resultado(432,3,new Date(),250)); // colesterol critico
+        resultados.add(new Resultado(345,4,new Date(),100)); // cloruro ok
+        resultados.add(new Resultado(543,5,new Date(),120)); // cloruro critico
     }
 
     public boolean crearResultado(ResultadoDTO resultado) { // hacer una comprobacion de que si la practica ya tiene resultado no permita cargar otro
