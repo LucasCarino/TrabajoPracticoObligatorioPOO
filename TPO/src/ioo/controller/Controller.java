@@ -620,6 +620,18 @@ public class Controller {
         }
         return -1;
     }
+
+   /*  public PacienteMVC mostrarPaciente (int nroPaciente) {
+
+    }
+
+   private static PacienteMVC pacienteToVista (Paciente paciente) {
+        List<Integer> peticiones = new ArrayList<>();
+        for (int i=0;i<peticiones.size();i++){
+            if (peticiones.get(i))
+        }
+        PacienteMVC mvc = new PacienteMVC(paciente.getNumeroPaciente(),paciente.getSexo(),paciente.getEdad(),paciente.getDni(),paciente.getNombre(),paciente.getDomicilio(),paciente.getMail(),)
+    }*/
 }
 
 
