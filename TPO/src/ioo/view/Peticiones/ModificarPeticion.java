@@ -1,4 +1,4 @@
-package ioo.view;
+package ioo.view.Peticiones;
 
 public class ModificarPeticion {
 }

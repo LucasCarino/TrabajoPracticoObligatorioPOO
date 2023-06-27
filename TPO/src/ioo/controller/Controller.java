@@ -2,7 +2,6 @@ package ioo.controller;
 
 import ioo.dto.*;
 import ioo.model.*;
-import ioo.view.EliminarPractica;
 
 import java.util.*;
 

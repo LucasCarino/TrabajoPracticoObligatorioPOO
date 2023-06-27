@@ -1,4 +1,4 @@
-package ioo.view;
+package ioo.view.Practicas;
 
 import ioo.controller.Controller;
 import ioo.dto.PracticaDTO;
