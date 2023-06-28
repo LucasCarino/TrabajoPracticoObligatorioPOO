@@ -1,14 +1,13 @@
 package ioo.view;
 
 import ioo.view.Listas.ListaPacientes;
+import ioo.view.Listas.ListaPeticiones;
 import ioo.view.Listas.MostrarPeticion;
 import ioo.view.Pacientes.CrearPaciente;
 import ioo.view.Pacientes.EliminarPaciente;
 import ioo.view.Pacientes.ModificarPaciente;
 import ioo.view.Peticiones.CrearPeticion;
 import ioo.view.Peticiones.EliminarPeticion;
-import ioo.view.Practicas.CrearPractica;
-import ioo.view.Practicas.EliminarPractica;
 import ioo.view.Resultado.CrearResultado;
 import ioo.view.Sucursal.CrearSucursal;
 import ioo.view.Sucursal.EliminarSucursal;
@@ -114,41 +113,6 @@ public class MenuPrincipal extends JFrame {
         });
         mnNewMenu_1.add(mntmNewMenuItem5);;
 
-        //Prácticas
-        JMenu mnNewMenu_2 = new JMenu("Prácticas");
-        mnNewMenu_2.setHorizontalAlignment(SwingConstants.CENTER);
-        mnNewMenu_2.setFont(new Font("Calibri", Font.PLAIN, 16));
-        mnNewMenu_2.setBackground(Color.gray);
-        menuBar.add(mnNewMenu_2);
-
-        JMenuItem mntmNewMenuItem7 = new JMenuItem("Crear Práctica");
-        mntmNewMenuItem7.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-               CrearPractica ventana = new CrearPractica();
-               ventana.setVisible(true);
-
-            }
-        });
-        mnNewMenu_2.add(mntmNewMenuItem7);
-
-        JMenuItem mntmNewMenuItem9 = new JMenuItem("Eliminar Práctica");
-        mntmNewMenuItem9.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                EliminarPractica ventana = new EliminarPractica();
-                ventana.setVisible(true);
-            }
-        });
-        mnNewMenu_2.add(mntmNewMenuItem9);
-
-        JMenuItem mntmNewMenuItem8 = new JMenuItem("Modificar Práctica");
-        mntmNewMenuItem9.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // ModificarPractica ventana = new ModificarPractica();
-//                ventana.setVisible(true);
-            }
-        });
-        mnNewMenu_2.add(mntmNewMenuItem8);
-
         //Resultado
         JMenu mnNewMenu_4 = new JMenu("Resultados");
         mnNewMenu_4.setHorizontalAlignment(SwingConstants.CENTER);
@@ -225,12 +189,12 @@ public class MenuPrincipal extends JFrame {
         JButton botonConsultarResultadoPeticionesResultadoCritico = new JButton("Consultar Peticiones con Resultados Críticos");
         botonConsultarResultadoPeticionesResultadoCritico.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                ListarPeticionesconValoresCriticos ventana = new ListarPeticionesconValoresCriticos();
-//                ventana.setVisible(true);
+                ListaPeticiones ventana = new ListaPeticiones();
+                ventana.setVisible(true);
             }
         });
         botonConsultarResultadoPeticionesResultadoCritico.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        botonConsultarResultadoPeticionesResultadoCritico.setBounds(90, 110, 300, 45);
+        botonConsultarResultadoPeticionesResultadoCritico.setBounds(65, 110, 350, 45);
         contentPane.add(botonConsultarResultadoPeticionesResultadoCritico);
 
         JButton MostrarPeticion = new JButton("Mostrar Peticion");

@@ -1,8 +1,6 @@
 package ioo.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.List;
 
 public class Peticion {
@@ -12,16 +10,16 @@ public class Peticion {
     private Paciente numeroPaciente;
     private String obraSocial;
     private Date fechaCarga;
-    private List<Practica> practicaAsociada;
+    private List<Practica> practicasAsociadas;
     private Date fechaEntrega;
     private Sucursal numeroSucursal;
 
-    public Peticion(int numeroPeticion, Paciente numeroPaciente, String obraSocial, Date fechaCarga, List<Practica> practicaAsociada, Date fechaEntrega, Sucursal numeroSucursal) {
+    public Peticion(int numeroPeticion, Paciente numeroPaciente, String obraSocial, Date fechaCarga, List<Practica> practicasAsociadas, Date fechaEntrega, Sucursal numeroSucursal) {
         this.numeroPeticion = numeroPeticion;
         this.numeroPaciente = numeroPaciente;
         this.obraSocial = obraSocial;
         this.fechaCarga = fechaCarga;
-        this.practicaAsociada = practicaAsociada;
+        this.practicasAsociadas = practicasAsociadas;
         this.fechaEntrega = fechaEntrega;
         this.numeroSucursal = numeroSucursal;
     }
@@ -58,12 +56,12 @@ public class Peticion {
         this.fechaCarga = fechaCarga;
     }
 
-    public List<Practica> getPracticaAsociada() {
-        return practicaAsociada;
+    public List<Practica> getPracticasAsociadas() {
+        return practicasAsociadas;
     }
 
-    public void setPracticaAsociada(List<Practica> practicaAsociada) {
-        this.practicaAsociada = practicaAsociada;
+    public void setPracticasAsociadas(List<Practica> practicasAsociadas) {
+        this.practicasAsociadas = practicasAsociadas;
     }
 
     public Date getFechaEntrega() {

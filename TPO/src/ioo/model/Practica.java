@@ -4,7 +4,7 @@ public class Practica {
     @Override
     public String toString() {
         return "Practica [codigoPractica=" + codigoPractica + ", nombre=" + nombre + ", grupo=" + grupo
-                + ", valoresCriticos=" + valoresCriticos + ", valoresReservados=" + valoresReservados
+                + ", valorCritico=" + valorCritico + ", valoresReservados=" + valoresReservados
                 + ", horaParaResultado=" + horaParaResultado +  "]";
     }
 
@@ -13,16 +13,16 @@ public class Practica {
     private int CU;
     private String nombre;
     private String grupo;
-    private int valoresCriticos;
+    private int valorCritico;
     private boolean valoresReservados;
     private int horaParaResultado;
 
-    public Practica(int codigoPractica, int CU, String nombre, String grupo, int valoresCriticos, boolean valoresReservados, int horaParaResultado) {
+    public Practica(int codigoPractica, int CU, String nombre, String grupo, int valorCritico, boolean valoresReservados, int horaParaResultado) {
         this.codigoPractica = codigoPractica;
         this.CU = CU;
         this.nombre = nombre;
         this.grupo = grupo;
-        this.valoresCriticos = valoresCriticos;
+        this.valorCritico = valorCritico;
         this.valoresReservados = valoresReservados;
         this.horaParaResultado = horaParaResultado;
     }
@@ -59,12 +59,12 @@ public class Practica {
         this.grupo = grupo;
     }
 
-    public int getValoresCriticos() {
-        return valoresCriticos;
+    public int getValorCritico() {
+        return valorCritico;
     }
 
-    public void setValoresCriticos(int valoresCriticos) {
-        this.valoresCriticos = valoresCriticos;
+    public void setValorCritico(int valorCritico) {
+        this.valorCritico = valorCritico;
     }
 
     public boolean isValoresReservados() {

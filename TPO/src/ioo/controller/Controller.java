@@ -3,7 +3,9 @@ import ioo.dto.PeticionMVC;
 
 import ioo.dto.*;
 import ioo.model.*;
+import lombok.SneakyThrows;
 
+import java.beans.PropertyEditorSupport;
 import java.util.*;
 
 public class Controller {
@@ -59,6 +61,33 @@ public class Controller {
         return pretty_pacients;
     }
 
+    @SneakyThrows
+    public Vector<String> getPeticionesConResultadoCritico() {
+        Vector<String> peticionesConResultadoCritico = new Vector<>();
+
+        peticionesConResultadoCritico.add("Peticiones con resultados criticos, a buscar por sucursal");
+
+        // for loop for resultados
+        for(int i = 0; i < resultados.size(); i++) {
+            Resultado resultado = resultados.get(i);
+
+            if(resultado.getValor() > practicas.get(resultado.getCodigoPractica()).getValorCritico()) {
+                // Este es un resultado critico
+                for (int peticion = 0; peticion < peticiones.size(); peticion++) {
+                    List<Practica> practicas = peticiones.get(peticion).getPracticasAsociadas();
+                    for (int practica = 0; practica < practicas.size(); practica++) {
+                        if (practicas.get(practica).getCodigoPractica() == resultado.getCodigoPractica()) {
+                            Peticion aux = peticiones.get(peticion);
+                            peticionesConResultadoCritico.add("PeticionID: " + String.valueOf(aux.getNumeroPeticion()) + String.valueOf("      Sucursal a retirar: " + aux.getNumeroSucursal().getDireccion()));
+                        }
+                    }
+                    
+                }
+            }
+        }
+        return peticionesConResultadoCritico;
+    }
+
     public boolean crearPaciente(PacienteDTO dto) {
         Paciente pacienteAux = toModelPaciente(dto);
         boolean isExist = false;
@@ -112,9 +141,9 @@ public class Controller {
         boolean tieneResultados = false;
         for (int i=0; i<peticiones.size();i++) {
             if (peticiones.get(i).getNumeroPaciente().getDni()== paciente.getDni()) { // cuando encuentra una peticion que pertenece al paciente
-                for (int j=0; j<peticiones.get(i).getPracticaAsociada().size();j++) {// recorre la lista de prácticas de esa petición
+                for (int j=0; j<peticiones.get(i).getPracticasAsociadas().size();j++) {// recorre la lista de prácticas de esa petición
                     for (int k=0; k<resultados.size(); k++){
-                        if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                        if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticasAsociadas().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
                             tieneResultados =true;
                             return tieneResultados;
                         }
@@ -196,9 +225,9 @@ public class Controller {
         boolean tieneResultados = false;
         for (int i=0; i<peticiones.size();i++) {
             if (peticiones.get(i).getNumeroSucursal().getNroSucursal() == sucursal.getNroSucursal()) { // cuando encuentra una peticion que pertenece a esa sucursal
-                for (int j=0; j<peticiones.get(i).getPracticaAsociada().size();j++) {// recorre la lista de prácticas de esa petición
+                for (int j=0; j<peticiones.get(i).getPracticasAsociadas().size();j++) {// recorre la lista de prácticas de esa petición
                     for (int k=0; k<resultados.size(); k++){
-                        if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                        if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticasAsociadas().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
                             tieneResultados =true;
                             return tieneResultados;
                         }
@@ -368,12 +397,14 @@ public class Controller {
         List<Integer> codigosPractica2 = new ArrayList<>();
         codigosPractica2.add(2);
         codigosPractica2.add(3);
+        codigosPractica2.add(4);
+        codigosPractica2.add(5);
         List<Practica> listaPracticas1 = asignarPracticaAPeticion(codigosPractica1);
         List<Practica> listaPracticas2 = asignarPracticaAPeticion(codigosPractica2);
         peticiones.add(new Peticion(111,buscarPaciente(40455964),"OSDE",new Date(),listaPracticas1,calcularFechaEntrega(listaPracticas1),buscarSucursal(1)));
         peticiones.add(new Peticion(222,buscarPaciente(95123456),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
         peticiones.add(new Peticion(333,buscarPaciente(95123456),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
-        System.out.println("practicas asociadsakdakda "+peticiones.get(2).getPracticaAsociada().size());
+        System.out.println("practicas asociadsakdakda "+peticiones.get(2).getPracticasAsociadas().size());
 
     }
 
@@ -411,8 +442,8 @@ public class Controller {
         int indexPaciente = getIndexPaciente(dto.getNumeroPaciente());
         Paciente paciente = pacientes.get(indexPaciente);
         List<Practica> practicas = new ArrayList<>();
-        for (int i=0;i<dto.getPracticaAsociada().size();i++){
-            Practica practica = crearPractica(dto.getPracticaAsociada().get(i));
+        for (int i=0;i<dto.getPracticasAsociadas().size();i++){
+            Practica practica = crearPractica(dto.getPracticasAsociadas().get(i));
             practicas.add(practica);
         }
         int indexSucursal = getIndexSucursal(dto.getNumeroSucursal());
@@ -461,10 +492,10 @@ public class Controller {
         List<PeticionMVC> peticionesConValoresCriticos = new ArrayList<>();
         for (int i=0; i<peticiones.size();i++) { // recorre todas las peticiones
             boolean bandera = true;
-                for (int j=0; j<peticiones.get(i).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
+                for (int j=0; j<peticiones.get(i).getPracticasAsociadas().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
                     for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
-                        if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticaAsociada().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
-                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(i).getPracticaAsociada().get(j).getValoresCriticos(), peticiones.get(i).getPracticaAsociada().get(j).isValoresReservados())) {
+                        if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticasAsociadas().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(i).getPracticasAsociadas().get(j).getValoresCriticos(), peticiones.get(i).getPracticasAsociadas().get(j).isValoresReservados())) {
                                 peticionesConValoresCriticos.add(peticionToVista(peticiones.get(i)));
                                 bandera = false; // detiene los for que recorren los resultados y las practicas de esa peticion
                             }
@@ -489,14 +520,14 @@ public class Controller {
         List<String> practicas = new ArrayList<>();
         List<String> grupos = new ArrayList<>();
         List<String> resultado = new ArrayList<>();
-        System.out.println("largo "+ peticion.getPracticaAsociada().size());
-        for (int i=0; i<peticion.getPracticaAsociada().size();i++) {
-            System.out.println("nombre practica "+ peticion.getPracticaAsociada().get(i).getNombre());
-            practicas.add(peticion.getPracticaAsociada().get(i).getNombre());
-            System.out.println("nombre grupo "+ peticion.getPracticaAsociada().get(i).getGrupo());
-            grupos.add(peticion.getPracticaAsociada().get(i).getGrupo());
+        System.out.println("largo "+ peticion.getPracticasAsociadas().size());
+        for (int i=0; i<peticion.getPracticasAsociadas().size();i++) {
+            System.out.println("nombre practica "+ peticion.getPracticasAsociadas().get(i).getNombre());
+            practicas.add(peticion.getPracticasAsociadas().get(i).getNombre());
+            System.out.println("nombre grupo "+ peticion.getPracticasAsociadas().get(i).getGrupo());
+            grupos.add(peticion.getPracticasAsociadas().get(i).getGrupo());
             for (int j=0; j<resultados.size();j++){
-                if (resultados.get(j).getCodigoPractica() == peticion.getPracticaAsociada().get(i).getCodigoPractica()) {
+                if (resultados.get(j).getCodigoPractica() == peticion.getPracticasAsociadas().get(i).getCodigoPractica()) {
                     System.out.println("resultado "+ resultados.get(j).getValor());
                     resultado.add(String.valueOf(resultados.get(j).getValor()));
                 }
@@ -528,12 +559,12 @@ public class Controller {
             retorno = 1; // retorna 1 si la peticion se puede mostrar
             boolean bandera = true;
             boolean tieneResultados = false;
-               for (int j=0; j<peticiones.get(index).getPracticaAsociada().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
+               for (int j=0; j<peticiones.get(index).getPracticasAsociadas().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
                    for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
-                       if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticaAsociada().get(j).getCU()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                       if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticasAsociadas().get(j).getCU()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
                            System.out.print("encontro resultados para esa peticion");
                            tieneResultados = true;
-                           if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticaAsociada().get(j).getValoresCriticos(), peticiones.get(index).getPracticaAsociada().get(j).isValoresReservados())) {
+                           if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticasAsociadas().get(j).getValoresCriticos(), peticiones.get(index).getPracticasAsociadas().get(j).isValoresReservados())) {
                                bandera = false; // detiene los for que recorren los resultados y las practicas de la peticion
                                retorno = 2; //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
                             }
@@ -623,7 +654,7 @@ public class Controller {
         resultados.add(new Resultado(234,2,new Date(),190)); // colesterol ok
         resultados.add(new Resultado(432,3,new Date(),250)); // colesterol critico
         resultados.add(new Resultado(345,4,new Date(),100)); // cloruro ok
-        resultados.add(new Resultado(543,5,new Date(),120)); // cloruro critico
+        // resultados.add(new Resultado(543,5,new Date(),120)); // cloruro critico
     }
 
     public boolean crearResultado(ResultadoDTO resultado) { // hacer una comprobacion de que si la practica ya tiene resultado no permita cargar otro
