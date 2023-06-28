@@ -93,8 +93,57 @@ public class CrearPeticion extends JFrame {
         contentPane.add(checkbox4);
         contentPane.add(checkbox5);
 
+        List<Integer> practicasSeleccionadas = new ArrayList<>();
 
+        checkbox1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (checkbox1.isSelected()) {
+                    practicasSeleccionadas.add(1);
+                } else {
+                    practicasSeleccionadas.remove(Integer.valueOf(1));
+                }
+            }
+        });
 
+        checkbox2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (checkbox2.isSelected()) {
+                    practicasSeleccionadas.add(2);
+                } else {
+                    practicasSeleccionadas.remove(Integer.valueOf(2));
+                }
+            }
+        });
+
+        checkbox3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (checkbox3.isSelected()) {
+                    practicasSeleccionadas.add(3);
+                } else {
+                    practicasSeleccionadas.remove(Integer.valueOf(3));
+                }
+            }
+        });
+
+        checkbox4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (checkbox4.isSelected()) {
+                    practicasSeleccionadas.add(4);
+                } else {
+                    practicasSeleccionadas.remove(Integer.valueOf(4));
+                }
+            }
+        });
+
+        checkbox5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (checkbox5.isSelected()) {
+                    practicasSeleccionadas.add(5);
+                } else {
+                    practicasSeleccionadas.remove(Integer.valueOf(5));
+                }
+            }
+        });
 
         JButton btnCrearPeticion = new JButton("Crear Petición");
         btnCrearPeticion.addActionListener(new ActionListener() {
@@ -112,34 +161,11 @@ public class CrearPeticion extends JFrame {
                         JOptionPane.showMessageDialog(null, "el campo de nro de Sucursal debe estar completo", "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     }
                     else {
-                        List<Integer> practicasSeleccionadas = new ArrayList<>();
 
                         int nro_peticion = Integer.parseInt(numeroPeticion.getText());
                         int nro_paciente = Integer.parseInt(NumeroPaciente.getText());
                         String obra_social = (obraSocial.getText());
                         int nro_sucursal = Integer.parseInt(numeroSucursal.getText());
-                        checkbox1.addActionListener(new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                                if (checkbox1.isSelected()) {
-                                    practicasSeleccionadas.add(0001);
-                                }
-                                if (checkbox2.isSelected()) {
-                                    practicasSeleccionadas.add(0002);
-
-                                }
-                                if (checkbox3.isSelected()) {
-                                    practicasSeleccionadas.add(0003);
-                                }
-                                if (checkbox4.isSelected()) {
-                                    practicasSeleccionadas.add(0004);
-                                }
-                                if (checkbox5.isSelected()) {
-                                    practicasSeleccionadas.add(0005);
-                                }
-
-                            }
-                        });
-
 
                         PeticionDTO nueva_peticion = new PeticionDTO(nro_peticion, nro_paciente, obra_social, practicasSeleccionadas, nro_sucursal);
                         boolean respuesta = Controller.getControlador().crearPeticion(nueva_peticion);
@@ -152,6 +178,8 @@ public class CrearPeticion extends JFrame {
                         NumeroPaciente.setText("");
                         obraSocial.setText("");
                         numeroSucursal.setText("");
+
+                        // TODO Ver si se puede desmarcar los checkbox
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "no ingrese caracteres en los campos de solo numeros", "Error caracter ingresado erroneamente", JOptionPane.ERROR_MESSAGE);

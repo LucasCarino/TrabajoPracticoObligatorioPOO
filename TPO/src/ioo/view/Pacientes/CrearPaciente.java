@@ -29,8 +29,6 @@ public class CrearPaciente extends JFrame {
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
 
-
-
         JLabel lbNombrePaciente = new JLabel("Nombre:");
         lbNombrePaciente.setBounds(10, 25, 120, 27);
         contentPane.add(lbNombrePaciente);

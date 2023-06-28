@@ -221,11 +221,11 @@ public class Controller {
 
     private static void initPracticas(){
         practicas = new ArrayList<>();
-        practicas.add(new Practica(0001,CUPractica(),"Glucemia","sangre",126, false,72));
-        practicas.add(new Practica(0002,CUPractica(),"Colesterol","sangre",200,false,72));
-        practicas.add(new Practica(0003,CUPractica(),"Cloruro","orina",106,false,72));
-        practicas.add(new Practica(0004,CUPractica(),"Creatinina","orina",1,false, 72));
-        practicas.add(new Practica(0005,CUPractica(),"HIV","sangre",1,true, 72)); // reservado
+        practicas.add(new Practica(1,CUPractica(),"Glucemia","sangre",126, false,72));
+        practicas.add(new Practica(2,CUPractica(),"Colesterol","sangre",200,false,72));
+        practicas.add(new Practica(3,CUPractica(),"Cloruro","orina",106,false,72));
+        practicas.add(new Practica(4,CUPractica(),"Creatinina","orina",1,false, 72));
+        practicas.add(new Practica(5,CUPractica(),"HIV","sangre",1,true, 72)); // reservado
     }
 
     private static int CUPractica(){
@@ -233,22 +233,22 @@ public class Controller {
         return CUPractica;
     }
 
-    public Practica crearPractica(int codigo) {
+    private static Practica crearPractica(int codigo) {
         Practica nuevaPractica = null;
         switch (codigo) {
             case 0001:
-                nuevaPractica = new Practica(0001,CUPractica(),"Glucemia","sangre",126, false,72);
+                nuevaPractica = new Practica(1,CUPractica(),"Glucemia","sangre",126, false,72);
                 break;
             case 0002:
-                nuevaPractica = new Practica( 0002,CUPractica(),"Colesterol","sangre",200,false,72);
+                nuevaPractica = new Practica( 2,CUPractica(),"Colesterol","sangre",200,false,72);
                 break;
             case 0003:
-                nuevaPractica = new Practica(0003,CUPractica(),"Cloruro","orina",106,false,72);
+                nuevaPractica = new Practica(3,CUPractica(),"Cloruro","orina",106,false,72);
             case 0004:
-                nuevaPractica = new Practica(0004,CUPractica(),"Creatinina","orina",1,false, 72);
+                nuevaPractica = new Practica(4,CUPractica(),"Creatinina","orina",1,false, 72);
                 break;
             case 0005:
-                nuevaPractica = new Practica(0005,CUPractica(),"HIV","sangre",1,true, 72);
+                nuevaPractica = new Practica(5,CUPractica(),"HIV","sangre",1,true, 72);
                 break;
         }
         return nuevaPractica;
@@ -403,12 +403,12 @@ public class Controller {
         Paciente paciente = pacientes.get(indexPaciente);
         List<Practica> practicas = new ArrayList<>();
         for (int i=0;i<dto.getPracticaAsociada().size();i++){
-            int indexPractica = getIndexPractica(dto.getPracticaAsociada().get(i));
-            practicas.add(practicas.get(indexPractica));
+            Practica practica = crearPractica(dto.getPracticaAsociada().get(i));
+            practicas.add(practica);
         }
         int indexSucursal = getIndexSucursal(dto.getNumeroSucursal());
         Sucursal sucursal = sucursales.get(indexSucursal);
-        Peticion peticionNueva = new Peticion(nroPeticion,paciente,dto.getObraSocial(),practicas,sucursal);
+        Peticion peticionNueva = new Peticion(nroPeticion, paciente, dto.getObraSocial(), new Date(), practicas, calcularFechaEntrega(practicas), sucursal);
         return peticionNueva;
     }
 
@@ -510,7 +510,6 @@ public class Controller {
 
     public int sePuedeMostrarPeticion (int nroPeticion){
         int index = getIndexPeticion(nroPeticion);
-        System.out.print("index "+ index);
         for (int i = 0; i<peticiones.size();i++){
             System.out.println(peticiones.get(i).getNumeroPeticion());
         }
@@ -622,7 +621,7 @@ public class Controller {
         Resultado resultadoAux = toModelResultado(resultado);
         boolean sePuedeCrear = true;
         for(int i = 0; i < resultados.size(); i++) {
-            if(resultadoAux.getIdResultado() == resultados.get(i).getIdResultado()) {
+            if(resultadoAux.getCodigoPractica() == resultados.get(i).getCodigoPractica()) {
                 sePuedeCrear = false;
             }
         }
@@ -633,11 +632,16 @@ public class Controller {
     }
 
     public static Resultado toModelResultado(ResultadoDTO dto) {
-        int idResultado = Integer.valueOf(dto.getIdResultado());
+        int idResultado = Integer.valueOf(CUResultado());
         int codigoPractica = Integer.valueOf((dto.getCodigoPractica()));
         int valor = Integer.valueOf(dto.getValor());
-        Resultado resultado = new Resultado(idResultado,codigoPractica,dto.getFecha(),valor);
+        Resultado resultado = new Resultado(idResultado,codigoPractica,new Date(),valor);
         return resultado;
+    }
+
+    private static int CUResultado(){
+        int CUResultado = resultados.size();
+        return CUResultado;
     }
 
     public void modificarResultado(int idResultado, int codigoPractica, Date fecha, int valor) {

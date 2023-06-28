@@ -8,6 +8,7 @@ import ioo.view.Peticiones.CrearPeticion;
 import ioo.view.Peticiones.EliminarPeticion;
 import ioo.view.Practicas.CrearPractica;
 import ioo.view.Practicas.EliminarPractica;
+import ioo.view.Resultado.CrearResultado;
 import ioo.view.Sucursal.CrearSucursal;
 import ioo.view.Sucursal.EliminarSucursal;
 import lombok.SneakyThrows;
@@ -146,6 +147,22 @@ public class MenuPrincipal extends JFrame {
             }
         });
         mnNewMenu_2.add(mntmNewMenuItem8);
+
+        //Resultado
+        JMenu mnNewMenu_4 = new JMenu("Resultados");
+        mnNewMenu_4.setHorizontalAlignment(SwingConstants.CENTER);
+        mnNewMenu_4.setFont(new Font("Calibri", Font.PLAIN, 16));
+        mnNewMenu_4.setBackground(Color.gray);
+        menuBar.add(mnNewMenu_4);
+
+        JMenuItem mntmNewMenuItem13 = new JMenuItem("Crear Resultado");
+        mntmNewMenuItem13.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CrearResultado ventana = new CrearResultado();
+                ventana.setVisible(true);
+            }
+        });
+        mnNewMenu_4.add(mntmNewMenuItem13);
 
         //Sucursales
         JMenu mnNewMenu_3 = new JMenu("Sucursales");

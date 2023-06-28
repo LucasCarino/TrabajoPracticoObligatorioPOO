@@ -26,9 +26,6 @@ public class Peticion {
         this.numeroSucursal = numeroSucursal;
     }
 
-    public Peticion(int nroPeticion, Paciente numeroPaciente, String obraSocial, List<Practica> practicaAsociada, Sucursal numeroSucursal) {
-    }
-
     public int getNumeroPeticion() {
         return numeroPeticion;
     }
