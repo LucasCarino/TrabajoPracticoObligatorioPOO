@@ -11,6 +11,7 @@ import ioo.view.Peticiones.EliminarPeticion;
 import ioo.view.Resultado.CrearResultado;
 import ioo.view.Sucursal.CrearSucursal;
 import ioo.view.Sucursal.EliminarSucursal;
+import ioo.view.Sucursal.ModificarSucursal;
 import lombok.SneakyThrows;
 
 import javax.swing.*;
@@ -18,6 +19,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.border.EmptyBorder;
 
 import static javax.swing.UIManager.setLookAndFeel;
 
@@ -27,28 +29,35 @@ public class MenuPrincipal extends JFrame {
 
     @SneakyThrows
     public MenuPrincipal() {
-        setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        setTitle("Sistema de Gestión de Laboratorio");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setBounds(100, 100, 476, 310);
+        setTitle("Sistema de Gestión");
+        setBounds(100, 100, 500, 400);
         contentPane = new JPanel();
-        contentPane.setBackground(UIManager.getColor("null"));
-        contentPane.setToolTipText("");
-        contentPane.setBorder(new LineBorder(new Color(0, 0, 0, 185)));
+        contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+        contentPane.setBackground(new Color(186, 246, 200));
         setContentPane(contentPane);
-        contentPane.setLayout(null);
-        setLocationRelativeTo(null);
+        contentPane.setLayout(new BorderLayout());
 
+        JPanel panelBotones = new JPanel();
+        panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.Y_AXIS));
+        panelBotones.setBackground(new Color(186, 246, 200));
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setBounds(0, 0, 470, 24);
-        contentPane.add(menuBar);
+        setJMenuBar(menuBar);
 
-        //Paciente
-        JMenu mnNewMenu = new JMenu("Pacientes");
-        mnNewMenu.setHorizontalAlignment(SwingConstants.CENTER);
-        mnNewMenu.setFont(new Font("Calibri", Font.PLAIN, 16));
-        mnNewMenu.setBackground(Color.darkGray);
-        menuBar.add(mnNewMenu);
+        // Crear el menú "Pacientes"
+        JMenu menuPacientes = new JMenu("Pacientes");
+        menuPacientes.setFont(new Font("Calibri", Font.PLAIN, 14));
+        menuBar.add(menuPacientes);
+
+        // Agregar un elemento de menú al menú "Pacientes"
+        JMenuItem menuItemConsultarPacientes = new JMenuItem("Consultar Lista de Pacientes");
+        menuItemConsultarPacientes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ListaPacientes ventana = new ListaPacientes();
+                ventana.setVisible(true);
+            }
+        });
 
         JMenuItem mntmNewMenuItem = new JMenuItem("Crear Paciente");
         mntmNewMenuItem.addActionListener(new ActionListener() {
@@ -57,7 +66,7 @@ public class MenuPrincipal extends JFrame {
                ventana.setVisible(true);
             }
         });
-        mnNewMenu.add(mntmNewMenuItem);
+        menuPacientes.add(mntmNewMenuItem);
 
         JMenuItem mntmNewMenuItem2 = new JMenuItem("Eliminar Paciente");
         mntmNewMenuItem2.addActionListener(new ActionListener() {
@@ -66,7 +75,7 @@ public class MenuPrincipal extends JFrame {
                 ventana.setVisible(true);
             }
         });
-        mnNewMenu.add(mntmNewMenuItem2);
+        menuPacientes.add(mntmNewMenuItem2);
 
 
         JMenuItem mntmNewMenuItem3 = new JMenuItem("Modificar Paciente");
@@ -76,12 +85,12 @@ public class MenuPrincipal extends JFrame {
                 ventana.setVisible(true);
             }
         });
-        mnNewMenu.add(mntmNewMenuItem3);
+        menuPacientes.add(mntmNewMenuItem3);
 
         //Peticiones
         JMenu mnNewMenu_1 = new JMenu("Peticiones");
         mnNewMenu_1.setHorizontalAlignment(SwingConstants.CENTER);
-        mnNewMenu_1.setFont(new Font("Calibri", Font.PLAIN, 16));
+        mnNewMenu_1.setFont(new Font("Calibri", Font.PLAIN, 14));
         mnNewMenu_1.setBackground(Color.gray);
         menuBar.add(mnNewMenu_1);
 
@@ -116,7 +125,7 @@ public class MenuPrincipal extends JFrame {
         //Resultado
         JMenu mnNewMenu_4 = new JMenu("Resultados");
         mnNewMenu_4.setHorizontalAlignment(SwingConstants.CENTER);
-        mnNewMenu_4.setFont(new Font("Calibri", Font.PLAIN, 16));
+        mnNewMenu_4.setFont(new Font("Calibri", Font.PLAIN, 14));
         mnNewMenu_4.setBackground(Color.gray);
         menuBar.add(mnNewMenu_4);
 
@@ -132,7 +141,7 @@ public class MenuPrincipal extends JFrame {
         //Sucursales
         JMenu mnNewMenu_3 = new JMenu("Sucursales");
         mnNewMenu_3.setHorizontalAlignment(SwingConstants.CENTER);
-        mnNewMenu_3.setFont(new Font("Calibri", Font.PLAIN, 16));
+        mnNewMenu_3.setFont(new Font("Calibri", Font.PLAIN, 14));
         mnNewMenu_3.setBackground(Color.gray);
         menuBar.add(mnNewMenu_3);
 
@@ -146,6 +155,15 @@ public class MenuPrincipal extends JFrame {
         });
         mnNewMenu_3.add(mntmNewMenuItem10);
 
+        JMenuItem mntmNewMenuItem11 = new JMenuItem("Modificar Sucursal");
+        mntmNewMenuItem11.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ModificarSucursal ventana = new ModificarSucursal();
+                ventana.setVisible(true);
+            }
+        });
+        mnNewMenu_3.add(mntmNewMenuItem11);
+
         JMenuItem mntmNewMenuItem12 = new JMenuItem("Eliminar Sucursal");
         mntmNewMenuItem12.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -155,25 +173,7 @@ public class MenuPrincipal extends JFrame {
         });
         mnNewMenu_3.add(mntmNewMenuItem12);
 
-        JMenuItem mntmNewMenuItem11 = new JMenuItem("Modificar Sucursal");
-        mntmNewMenuItem12.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-//                ModificarSucursal ventana = new ModificarSucursal();
-//                ventana.setVisible(true);
-            }
-        });
-        mnNewMenu_3.add(mntmNewMenuItem11);
 
-
-        JButton botonSalida = new JButton("Salir del sistema");
-        botonSalida.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                System.exit(0);
-            }
-        });
-        botonSalida.setBounds(321, 247, 149, 23);
-        contentPane.add(botonSalida);
 
         JButton botonConsultarPacientes = new JButton("Consultar Lista de Pacientes");
         botonConsultarPacientes.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -183,8 +183,14 @@ public class MenuPrincipal extends JFrame {
                 ventana.setVisible(true);
             }
         });
+
+        Dimension botonSize = new Dimension(Integer.MAX_VALUE, 80);
+
         botonConsultarPacientes.setBounds(90, 50, 300, 45);
-        contentPane.add(botonConsultarPacientes);
+        panelBotones.add(botonConsultarPacientes);
+
+        contentPane.add(panelBotones, BorderLayout.CENTER);
+
 
         JButton botonConsultarResultadoPeticionesResultadoCritico = new JButton("Consultar Peticiones con Resultados Críticos");
         botonConsultarResultadoPeticionesResultadoCritico.addActionListener(new ActionListener() {
@@ -195,19 +201,37 @@ public class MenuPrincipal extends JFrame {
         });
         botonConsultarResultadoPeticionesResultadoCritico.setFont(new Font("Tahoma", Font.PLAIN, 16));
         botonConsultarResultadoPeticionesResultadoCritico.setBounds(65, 110, 350, 45);
-        contentPane.add(botonConsultarResultadoPeticionesResultadoCritico);
 
-        JButton MostrarPeticion = new JButton("Mostrar Peticion");
-        MostrarPeticion.addActionListener(new ActionListener() {
+
+        JButton botonMostrarPeticion = new JButton("Mostrar Peticion");
+        botonMostrarPeticion.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MostrarPeticion ventana = new MostrarPeticion();
                 ventana.setVisible(true);
-
             }
         });
-        MostrarPeticion.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        MostrarPeticion.setBounds(90, 170, 300, 45);
-        contentPane.add(MostrarPeticion);
+        botonMostrarPeticion.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        botonMostrarPeticion.setBounds(90, 170, 300, 45);
+
+        botonConsultarPacientes.setMaximumSize(botonSize);
+        botonMostrarPeticion.setMaximumSize(botonSize);
+        botonConsultarResultadoPeticionesResultadoCritico.setMaximumSize(botonSize);
+
+        int espacioVertical = 20;
+        panelBotones.add(botonMostrarPeticion);
+        panelBotones.add(Box.createRigidArea(new Dimension(0, espacioVertical)));
+        panelBotones.add(botonConsultarPacientes);
+        panelBotones.add(Box.createRigidArea(new Dimension(0, espacioVertical)));
+        panelBotones.add(botonConsultarResultadoPeticionesResultadoCritico);
+
+        JButton botonSalida = new JButton("Salir del sistema");
+        botonSalida.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                System.exit(0);
+            }
+        });
+        contentPane.add(botonSalida, BorderLayout.SOUTH);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

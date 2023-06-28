@@ -4,6 +4,7 @@ import ioo.dto.EliminarSucursalDTO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,37 +15,55 @@ public class EliminarSucursal extends JFrame {
 
     public EliminarSucursal() {
         setResizable(false);
-        setTitle("Eliminar sucursal");
+        setTitle("Eliminar Sucursal");
 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 442, 327);
         contentPane = new JPanel();
-        contentPane.setBackground(UIManager.getColor("Table.selectionBackground"));
+        contentPane.setBackground(UIManager.getColor("null"));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        contentPane.setBackground(new Color(186, 246, 200));
         setContentPane(contentPane);
-        contentPane.setLayout(null);
+        contentPane.setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new GridBagLayout());
+        formPanel.setBackground(new Color(186, 246, 200));
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(0, 2, 5, 5));
+        buttonPanel.setBackground(new Color(186, 246, 200));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
         JLabel lbNroSucursalOrigen = new JLabel("Número de sucursal a eliminar:");
-        lbNroSucursalOrigen.setBounds(10, 7, 260, 14);
-        contentPane.add(lbNroSucursalOrigen);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        formPanel.add(lbNroSucursalOrigen, gbc);
 
         nroSucursalOrigen = new JTextField();
-        nroSucursalOrigen.setBounds(265, 5, 50, 20);
-        contentPane.add(nroSucursalOrigen);
-        nroSucursalOrigen.setColumns(10);
+        nroSucursalOrigen.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        formPanel.add(nroSucursalOrigen, gbc);
 
-        JLabel lbNroSucursalDestino = new JLabel("Número de sucursal para derivar peticiones:");
-        lbNroSucursalDestino.setBounds(10, 25, 260, 27);
-        contentPane.add(lbNroSucursalDestino);
+        JLabel lbNroSucursalDestino = new JLabel("Número de sucursal a derivar peticiones:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        formPanel.add(lbNroSucursalDestino, gbc);
 
         nroSucursalDestino = new JTextField();
-        nroSucursalDestino.setBounds(265, 28, 50, 20);
-        contentPane.add(nroSucursalDestino);
-        nroSucursalDestino.setColumns(10);
+        nroSucursalDestino.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        formPanel.add(nroSucursalDestino, gbc);
 
-
-        JButton btnModificarPaciente = new JButton("Eliminar Sucursal");
-        btnModificarPaciente.addActionListener(new ActionListener() {
+        JButton btnEliminarSucursal = new JButton("Eliminar Sucursal");
+        btnEliminarSucursal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (nroSucursalOrigen.getText().equalsIgnoreCase("") && nroSucursalDestino.getText().equalsIgnoreCase("")) {
@@ -85,16 +104,30 @@ public class EliminarSucursal extends JFrame {
                 }
             }
         });
-        btnModificarPaciente.setBounds(170, 266, 140, 20);
-        contentPane.add(btnModificarPaciente);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1; // Ocupa 2 columnas
 
-        JButton btnNewButton = new JButton("Volver atr\u00E1s");
+        btnEliminarSucursal.setBackground(Color.RED);
+        btnEliminarSucursal.setOpaque(true);
+        btnEliminarSucursal.setFont(new Font("Arial", Font.BOLD, 14));
+        btnEliminarSucursal.setForeground(Color.WHITE);
+        btnEliminarSucursal.setPreferredSize(new Dimension(200, 20));
+
+        buttonPanel.add(btnEliminarSucursal, gbc);
+
+        JButton btnNewButton = new JButton("Volver atrás");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
-        btnNewButton.setBounds(0, 266, 130, 20);
-        contentPane.add(btnNewButton);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 1; // Ocupa 2 columnas
+        buttonPanel.add(btnNewButton, gbc);
+
+        contentPane.add(formPanel, BorderLayout.CENTER);
+        contentPane.add(buttonPanel, BorderLayout.SOUTH);
     }
 }

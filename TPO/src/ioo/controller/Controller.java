@@ -9,24 +9,17 @@ import java.util.*;
 public class Controller {
 
     private static List<Paciente> pacientes;
-
     private static List<Sucursal> sucursales;
-
     private static List<Practica> practicas;
     private static List<Peticion> peticiones;
-
     private static List<Resultado> resultados;
-
     private static Peticion peticionAMostrar; // se va a usar en el metodo que muestra una peticion si es que no tiene resultados criticos
-
     private static HashSet<Practica> practicasUsadas = new HashSet<>(); //conjunto de practicas usadas
-
     private static HashSet<Practica> practicasInhabilitadas = new HashSet<>(); // conjunto de practicas que fueron inhabilitadas para nuevas peticiones
     private static Controller INSTANCE;
 
-    private Controller() {
-        System.out.println("Controller");
 
+    private Controller() {
         initPacientes();
         initSucursales();
         initResultados();
@@ -53,7 +46,6 @@ public class Controller {
             pretty_pacients.add("DNI             Nombre");
             for(int i = 0; i < pacientes.size(); i++) {
                 pretty_pacients.add(pacientes.get(i).getDni() + "   " + pacientes.get(i).getNombre());
-                System.out.println(pretty_pacients.get(i));
             }
         }
         return pretty_pacients;
@@ -123,14 +115,10 @@ public class Controller {
         if(index != -1) { // encontró el paciente
             if (!pacienteTieneResultados(pacientes.get(index))) { // si no tiene resultados finalizados
                 pacientes.remove(index); // elimina el paciente
-                System.out.print("Se eliminó el paciente");
                 retorno = 1; // devuelve 1 si lo eliminó
             } else {
-                System.out.print("No se pudo eliminar porque tiene resultados");
                 retorno = 2;// devuelve 2 si lo encontró pero no se encuentra porque tiene resultados
             }
-        } else {
-            System.out.print("No existe el paciente");
         }
         return retorno; // devuelve 0 si no lo encontró
     }
@@ -305,7 +293,7 @@ public class Controller {
         Practica practica = null;
         for (int i=0; i < practicas.size(); i++){
             if(practicas.get(i).getCodigoPractica() == codigoPractica){
-                practica = new Practica(practicas.get(i).getCodigoPractica(), practicas.get(i).getCU(),practicas.get(i).getNombre(), practicas.get(i).getGrupo(), practicas.get(i).getValoresCriticos(), practicas.get(i).isValoresReservados(), practicas.get(i).getHoraParaResultado());
+                practica = new Practica(practicas.get(i).getCodigoPractica(), practicas.get(i).getCU(),practicas.get(i).getNombre(), practicas.get(i).getGrupo(), practicas.get(i).getValorCritico(), practicas.get(i).isValoresReservados(), practicas.get(i).getHoraParaResultado());
             }
         }
         return practica;
@@ -330,7 +318,7 @@ public class Controller {
             esModificable = true;
             practicas.get(index).setNombre(practicaAux.getNombre());
             practicas.get(index).setGrupo(practicaAux.getGrupo());
-            practicas.get(index).setValoresCriticos(practicaAux.getValoresCriticos());
+            practicas.get(index).setValorCritico(practicaAux.getValorCritico());
             practicas.get(index).setHoraParaResultado(practicaAux.getHoraParaResultado());
         }
         return esModificable;
@@ -352,7 +340,6 @@ public class Controller {
         if(index != -1) {
             if (esPracticaUsada(practica)){
                 retorno = 1; // retorna 1 si la practica ya fue usada y no puede eliminarse
-                System.out.print("La práctica ya fue usada así que no puede eliminarse");
             }else {
                 retorno = 2; // retorna 2 si la practica fue eliminada
                 practicas.remove(index);
@@ -402,8 +389,6 @@ public class Controller {
         peticiones.add(new Peticion(111,buscarPaciente(40455964),"OSDE",new Date(),listaPracticas1,calcularFechaEntrega(listaPracticas1),buscarSucursal(1)));
         peticiones.add(new Peticion(222,buscarPaciente(95123456),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
         peticiones.add(new Peticion(333,buscarPaciente(95123456),"SWISS MEDICAL",new Date(),listaPracticas2,calcularFechaEntrega(listaPracticas2),buscarSucursal(2)));
-        System.out.println("practicas asociadsakdakda "+peticiones.get(2).getPracticasAsociadas().size());
-
     }
 
     private static Date calcularFechaEntrega (List<Practica> listaPracticas){
@@ -421,32 +406,40 @@ public class Controller {
         return calendar.getTime();
     }
 
-    public boolean crearPeticion(PeticionDTO peticion) {
+    public Vector<Practica> crearPeticion(PeticionDTO peticion) {
         Peticion peticionAux = toModelPeticion(peticion);
         boolean sePuedeCrear = true;
+
+        Vector<Practica> practicasAsociadas = new Vector<>();
+
         for(int i = 0; i < peticiones.size(); i++) {
             if(peticionAux.getNumeroPeticion() == peticiones.get(i).getNumeroPeticion()) {
                 sePuedeCrear = false;
+                break; // Agregar esta línea para salir del bucle cuando se encuentra una coincidencia
             }
         }
         if(sePuedeCrear) {
             peticiones.add(peticionAux);
+            for (int i = 0; i < peticionAux.getPracticasAsociadas().size(); i++) {
+                practicasAsociadas.add(peticionAux.getPracticasAsociadas().get(i));
+            }
         }
-        return sePuedeCrear;
+        return practicasAsociadas;
     }
 
     private static Peticion toModelPeticion(PeticionDTO dto) {
         int nroPeticion = Integer.valueOf(dto.getNumeroPeticion());
         int indexPaciente = getIndexPaciente(dto.getNumeroPaciente());
         Paciente paciente = pacientes.get(indexPaciente);
-        List<Practica> practicas = new ArrayList<>();
-        for (int i=0;i<dto.getPracticasAsociadas().size();i++){
-            Practica practica = crearPractica(dto.getPracticasAsociadas().get(i));
+        List<Practica> practicasAsociadas = new ArrayList<>();
+        for (int i=0;i<dto.getPracticaAsociada().size();i++){
+            Practica practica = crearPractica(dto.getPracticaAsociada().get(i));
             practicas.add(practica);
+            practicasAsociadas.add(practica);
         }
         int indexSucursal = getIndexSucursal(dto.getNumeroSucursal());
         Sucursal sucursal = sucursales.get(indexSucursal);
-        Peticion peticionNueva = new Peticion(nroPeticion, paciente, dto.getObraSocial(), new Date(), practicas, calcularFechaEntrega(practicas), sucursal);
+        Peticion peticionNueva = new Peticion(nroPeticion, paciente, dto.getObraSocial(), new Date(), practicasAsociadas, calcularFechaEntrega(practicas), sucursal);
         return peticionNueva;
     }
 
@@ -460,7 +453,7 @@ public class Controller {
             peticiones.get(index).setNumeroPaciente(paciente);
             peticiones.get(index).setObraSocial(obraSocial);
             peticiones.get(index).setFechaCarga(fechaCarga);
-            peticiones.get(index).setPracticaAsociada(practicaAsociada);
+            peticiones.get(index).setPracticasAsociadas(practicaAsociada);
             peticiones.get(index).setFechaEntrega(fechaEntrega);
             peticiones.get(index).setNumeroSucursal(sucursal);
         }
@@ -493,7 +486,7 @@ public class Controller {
                 for (int j=0; j<peticiones.get(i).getPracticasAsociadas().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
                     for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
                         if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticasAsociadas().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
-                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(i).getPracticasAsociadas().get(j).getValoresCriticos(), peticiones.get(i).getPracticasAsociadas().get(j).isValoresReservados())) {
+                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(i).getPracticasAsociadas().get(j).getValorCritico(), peticiones.get(i).getPracticasAsociadas().get(j).isValoresReservados())) {
                                 peticionesConValoresCriticos.add(peticionToVista(peticiones.get(i)));
                                 bandera = false; // detiene los for que recorren los resultados y las practicas de esa peticion
                             }
@@ -518,15 +511,11 @@ public class Controller {
         List<String> practicas = new ArrayList<>();
         List<String> grupos = new ArrayList<>();
         List<String> resultado = new ArrayList<>();
-        System.out.println("largo "+ peticion.getPracticasAsociadas().size());
         for (int i=0; i<peticion.getPracticasAsociadas().size();i++) {
-            System.out.println("nombre practica "+ peticion.getPracticasAsociadas().get(i).getNombre());
             practicas.add(peticion.getPracticasAsociadas().get(i).getNombre());
-            System.out.println("nombre grupo "+ peticion.getPracticasAsociadas().get(i).getGrupo());
             grupos.add(peticion.getPracticasAsociadas().get(i).getGrupo());
             for (int j=0; j<resultados.size();j++){
                 if (resultados.get(j).getCodigoPractica() == peticion.getPracticasAsociadas().get(i).getCodigoPractica()) {
-                    System.out.println("resultado "+ resultados.get(j).getValor());
                     resultado.add(String.valueOf(resultados.get(j).getValor()));
                 }
             }
@@ -546,42 +535,36 @@ public class Controller {
         return esvalorCritico;
     }
 
-    public HashMap<String, String> sePuedeMostrarPeticion (int nroPeticion){
+    public ResultadoPeticionDTO sePuedeMostrarPeticion(int nroPeticion){
         int index = getIndexPeticion(nroPeticion);
-        HashMap<String, String> retorno = new HashMap<>();
-
-        String result = "";
-        retorno.put("respuesta", String.valueOf(0));
+        Vector<Practica> practicasAsociadas = new Vector<>();
+        Vector<Resultado> resultadosAsociados = new Vector<>();
+        ResultadoPeticionDTO resultadoPeticion = new ResultadoPeticionDTO(0, practicasAsociadas, resultadosAsociados);
         if(index != -1){ // encontro la peticion
-            System.out.print("encontro la peticion");
-            retorno.put("respuesta", String.valueOf(1)); // retorna 1 si la peticion se puede mostrar
-            boolean bandera = true;
-            boolean tieneResultados = false;
-               for (int j=0; j<peticiones.get(index).getPracticasAsociadas().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
-                   for (int k=0; k<resultados.size() && bandera == true; k++){ // recorre todos los resultados
-                       if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticasAsociadas().get(j).getCU()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
-                           System.out.print("encontro resultados para esa peticion");
-                           tieneResultados = true;
-                           if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticasAsociadas().get(j).getValorCritico(), peticiones.get(index).getPracticasAsociadas().get(j).isValoresReservados())) {
-                               bandera = false; // detiene los for que recorren los resultados y las practicas de la peticion
-                                       retorno.put("respuesta", String.valueOf(2));  //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
-                            }
-                            result += "Pr\u00E1ctica:" + practicas.get(j).getNombre() + " Valor:" + resultados.get(k).getValor() + "\n";
+            resultadoPeticion.setRetorno(1);
+            boolean esCritico = false;
+            for (int j=0; j<peticiones.get(index).getPracticasAsociadas().size() && esCritico != true ;j++) {// recorre la lista de prácticas de esa petición
+                for (int k=0; k<resultados.size() && esCritico != true; k++){ // recorre todos los resultados
+                    if (resultados.get(k).getCodigoPractica() == peticiones.get(index).getPracticasAsociadas().get(j).getCU()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                        resultadoPeticion.getPracticas().add(practicas.get(j));
+                        resultadoPeticion.getResultados().add(resultados.get(k));
+                        if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticasAsociadas().get(j).getValorCritico(), peticiones.get(index).getPracticasAsociadas().get(j).isValoresReservados())) {
+                            esCritico = true; // detiene los for que recorren los resultados y las practicas de la peticion
+                            resultadoPeticion.setRetorno(2); //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
                         }
                     }
                 }
             }
-        if (Integer.parseInt(retorno.get("respuesta")) ==1){
-            peticionAMostrar = peticiones.get(index);
-            System.out.print("agrego a peticionAMostrar");
         }
-        retorno.put("resultado", result);
-        return retorno;
+        int numeroRetorno = resultadoPeticion.getRetorno();
+        if (numeroRetorno == 1){
+            peticionAMostrar = peticiones.get(index);
+        }
+        return resultadoPeticion;
     }
 
     public PeticionMVC mostrarPeticion () { // devuelve a la vista los datos de la peticion una vez que se confirma que se puede mostrar (no tiene resultados con valores reservados o criticos)
         PeticionMVC mvc = peticionToVista(peticionAMostrar);
-        System.out.print((mvc.getNumeroSucursal()));
         peticionAMostrar = null;
         return mvc;
     }
@@ -599,7 +582,6 @@ public class Controller {
     private static Sucursal buscarSucursal(int nroSucursal){
         Sucursal sucursalBuscada = null;
         for(int i = 0; i < sucursales.size(); i++) {
-            System.out.print(sucursales.get(i).getNroSucursal());
             if(nroSucursal == sucursales.get(i).getNroSucursal()) {
                 sucursalBuscada= sucursales.get(i);
             }
@@ -615,8 +597,6 @@ public class Controller {
                     if (!practicasInhabilitadas.contains(codigosPractica.get(i))){ // si la practica no fue inhabilitada
                         practicasAsociadas.add(practicas.get(k));
                         practicasUsadas.add(practicas.get(k)); // agrega la practica al conjunto practicasUsadas
-                    } else {
-                        System.out.print("La práctica se encuentra inhabilitada");
                     }
                 }
             }

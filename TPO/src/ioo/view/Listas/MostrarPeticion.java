@@ -3,11 +3,14 @@ package ioo.view.Listas;
 import ioo.controller.Controller;
 import ioo.dto.PeticionMVC;
 import ioo.dto.PracticaDTO;
+import ioo.dto.ResultadoPeticionDTO;
+import ioo.model.Practica;
 import ioo.model.Resultado;
 import ioo.view.Sucursal.EliminarSucursal;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -23,15 +26,15 @@ public class MostrarPeticion extends JFrame {
 
     private JLabel lblObraSocial;
     private JLabel lblNroPeticion;
-
     private JLabel lblNroPaciente;
-
     private JLabel lblNombrePaciente;
-
     private JLabel lblPracticas;
-
     private JLabel lblNroSucursal;
     private JTextField codigoPeticion;
+
+    // ejemplos
+    private JLabel lblMensaje;
+    private JTable tablaDatos;
 
     public MostrarPeticion() {
 
@@ -67,8 +70,9 @@ public class MostrarPeticion extends JFrame {
                                 "Formulario incompleto", JOptionPane.WARNING_MESSAGE);
                     } else {
                         int nro = Integer.parseInt(codigoPeticion.getText());
-                        HashMap<String, String> dict = Controller.getControlador().sePuedeMostrarPeticion(nro);
-                        switch (Integer.parseInt(dict.get("respuesta"))) {
+                        ResultadoPeticionDTO resultadoPeticion = Controller.getControlador().sePuedeMostrarPeticion(nro);
+
+                        switch (resultadoPeticion.getRetorno()) {
                             case 0:
                                 JOptionPane.showMessageDialog(null, "No existe petición", "No existe petición",
                                         JOptionPane.WARNING_MESSAGE);
@@ -121,11 +125,30 @@ public class MostrarPeticion extends JFrame {
                                     lblPracticas.setBounds(10, 130, 200, 20);
                                     getContentPane().add(lblPracticas);
                                 }
-                                lblPracticas.setText(dict.get("resultado"));
+
+                                String[] columnNames = {"Práctica", "Valor del resultado"};
+                                Object[][] data = new Object[resultadoPeticion.getResultados().size()][columnNames.length];
+
+                                for (int i = 0; i < resultadoPeticion.getResultados().size(); i++) {
+                                    Resultado resultado = resultadoPeticion.getResultados().get(i);
+                                    Practica practica = resultadoPeticion.getPracticas().get(i);
+                                    data[i][0] = practica.getNombre();
+                                    data[i][1] = resultado.getValor();
+                                }
+
+                                lblMensaje = new JLabel("Resultados de la petición:");
+                                lblMensaje.setFont(new Font("Arial", Font.BOLD, 12));
+                                contentPane.add(lblMensaje, BorderLayout.NORTH);
+                                lblMensaje.setBounds(10, 130, 200, 20);
+                                getContentPane().add(lblMensaje);
+
+                                tablaDatos = new JTable(data, columnNames);
+                                JScrollPane scrollPane = new JScrollPane(tablaDatos);
+                                scrollPane.setBounds(10, 160, 400, 80);
+                                contentPane.add(scrollPane, BorderLayout.CENTER);
 
                                 revalidate();
                                 repaint();
-
                                 break;
                             case 2:
                                 JOptionPane.showMessageDialog(null, "Retirar por sucursal", "Retirar por sucursal",

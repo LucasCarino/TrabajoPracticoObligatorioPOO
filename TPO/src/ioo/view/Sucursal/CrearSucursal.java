@@ -5,6 +5,7 @@ import ioo.dto.SucursalDTO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,42 +20,63 @@ public class CrearSucursal extends JFrame {
             setResizable(false);
             setTitle("Crear Sucursal");
 
-            setBounds(100, 100, 442, 327);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setBounds(100, 100, 442, 400);
             contentPane = new JPanel();
             contentPane.setBackground(UIManager.getColor("null"));
             contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+            contentPane.setBackground(new Color(186, 246, 200));
             setContentPane(contentPane);
-            contentPane.setLayout(null);
+            contentPane.setLayout(new BorderLayout());
             setLocationRelativeTo(null);
 
-            JLabel lbnroSucursal = new JLabel("Nro Sucursal:");
-            lbnroSucursal.setBounds(10, 7, 120, 14);
-            contentPane.add(lbnroSucursal);
+            JPanel formPanel = new JPanel();
+            formPanel.setLayout(new GridBagLayout());
+            formPanel.setBackground(new Color(186, 246, 200));
+
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new GridLayout(0, 2, 5, 5));
+            buttonPanel.setBackground(new Color(186, 246, 200));
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.insets = new Insets(5, 5, 5, 5);
+
+            JLabel lbnroSucursal = new JLabel("Nombre:");
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            formPanel.add(lbnroSucursal, gbc);
 
             nroSucursal = new JTextField();
-            nroSucursal.setBounds(124, 5, 50, 20);
-            contentPane.add(nroSucursal);
-            nroSucursal.setColumns(10);
+            nroSucursal.setColumns(15);
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            formPanel.add(nroSucursal, gbc);
 
             JLabel lbdireccion = new JLabel("Dirección:");
-            lbdireccion.setBounds(10, 25, 120, 27);
-            contentPane.add(lbdireccion);
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            formPanel.add(lbdireccion, gbc);
 
             direccion = new JTextField();
-            direccion.setBounds(124, 28, 275, 20);
-            contentPane.add(direccion);
-            direccion.setColumns(10);
+            direccion.setColumns(15);
+            gbc.gridx = 1;
+            gbc.gridy = 1;
+            formPanel.add(direccion, gbc);
 
-            JLabel lbnombreResponsableTecnico = new JLabel("Responsable Técnico:");
-            lbnombreResponsableTecnico.setBounds(10, 55, 46, 14);
-            contentPane.add(lbnombreResponsableTecnico);
+            JLabel lbnombreResponsableTecnico = new JLabel("Responsable técnico:");
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            formPanel.add(lbnombreResponsableTecnico, gbc);
 
             nombreResponsableTecnico = new JTextField();
-            nombreResponsableTecnico.setBounds(124, 53, 156, 20);
-            contentPane.add(nombreResponsableTecnico);
-            nombreResponsableTecnico.setColumns(10);
+            nombreResponsableTecnico.setColumns(15);
+            gbc.gridx = 1;
+            gbc.gridy = 2;
+            formPanel.add(nombreResponsableTecnico, gbc);
 
-            JButton btnCrearSucursal = new JButton("Crear Paciente");
+            JButton btnCrearSucursal = new JButton("Crear Sucursal");
             btnCrearSucursal.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
@@ -90,16 +112,30 @@ public class CrearSucursal extends JFrame {
                     }
                 }
             });
-            btnCrearSucursal.setBounds(170, 266, 140, 20);
-            contentPane.add(btnCrearSucursal);
+            gbc.gridx = 0;
+            gbc.gridy = 6;
+            gbc.gridwidth = 1; // Ocupa 2 columnas
 
-            JButton btnNewButton = new JButton("Volver atr\u00E1s");
+            btnCrearSucursal.setBackground(Color.BLUE);
+            btnCrearSucursal.setOpaque(true);
+            btnCrearSucursal.setFont(new Font("Arial", Font.BOLD, 14));
+            btnCrearSucursal.setForeground(Color.WHITE);
+            btnCrearSucursal.setPreferredSize(new Dimension(200, 20));
+
+            buttonPanel.add(btnCrearSucursal, gbc);
+
+            JButton btnNewButton = new JButton("Volver atrás");
             btnNewButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     dispose();
                 }
             });
-            btnNewButton.setBounds(0, 266, 130, 20);
-            contentPane.add(btnNewButton);
+            gbc.gridx = 0;
+            gbc.gridy = 7; // A continuación del botón "Crear Paciente"
+            gbc.gridwidth = 1; // Ocupa 2 columnas
+            buttonPanel.add(btnNewButton, gbc);
+
+            contentPane.add(formPanel, BorderLayout.CENTER);
+            contentPane.add(buttonPanel, BorderLayout.SOUTH);
         }
     }

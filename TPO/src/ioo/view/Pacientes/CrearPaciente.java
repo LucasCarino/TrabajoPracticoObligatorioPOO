@@ -4,8 +4,10 @@ import ioo.dto.PacienteDTO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 public class CrearPaciente extends JFrame {
 
@@ -21,73 +23,97 @@ public class CrearPaciente extends JFrame {
         setResizable(false);
         setTitle("Crear Paciente");
 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 442, 327);
         contentPane = new JPanel();
         contentPane.setBackground(UIManager.getColor("null"));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        contentPane.setBackground(new Color(186, 246, 200));
         setContentPane(contentPane);
-        contentPane.setLayout(null);
+        contentPane.setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new GridBagLayout());
+        formPanel.setBackground(new Color(186, 246, 200));
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(0, 2, 5, 5));
+        buttonPanel.setBackground(new Color(186, 246, 200));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
         JLabel lbNombrePaciente = new JLabel("Nombre:");
-        lbNombrePaciente.setBounds(10, 25, 120, 27);
-        contentPane.add(lbNombrePaciente);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        formPanel.add(lbNombrePaciente, gbc);
 
         NombrePaciente = new JTextField();
-        NombrePaciente.setBounds(124, 28, 275, 20);
-        contentPane.add(NombrePaciente);
-        NombrePaciente.setColumns(10);
+        NombrePaciente.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        formPanel.add(NombrePaciente, gbc);
 
         JLabel lbDNIPaciente = new JLabel("DNI:");
-        lbDNIPaciente.setBounds(10, 55, 46, 14);
-        contentPane.add(lbDNIPaciente);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        formPanel.add(lbDNIPaciente, gbc);
 
         DNIPaciente = new JTextField();
-        DNIPaciente.setBounds(124, 53, 156, 20);
-        contentPane.add(DNIPaciente);
-        DNIPaciente.setColumns(10);
+        DNIPaciente.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        formPanel.add(DNIPaciente, gbc);
 
         JLabel lbEdadPaciente = new JLabel("Edad");
-        lbEdadPaciente.setBounds(10, 78, 120, 28);
-
-        contentPane.add(lbEdadPaciente);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        formPanel.add(lbEdadPaciente, gbc);
 
         EdadPaciente = new JTextField();
-        EdadPaciente.setBounds(124, 80, 30, 20);
-
-        contentPane.add(EdadPaciente);
-        EdadPaciente.setColumns(10);
+        EdadPaciente.setColumns(5);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        formPanel.add(EdadPaciente, gbc);
 
         JLabel lbSexoPaciente = new JLabel("Sexo:");
-        lbSexoPaciente.setBounds(10, 106, 90, 14);
-        contentPane.add(lbSexoPaciente);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        formPanel.add(lbSexoPaciente, gbc);
 
         SexoPaciente = new JTextField();
-        SexoPaciente.setBounds(124, 104, 30, 20);
-        contentPane.add(SexoPaciente);
-        SexoPaciente.setColumns(10);
-
+        SexoPaciente.setColumns(5);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        formPanel.add(SexoPaciente, gbc);
 
         JLabel lbDomicilioPaciente = new JLabel("Domicilio:");
-        lbDomicilioPaciente.setBounds(10, 130, 100, 14);
-        contentPane.add(lbDomicilioPaciente);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        formPanel.add(lbDomicilioPaciente, gbc);
 
         DomicilioPaciente = new JTextField();
-        DomicilioPaciente.setBounds(124, 128, 132, 20);
-        contentPane.add(DomicilioPaciente);
-        DomicilioPaciente.setColumns(10);
-
+        DomicilioPaciente.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        formPanel.add(DomicilioPaciente, gbc);
 
         JLabel lbMail = new JLabel("Mail:");
-        lbMail.setBounds(10, 155, 90, 14);
-        contentPane.add(lbMail);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        formPanel.add(lbMail, gbc);
 
         MailPaciente = new JTextField();
-        MailPaciente.setBounds(124, 154, 132, 20);
-        contentPane.add(MailPaciente);
-        MailPaciente.setColumns(10);
+        MailPaciente.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        formPanel.add(MailPaciente, gbc);
 
         JButton btnCrearPaciente = new JButton("Crear Paciente");
+
         btnCrearPaciente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -133,16 +159,30 @@ public class CrearPaciente extends JFrame {
                 }
             }
         });
-        btnCrearPaciente.setBounds(170, 266, 140, 20);
-        contentPane.add(btnCrearPaciente);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1; // Ocupa 2 columnas
 
-        JButton btnNewButton = new JButton("Volver atr\u00E1s");
+        btnCrearPaciente.setBackground(Color.BLUE);
+        btnCrearPaciente.setOpaque(true);
+        btnCrearPaciente.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCrearPaciente.setForeground(Color.WHITE);
+        btnCrearPaciente.setPreferredSize(new Dimension(200, 20));
+
+        buttonPanel.add(btnCrearPaciente, gbc);
+
+        JButton btnNewButton = new JButton("Volver atrás");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
-        btnNewButton.setBounds(0, 266, 130, 20);
-        contentPane.add(btnNewButton);
+        gbc.gridx = 0;
+        gbc.gridy = 7; // A continuación del botón "Crear Paciente"
+        gbc.gridwidth = 1; // Ocupa 2 columnas
+        buttonPanel.add(btnNewButton, gbc);
+
+        contentPane.add(formPanel, BorderLayout.CENTER);
+        contentPane.add(buttonPanel, BorderLayout.SOUTH);
     }
 }

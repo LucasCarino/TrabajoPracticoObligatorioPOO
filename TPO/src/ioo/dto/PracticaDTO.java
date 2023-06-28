@@ -9,7 +9,6 @@ public class PracticaDTO {
     private boolean valoresReservados;
     private int horaParaResultado;
 
-
     public PracticaDTO(int codigoPractica, String nombre, String grupo, int valoresCriticos, boolean valoresReservados, int horaParaResultado) {
         this.codigoPractica = codigoPractica;
         this.nombre = nombre;
@@ -17,7 +16,6 @@ public class PracticaDTO {
         this.valoresCriticos = valoresCriticos;
         this.valoresReservados = valoresReservados;
         this.horaParaResultado = horaParaResultado;
-
     }
 
     public int getCodigoPractica() {

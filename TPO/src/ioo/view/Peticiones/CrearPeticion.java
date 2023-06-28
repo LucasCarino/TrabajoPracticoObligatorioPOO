@@ -1,19 +1,22 @@
 package ioo.view.Peticiones;
 
 import ioo.controller.Controller;
-import ioo.dto.PacienteDTO;
-import ioo.dto.PeticionDTO;
+import ioo.dto.*;
+import ioo.model.*;
 
 import javax.swing.JComboBox;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 
 public class CrearPeticion extends JFrame {
 
@@ -27,71 +30,106 @@ public class CrearPeticion extends JFrame {
     public CrearPeticion() {
         setResizable(false);
         setTitle("Crear Petición");
-        JComboBox<String> comboBox;
 
-        setBounds(100, 100, 442, 327);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 442, 400);
         contentPane = new JPanel();
         contentPane.setBackground(UIManager.getColor("null"));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        contentPane.setBackground(new Color(186, 246, 200));
         setContentPane(contentPane);
-        contentPane.setLayout(null);
+        contentPane.setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
-        JLabel lbPeticionId = new JLabel("Código Petición:");
-        lbPeticionId.setBounds(10, 7, 120, 14);
-        contentPane.add(lbPeticionId);
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new GridBagLayout());
+        formPanel.setBackground(new Color(186, 246, 200));
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(0, 2, 5, 5));
+        buttonPanel.setBackground(new Color(186, 246, 200));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        JLabel lbPeticionId = new JLabel("Nombre:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        formPanel.add(lbPeticionId, gbc);
 
         numeroPeticion = new JTextField();
-        numeroPeticion.setBounds(150, 5, 50, 20);
-        contentPane.add(numeroPeticion);
-        numeroPeticion.setColumns(10);
+        numeroPeticion.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        formPanel.add(numeroPeticion, gbc);
 
-        JLabel lbNumeroPaciente = new JLabel("Número Paciente:");
-        lbNumeroPaciente.setBounds(10, 25, 120, 27);
-        contentPane.add(lbNumeroPaciente);
+        JLabel lbNumeroPaciente = new JLabel("DNI del paciente:");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        formPanel.add(lbNumeroPaciente, gbc);
 
         NumeroPaciente = new JTextField();
-        NumeroPaciente.setBounds(150, 28, 50, 20);
-        contentPane.add(NumeroPaciente);
-        NumeroPaciente.setColumns(10);
+        NumeroPaciente.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        formPanel.add(NumeroPaciente, gbc);
 
-        JLabel lbObraSocial = new JLabel("Obra Social:");
-        lbObraSocial.setBounds(10, 55, 120, 14);
-        contentPane.add(lbObraSocial);
+        JLabel lbObraSocial = new JLabel("Obra social:");
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        formPanel.add(lbObraSocial, gbc);
 
         obraSocial = new JTextField();
-        obraSocial.setBounds(150, 53, 156, 20);
-        contentPane.add(obraSocial);
-        obraSocial.setColumns(10);
+        obraSocial.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        formPanel.add(obraSocial, gbc);
 
-        JLabel lbnumerosucursal = new JLabel("Número de Sucursal:");
-        lbnumerosucursal.setBounds(10, 80, 150, 14);
-        contentPane.add(lbnumerosucursal);
+        JLabel lbnumerosucursal = new JLabel("Número de sucursal:");
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        formPanel.add(lbnumerosucursal, gbc);
 
         numeroSucursal = new JTextField();
-        numeroSucursal.setBounds(150, 80, 132, 20);
-        contentPane.add(numeroSucursal);
-        numeroSucursal.setColumns(10);
+        numeroSucursal.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        formPanel.add(numeroSucursal, gbc);
 
+        JLabel lbpracticaAsociada = new JLabel("Prácticas:");
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        formPanel.add(lbpracticaAsociada, gbc);
 
-        JLabel lbpracticaAsociada = new JLabel("Código de prácticas:");
-        lbpracticaAsociada.setBounds(10, 106, 120, 14);
-        contentPane.add(lbpracticaAsociada);
         JCheckBox checkbox1 = new JCheckBox("Glucemia");
         JCheckBox checkbox2 = new JCheckBox("Colesterol");
         JCheckBox checkbox3 = new JCheckBox("Cloruro");
         JCheckBox checkbox4 = new JCheckBox("Creatinina");
         JCheckBox checkbox5 = new JCheckBox("HIV");
-        checkbox1.setBounds(150, 106, 120, 20);
-        checkbox2.setBounds(150, 126, 120, 20);
-        checkbox3.setBounds(150, 146, 120, 20);
-        checkbox4.setBounds(150, 166, 120, 20);
-        checkbox5.setBounds(150, 186, 120, 20);
-        contentPane.add(checkbox1);
-        contentPane.add(checkbox2);
-        contentPane.add(checkbox3);
-        contentPane.add(checkbox4);
-        contentPane.add(checkbox5);
+
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        formPanel.add(checkbox1, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        formPanel.add(checkbox2, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        formPanel.add(checkbox3, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        formPanel.add(checkbox4, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        formPanel.add(checkbox5, gbc);
 
         List<Integer> practicasSeleccionadas = new ArrayList<>();
 
@@ -168,9 +206,43 @@ public class CrearPeticion extends JFrame {
                         int nro_sucursal = Integer.parseInt(numeroSucursal.getText());
 
                         PeticionDTO nueva_peticion = new PeticionDTO(nro_peticion, nro_paciente, obra_social, practicasSeleccionadas, nro_sucursal);
-                        boolean respuesta = Controller.getControlador().crearPeticion(nueva_peticion);
-                        if (respuesta) {
+
+
+                        // cambiar esto a un arr
+                        Vector<Practica> respuestas_practicas_asociadas = new Vector<>();
+                        respuestas_practicas_asociadas = Controller.getControlador().crearPeticion(nueva_peticion);
+
+                        if (respuestas_practicas_asociadas.size() > 0) {
+
                             JOptionPane.showMessageDialog(null, "La petición se ha creado correctamente", "Petición Creada", JOptionPane.INFORMATION_MESSAGE);
+
+                            // Crear los datos de ejemplo para la tabla
+                            List<Practica> tablaPracticas = new ArrayList<>();
+
+                            for (Practica obj : respuestas_practicas_asociadas) {
+                                tablaPracticas.add(obj);
+                            }
+
+                            Object[][] data = new Object[tablaPracticas.size()][3];
+                            for (int i = 0; i < tablaPracticas.size(); i++) {
+                                Practica practica = tablaPracticas.get(i);
+                                data[i][0] = practica.getCU(); // Reemplaza con el método adecuado para obtener el valor de la columna 1
+                                data[i][1] = practica.getNombre(); // Reemplaza con el método adecuado para obtener el valor de la columna 2
+                                data[i][2] = practica.getHoraParaResultado(); // Reemplaza con el método adecuado para obtener el valor de la columna 3
+                            }
+
+                            // Crear los nombres de columna para la tabla
+                            String[] columnNames = {"Código único de la Practica", "Nombre", "Hora para resultado"};
+                            DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+
+                            // Crear la tabla con el modelo
+                            JTable table = new JTable(tableModel);
+
+                            // Crear un JScrollPane para permitir desplazamiento si la tabla tiene muchos datos
+                            JScrollPane scrollPane = new JScrollPane(table);
+
+                            // Mostrar el diálogo con la tabla dentro de un JScrollPane
+                            JOptionPane.showMessageDialog(null, scrollPane, "Practicas asociadas", JOptionPane.PLAIN_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "Ya existe una petición con ese número en el sistema", "Petición Duplicada", JOptionPane.ERROR_MESSAGE);
                         }
@@ -186,17 +258,31 @@ public class CrearPeticion extends JFrame {
                 }
             }
         });
-        btnCrearPeticion.setBounds(170, 266, 140, 20);
-        contentPane.add(btnCrearPeticion);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1; // Ocupa 2 columnas
 
-        JButton btnNewButton = new JButton("Volver atr\u00E1s");
+        btnCrearPeticion.setBackground(Color.BLUE);
+        btnCrearPeticion.setOpaque(true);
+        btnCrearPeticion.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCrearPeticion.setForeground(Color.WHITE);
+        btnCrearPeticion.setPreferredSize(new Dimension(200, 20));
+
+        buttonPanel.add(btnCrearPeticion, gbc);
+
+        JButton btnNewButton = new JButton("Volver atrás");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
-        btnNewButton.setBounds(0, 266, 130, 20);
-        contentPane.add(btnNewButton);
+        gbc.gridx = 0;
+        gbc.gridy = 7; // A continuación del botón "Crear Paciente"
+        gbc.gridwidth = 1; // Ocupa 2 columnas
+        buttonPanel.add(btnNewButton, gbc);
+
+        contentPane.add(formPanel, BorderLayout.CENTER);
+        contentPane.add(buttonPanel, BorderLayout.SOUTH);
     }
 }
 
