@@ -550,9 +550,12 @@ public class Controller {
 
     public int sePuedeMostrarPeticion (int nroPeticion){
         int index = getIndexPeticion(nroPeticion);
+
+        // TODO: erase this. It's just for testing
         for (int i = 0; i<peticiones.size();i++){
             System.out.println(peticiones.get(i).getNumeroPeticion());
         }
+
         int retorno = 0;
         if(index != -1){ // encontro la peticion
             System.out.print("encontro la peticion");
@@ -564,7 +567,7 @@ public class Controller {
                        if (resultados.get(k).getCodigoPractica()==peticiones.get(index).getPracticasAsociadas().get(j).getCU()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
                            System.out.print("encontro resultados para esa peticion");
                            tieneResultados = true;
-                           if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticasAsociadas().get(j).getValoresCriticos(), peticiones.get(index).getPracticasAsociadas().get(j).isValoresReservados())) {
+                           if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticasAsociadas().get(j).getValorCritico(), peticiones.get(index).getPracticasAsociadas().get(j).isValoresReservados())) {
                                bandera = false; // detiene los for que recorren los resultados y las practicas de la peticion
                                retorno = 2; //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
                             }

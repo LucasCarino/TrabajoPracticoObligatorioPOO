@@ -1,8 +1,5 @@
 package ioo.dto;
 
-import ioo.model.Sucursal;
-
-import java.util.Date;
 import java.util.List;
 
 public class PeticionMVC {
