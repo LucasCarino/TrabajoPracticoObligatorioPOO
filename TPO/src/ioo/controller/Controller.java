@@ -1,6 +1,4 @@
 package ioo.controller;
-import ioo.dto.PeticionMVC;
-
 import ioo.dto.*;
 import ioo.model.*;
 import lombok.SneakyThrows;
@@ -548,18 +546,15 @@ public class Controller {
         return esvalorCritico;
     }
 
-    public int sePuedeMostrarPeticion (int nroPeticion){
+    public HashMap<String, String> sePuedeMostrarPeticion (int nroPeticion){
         int index = getIndexPeticion(nroPeticion);
+        HashMap<String, String> retorno = new HashMap<>();
 
-        // TODO: erase this. It's just for testing
-        for (int i = 0; i<peticiones.size();i++){
-            System.out.println(peticiones.get(i).getNumeroPeticion());
-        }
-
-        int retorno = 0;
+        String result = "";
+        retorno.put("respuesta", String.valueOf(0));
         if(index != -1){ // encontro la peticion
             System.out.print("encontro la peticion");
-            retorno = 1; // retorna 1 si la peticion se puede mostrar
+            retorno.put("respuesta", String.valueOf(1)); // retorna 1 si la peticion se puede mostrar
             boolean bandera = true;
             boolean tieneResultados = false;
                for (int j=0; j<peticiones.get(index).getPracticasAsociadas().size() && bandera == true ;j++) {// recorre la lista de prácticas de esa petición
@@ -569,16 +564,18 @@ public class Controller {
                            tieneResultados = true;
                            if (esValorCritico(resultados.get(k).getValor(),peticiones.get(index).getPracticasAsociadas().get(j).getValorCritico(), peticiones.get(index).getPracticasAsociadas().get(j).isValoresReservados())) {
                                bandera = false; // detiene los for que recorren los resultados y las practicas de la peticion
-                               retorno = 2; //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
+                                       retorno.put("respuesta", String.valueOf(2));  //retorna 2 si la peticion tiene resultados criticos y no se puede mostrar
                             }
+                            result += "Pr\u00E1ctica:" + practicas.get(j).getNombre() + " Valor:" + resultados.get(k).getValor() + "\n";
                         }
                     }
                 }
             }
-        if (retorno ==1){
+        if (Integer.parseInt(retorno.get("respuesta")) ==1){
             peticionAMostrar = peticiones.get(index);
             System.out.print("agrego a peticionAMostrar");
         }
+        retorno.put("resultado", result);
         return retorno;
     }
 
