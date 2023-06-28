@@ -23,7 +23,7 @@ public class ModificarPaciente extends JFrame {
 
         setBounds(100, 100, 442, 327);
         contentPane = new JPanel();
-        contentPane.setBackground(UIManager.getColor("Table.selectionBackground"));
+        contentPane.setBackground(UIManager.getColor("null"));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
