@@ -1,5 +1,6 @@
 package ioo.view;
 
+import ioo.view.Listas.ListaPacientes;
 import ioo.view.Listas.MostrarPeticion;
 import ioo.view.Pacientes.CrearPaciente;
 import ioo.view.Pacientes.EliminarPaciente;
@@ -214,8 +215,8 @@ public class MenuPrincipal extends JFrame {
         botonConsultarPacientes.setFont(new Font("Tahoma", Font.PLAIN, 16));
         botonConsultarPacientes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               // MostrarPacientes ventana = new MostrarPacientes();
-               // ventana.setVisible(true);
+                ListaPacientes ventana = new ListaPacientes();
+                ventana.setVisible(true);
             }
         });
         botonConsultarPacientes.setBounds(90, 50, 300, 45);

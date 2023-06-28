@@ -1,4 +1,5 @@
 package ioo.controller;
+import ioo.dto.PeticionMVC;
 
 import ioo.dto.*;
 import ioo.model.*;
@@ -24,6 +25,8 @@ public class Controller {
     private static Controller INSTANCE;
 
     private Controller() {
+        System.out.println("Controller");
+
         initPacientes();
         initSucursales();
         initResultados();
@@ -44,10 +47,16 @@ public class Controller {
         pacientes.add(new Paciente( "F", 23, 95123456, "Mafe", "Calle Belgrano", "mafe@gmail.com"));
     }
 
-    public static void getPacientes() {
-//        for(int i = 0; i < pacientes.size(); i++) {
-//            System.out.println(pacientes.get(i).getNombre());
-//        }
+    public static Vector<String> getPacientes() {
+        Vector<String> pretty_pacients = new Vector<>();
+        if (pacientes != null) {
+            pretty_pacients.add("DNI             Nombre");
+            for(int i = 0; i < pacientes.size(); i++) {
+                pretty_pacients.add(pacientes.get(i).getDni() + "   " + pacientes.get(i).getNombre());
+                System.out.println(pretty_pacients.get(i));
+            }
+        }
+        return pretty_pacients;
     }
 
     public boolean crearPaciente(PacienteDTO dto) {
