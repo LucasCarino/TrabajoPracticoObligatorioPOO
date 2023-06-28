@@ -71,7 +71,7 @@ public class Controller {
                             peticionesConResultadoCritico.add("PeticionID: " + String.valueOf(aux.getNumeroPeticion()) + String.valueOf("      Sucursal a retirar: " + aux.getNumeroSucursal().getDireccion()));
                         }
                     }
-                    
+
                 }
             }
         }
@@ -213,7 +213,7 @@ public class Controller {
             if (peticiones.get(i).getNumeroSucursal().getNroSucursal() == sucursal.getNroSucursal()) { // cuando encuentra una peticion que pertenece a esa sucursal
                 for (int j=0; j<peticiones.get(i).getPracticasAsociadas().size();j++) {// recorre la lista de prácticas de esa petición
                     for (int k=0; k<resultados.size(); k++){
-                        if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticasAsociadas().get(j).getCodigoPractica()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
+                        if (resultados.get(k).getCodigoPractica()==peticiones.get(i).getPracticasAsociadas().get(j).getCU()) { // compara el codigo de practica del resultado con el codigo de practica de las practicas asociadas a esa peticion
                             tieneResultados =true;
                             return tieneResultados;
                         }

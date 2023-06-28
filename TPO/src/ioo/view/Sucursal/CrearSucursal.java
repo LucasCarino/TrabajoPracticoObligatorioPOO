@@ -43,7 +43,7 @@ public class CrearSucursal extends JFrame {
             gbc.anchor = GridBagConstraints.WEST;
             gbc.insets = new Insets(5, 5, 5, 5);
 
-            JLabel lbnroSucursal = new JLabel("Nombre:");
+            JLabel lbnroSucursal = new JLabel("Número sucursal:");
             gbc.gridx = 0;
             gbc.gridy = 0;
             formPanel.add(lbnroSucursal, gbc);
@@ -98,9 +98,9 @@ public class CrearSucursal extends JFrame {
                             boolean respuesta = Controller.getControlador().crearSucursal(nueva_sucursal);
 
                             if (respuesta) {
-                                JOptionPane.showMessageDialog(null, "La sucursal se ha creado correctamente", "Paciente Creado", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "La sucursal se ha creado correctamente", "Sucursal Creada", JOptionPane.INFORMATION_MESSAGE);
                             } else {
-                                JOptionPane.showMessageDialog(null, "La sucursal ya existe en el sistema", "Paciente Duplicado", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "La sucursal ya existe en el sistema", "Sucursal Duplicada", JOptionPane.ERROR_MESSAGE);
                             }
                             nroSucursal.setText("");
                             direccion.setText("");

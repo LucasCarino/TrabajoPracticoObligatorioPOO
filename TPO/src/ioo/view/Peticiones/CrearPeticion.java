@@ -54,7 +54,7 @@ public class CrearPeticion extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        JLabel lbPeticionId = new JLabel("Nombre:");
+        JLabel lbPeticionId = new JLabel("ID petición:");
         gbc.gridx = 0;
         gbc.gridy = 0;
         formPanel.add(lbPeticionId, gbc);
@@ -104,15 +104,21 @@ public class CrearPeticion extends JFrame {
         formPanel.add(lbpracticaAsociada, gbc);
 
         JCheckBox checkbox1 = new JCheckBox("Glucemia");
+        checkbox1.setBackground(new Color(186, 246, 200));
         JCheckBox checkbox2 = new JCheckBox("Colesterol");
+        checkbox2.setBackground(new Color(186, 246, 200));
         JCheckBox checkbox3 = new JCheckBox("Cloruro");
+        checkbox3.setBackground(new Color(186, 246, 200));
         JCheckBox checkbox4 = new JCheckBox("Creatinina");
+        checkbox4.setBackground(new Color(186, 246, 200));
         JCheckBox checkbox5 = new JCheckBox("HIV");
+        checkbox5.setBackground(new Color(186, 246, 200));
 
         gbc.gridx = 1;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 5, 5, 5);
+
         formPanel.add(checkbox1, gbc);
 
         gbc.gridx = 1;

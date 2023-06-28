@@ -15,6 +15,7 @@ public class ModificarSucursal extends JFrame {
     private JTextField nroSucursal;
     private JTextField direccion;
     private JTextField nombreResponsableTecnico;
+
     public ModificarSucursal() {
         setResizable(false);
         setTitle("Crear Paciente");

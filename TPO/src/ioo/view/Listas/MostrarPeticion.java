@@ -37,30 +37,61 @@ public class MostrarPeticion extends JFrame {
     private JTable tablaDatos;
 
     public MostrarPeticion() {
-
         setResizable(false);
-        setTitle("Mostrar petición");
+        setTitle("Mostrar Petición");
 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 442, 327);
         contentPane = new JPanel();
-        contentPane.setBackground(UIManager.getColor("Table.selectionBackground"));
+        contentPane.setBackground(UIManager.getColor("null"));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        contentPane.setBackground(new Color(186, 246, 200));
         setContentPane(contentPane);
-        contentPane.setLayout(null);
+        contentPane.setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
-        JLabel lbPeticionId = new JLabel("ID Petición:");
-        lbPeticionId.setBounds(10, 7, 150, 14);
-        contentPane.add(lbPeticionId);
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new GridBagLayout());
+        formPanel.setBackground(new Color(186, 246, 200));
+
+        JPanel tablePanel = new JPanel();
+        tablePanel.setBackground(new Color(186, 246, 200));
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(0, 2, 5, 5));
+        buttonPanel.setBackground(new Color(186, 246, 200));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        JLabel lbNombrePaciente = new JLabel("ID Petición:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        formPanel.add(lbNombrePaciente, gbc);
 
         codigoPeticion = new JTextField();
-        codigoPeticion.setBounds(175, 5, 120, 20);
-        contentPane.add(codigoPeticion);
-        codigoPeticion.setColumns(10);
+        codigoPeticion.setColumns(15);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        formPanel.add(codigoPeticion, gbc);
+
 
         JButton btnBuscarPeticion = new JButton("Buscar petición");
         btnBuscarPeticion.setBounds(0, 266, 130, 20);
-        contentPane.add(btnBuscarPeticion);
+        buttonPanel.add(btnBuscarPeticion);
+
+        JButton btnNewButton = new JButton("Volver atrás");
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 1; // Ocupa 2 columnas
+        buttonPanel.add(btnNewButton, gbc);
 
         btnBuscarPeticion.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -78,36 +109,48 @@ public class MostrarPeticion extends JFrame {
                                         JOptionPane.WARNING_MESSAGE);
                                 break;
                             case 1:
+                                lblMensaje = new JLabel("Resultados de la petición:");
+                                lblMensaje.setFont(new Font("Arial", Font.BOLD, 12));
+                                contentPane.add(lblMensaje, BorderLayout.NORTH);
+
+                                GridBagConstraints gbc = new GridBagConstraints();
+                                gbc.anchor = GridBagConstraints.WEST;
+                                gbc.insets = new Insets(5, 5, 5, 5);
+
                                 PeticionMVC peticion = Controller.getControlador().mostrarPeticion();
                                 String numeroPeticion = "Número de petición: " + peticion.getNumeroPeticion();
                                 if (lblNroPeticion == null) {
                                     lblNroPeticion = new JLabel();
-                                    lblNroPeticion.setBounds(10, 30, 200, 20);
-                                    getContentPane().add(lblNroPeticion);
+                                    gbc.gridx = 0;
+                                    gbc.gridy = 1;
+                                    formPanel.add(lblNroPeticion,gbc);
                                 }
                                 lblNroPeticion.setText(numeroPeticion);
 
                                 String numeroSucursal = "Número de sucursal: " + peticion.getNumeroSucursal();
                                 if (lblNroSucursal == null) {
                                     lblNroSucursal = new JLabel();
-                                    lblNroSucursal.setBounds(10, 50, 400, 20);
-                                    getContentPane().add(lblNroSucursal);
+                                    gbc.gridx = 0;
+                                    gbc.gridy = 2;
+                                    formPanel.add(lblNroSucursal, gbc);
                                 }
                                 lblNroSucursal.setText(numeroSucursal);
 
                                 String numeroPaciente = "Número de paciente: " + peticion.getNumeroPaciente();
                                 if (lblNroPaciente == null) {
                                     lblNroPaciente = new JLabel();
-                                    lblNroPaciente.setBounds(10, 70, 200, 20);
-                                    getContentPane().add(lblNroPaciente);
+                                    gbc.gridx = 0;
+                                    gbc.gridy = 3;
+                                    formPanel.add(lblNroPaciente, gbc);
                                 }
                                 lblNroPaciente.setText(numeroPaciente);
 
                                 String nombrePaciente = "Nombre de paciente: " + peticion.getNombrePaciente();
                                 if (lblNombrePaciente == null) {
                                     lblNombrePaciente = new JLabel();
-                                    lblNombrePaciente.setBounds(10, 90, 200, 20);
-                                    getContentPane().add(lblNombrePaciente);
+                                    gbc.gridx = 0;
+                                    gbc.gridy = 4;
+                                    formPanel.add(lblNombrePaciente, gbc);
                                 }
                                 lblNombrePaciente.setText(nombrePaciente);
 
@@ -115,15 +158,17 @@ public class MostrarPeticion extends JFrame {
 
                                 if (lblObraSocial == null) {
                                     lblObraSocial = new JLabel();
-                                    lblObraSocial.setBounds(10, 110, 200, 20);
-                                    getContentPane().add(lblObraSocial);
+                                    gbc.gridx = 0;
+                                    gbc.gridy = 5;
+                                    formPanel.add(lblObraSocial, gbc);
                                 }
                                 lblObraSocial.setText(obraSocial);
 
                                 if (lblPracticas == null) {
                                     lblPracticas = new JLabel();
-                                    lblPracticas.setBounds(10, 130, 200, 20);
-                                    getContentPane().add(lblPracticas);
+                                    gbc.gridx = 0;
+                                    gbc.gridy = 6;
+                                    formPanel.add(lblPracticas, gbc);
                                 }
 
                                 String[] columnNames = {"Práctica", "Valor del resultado"};
@@ -136,16 +181,29 @@ public class MostrarPeticion extends JFrame {
                                     data[i][1] = resultado.getValor();
                                 }
 
-                                lblMensaje = new JLabel("Resultados de la petición:");
-                                lblMensaje.setFont(new Font("Arial", Font.BOLD, 12));
-                                contentPane.add(lblMensaje, BorderLayout.NORTH);
-                                lblMensaje.setBounds(10, 130, 200, 20);
-                                getContentPane().add(lblMensaje);
+                                GridBagConstraints gbcTable = new GridBagConstraints();
+                                gbcTable.gridx = 0;
+                                gbcTable.gridy = 6;
+                                gbcTable.gridwidth = 2;
+                                gbcTable.fill = GridBagConstraints.BOTH;
+                                gbcTable.insets = new Insets(5, 5, 5, 5);
 
                                 tablaDatos = new JTable(data, columnNames);
                                 JScrollPane scrollPane = new JScrollPane(tablaDatos);
                                 scrollPane.setBounds(10, 160, 400, 80);
-                                contentPane.add(scrollPane, BorderLayout.CENTER);
+
+                                tablePanel.add(tablaDatos, gbcTable);
+                                formPanel.add(tablePanel, gbcTable);
+
+                                // Agregar el formPanel y el tablePanel al contentPane
+                                JPanel contentPane = new JPanel();
+                                contentPane.setBackground(new Color(186, 246, 200));
+                                contentPane.setLayout(new BorderLayout());
+                                contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+                                contentPane.add(formPanel, BorderLayout.NORTH);
+                                contentPane.add(tablePanel, BorderLayout.CENTER);
+                                contentPane.add(buttonPanel, BorderLayout.SOUTH);
+                                setContentPane(contentPane);
 
                                 revalidate();
                                 repaint();
@@ -163,6 +221,8 @@ public class MostrarPeticion extends JFrame {
                 }
             }
         });
+        contentPane.add(formPanel, BorderLayout.CENTER);
+        contentPane.add(buttonPanel, BorderLayout.SOUTH);
     }
 
 }
